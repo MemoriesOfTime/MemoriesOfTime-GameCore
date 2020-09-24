@@ -16,7 +16,7 @@ public interface IRoom extends IRoomStatus {
 
     void quitRoom(Player player);
 
-    void gameStart();
+    void startGame();
 
     void endGame(int victory);
 
