@@ -1,6 +1,5 @@
 package cn.lanink.gamecore.command;
 
-import cn.lanink.gamecore.GameCore;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParameter;
 
@@ -10,7 +9,6 @@ import cn.nukkit.command.data.CommandParameter;
  */
 public abstract class BaseSubCommand {
 
-    protected GameCore gameCore = GameCore.getInstance();
     private final String name;
 
     public BaseSubCommand(String name) {

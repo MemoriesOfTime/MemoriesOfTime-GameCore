@@ -1,6 +1,5 @@
 package cn.lanink.gamecore.command;
 
-import cn.lanink.gamecore.GameCore;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParameter;
@@ -17,7 +16,6 @@ public abstract class BaseCommand extends Command {
 
     private final ArrayList<BaseSubCommand> subCommand = new ArrayList<>();
     private final ConcurrentHashMap<String, Integer> subCommands = new ConcurrentHashMap<>();
-    protected GameCore gameCore = GameCore.getInstance();
 
     public BaseCommand(String name, String description) {
         super(name,description);
@@ -34,7 +32,7 @@ public abstract class BaseCommand extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String s, String[] args) {
-        if(this.hasPermission(sender)) {
+        /*if(this.hasPermission(sender)) {
             if(args.length > 0) {
                 String subCommand = args[0].toLowerCase();
                 if (subCommands.containsKey(subCommand)) {
@@ -58,7 +56,7 @@ public abstract class BaseCommand extends Command {
             }
             return true;
         }
-        sender.sendMessage(this.gameCore.getLanguage(sender).noPermission);
+        sender.sendMessage(this.gameCore.getLanguage(sender).noPermission);*/
         return true;
     }
 
