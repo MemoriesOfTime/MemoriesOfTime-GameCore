@@ -1,6 +1,5 @@
 package cn.lanink.gamecore.listener;
 
-import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.room.BaseRoom;
 import cn.lanink.gamecore.utils.exception.GameListenerInitException;
 import cn.nukkit.event.Listener;
@@ -12,7 +11,7 @@ import java.util.Map;
  */
 public interface IGameListener<T extends BaseRoom> extends Listener {
 
-    void init(GameCore gameCore, String listenerName) throws GameListenerInitException;
+    void init(String listenerName) throws GameListenerInitException;
 
     String getListenerName();
 

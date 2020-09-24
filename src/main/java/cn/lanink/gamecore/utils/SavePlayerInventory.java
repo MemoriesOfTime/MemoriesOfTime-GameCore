@@ -1,6 +1,5 @@
 package cn.lanink.gamecore.utils;
 
-import cn.lanink.gamecore.GameCore;
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
 import cn.nukkit.nbt.tag.CompoundTag;
@@ -16,10 +15,6 @@ import java.util.*;
  */
 public class SavePlayerInventory {
 
-    public static void save(Player player) {
-        save(GameCore.getInstance(), player);
-    }
-
     /**
      * 保存玩家背包
      * @param plugin 插件（获取存储路径）
@@ -31,10 +26,6 @@ public class SavePlayerInventory {
         config.save();
         player.getInventory().clearAll();
         player.getUIInventory().clearAll();
-    }
-
-    public static void restore(Player player) {
-        restore(GameCore.getInstance(), player);
     }
 
     /**
