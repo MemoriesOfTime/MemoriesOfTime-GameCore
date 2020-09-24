@@ -1,6 +1,6 @@
 package cn.lanink.gamecore.listener;
 
-import cn.lanink.gamecore.room.BaseRoom;
+import cn.lanink.gamecore.room.IRoom;
 import cn.lanink.gamecore.utils.exception.GameListenerInitException;
 import cn.nukkit.level.Level;
 
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
-public abstract class BaseGameListener<T extends BaseRoom> implements IGameListener<T> {
+public abstract class BaseGameListener<T extends IRoom> implements IGameListener<T> {
 
     private String listenerName = null;
     private final ConcurrentHashMap<String, T> listenerRooms = new ConcurrentHashMap<>();
