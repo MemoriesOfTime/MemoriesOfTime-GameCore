@@ -1,4 +1,4 @@
-package cn.lanink.gamecore.scoreboard;
+package cn.lanink.gamecore.scoreboard.base;
 
 import cn.nukkit.Player;
 

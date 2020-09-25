@@ -1,5 +1,6 @@
-package cn.lanink.gamecore.scoreboard;
+package cn.lanink.gamecore.scoreboard.creeperface;
 
+import cn.lanink.gamecore.scoreboard.base.IScoreboard;
 import cn.nukkit.Player;
 import gt.creeperface.nukkit.scoreboardapi.ScoreboardAPI;
 import gt.creeperface.nukkit.scoreboardapi.scoreboard.SimpleScoreboard;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * @author lt_name
  */
-public class ScoreboardGt implements IScoreboard {
+public class Scoreboard implements IScoreboard {
 
     private final HashMap<Player, SimpleScoreboard> scoreboards = new HashMap<>();
 
