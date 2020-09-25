@@ -19,11 +19,11 @@ public class ScoreboardUtil {
             try {
                 Class.forName("gt.creeperface.nukkit.scoreboardapi.ScoreboardAPI");
                 scoreboard = new cn.lanink.gamecore.scoreboard.creeperface.Scoreboard();
-            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
                 try {
                     Class.forName("de.theamychan.scoreboard.ScoreboardPlugin");
                     scoreboard = new cn.lanink.gamecore.scoreboard.theamychan.Scoreboard();
-                } catch (ClassNotFoundException error) {
+                } catch (Exception e1) {
                     scoreboard = new SimpleScoreboard();
                 }
             }

@@ -4,7 +4,6 @@ import cn.lanink.gamecore.scoreboard.base.IScoreboard;
 import cn.nukkit.Player;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -14,7 +13,6 @@ import java.util.List;
  */
 public class SimpleScoreboard implements IScoreboard {
 
-    private HashMap<Player, HashSet<String>> playerObjectiveName = new HashMap<>();
     private final HashMap<Player, Scoreboard> scoreboards = new HashMap<>();
 
     @Override
@@ -25,13 +23,14 @@ public class SimpleScoreboard implements IScoreboard {
                         title,
                         ScoreboardData.DisplaySlot.SIDEBAR,
                         ScoreboardData.SortOrder.ASCENDING));
+        scoreboard.removeDisplay();
         int line = 0;
         for (String string : message) {
             scoreboard.setLine(line, string, line);
             line++;
         }
         scoreboard.show(player);
-        scoreboard.update();
+        scoreboard.updateDisplay();
         this.scoreboards.put(player, scoreboard);
     }
 

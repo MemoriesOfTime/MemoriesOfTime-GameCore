@@ -38,7 +38,7 @@ public class Scoreboard {
             setObjectivePacket.displaySlot = this.displaySlot.name().toLowerCase();
             setObjectivePacket.sortOrder = this.sortOrder.ordinal();
             player.dataPacket(setObjectivePacket);
-            this.update(player);
+            this.updateDisplay(player);
         }
     }
 
@@ -51,13 +51,13 @@ public class Scoreboard {
         }
     }
 
-    public void update() {
+    public void updateDisplay() {
         for (Player player : this.showPlayers) {
-            this.update(player);
+            this.updateDisplay(player);
         }
     }
 
-    public void update(Player player) {
+    public void updateDisplay(Player player) {
         List<ScoreData> scoreDataList = new LinkedList<>();
         for (Map.Entry<Integer, ScoreboardData.ScoreboardLine> entry : this.line.entrySet()) {
             ScoreData scoreData = new ScoreData();
@@ -69,16 +69,34 @@ public class Scoreboard {
             scoreData.entityId = 0;
             scoreDataList.add(scoreData);
         }
+        SetScorePacket pk = new SetScorePacket();
+        pk.type = (byte) SetScorePacket.Action.SET.ordinal();
+        pk.scoreDataList = scoreDataList;
+        player.dataPacket(pk);
+    }
 
-        SetScorePacket pk1 = new SetScorePacket();
-        pk1.type = (byte) SetScorePacket.Action.REMOVE.ordinal();
-        pk1.scoreDataList = scoreDataList;
-        player.dataPacket(pk1);
+    public void removeDisplay() {
+        for (Player player : this.showPlayers) {
+            this.removeDisplay(player);
+        }
+    }
 
-        SetScorePacket pk2 = new SetScorePacket();
-        pk2.type = (byte) SetScorePacket.Action.SET.ordinal();
-        pk2.scoreDataList = scoreDataList;
-        player.dataPacket(pk2);
+    public void removeDisplay(Player player) {
+        List<ScoreData> scoreDataList = new LinkedList<>();
+        for (Map.Entry<Integer, ScoreboardData.ScoreboardLine> entry : this.line.entrySet()) {
+            ScoreData scoreData = new ScoreData();
+            scoreData.scoreId = entry.getValue().getScore();
+            scoreData.objective = this.objectiveName;
+            scoreData.score = entry.getValue().getScore();
+            scoreData.entityType = (byte) SetScorePacket.Type.FAKE.ordinal();
+            scoreData.fakeEntity = entry.getValue().getMessage();
+            scoreData.entityId = 0;
+            scoreDataList.add(scoreData);
+        }
+        SetScorePacket pk = new SetScorePacket();
+        pk.type = (byte) SetScorePacket.Action.REMOVE.ordinal();
+        pk.scoreDataList = scoreDataList;
+        player.dataPacket(pk);
     }
 
     public HashMap<Integer, ScoreboardData.ScoreboardLine> getAllLine() {
