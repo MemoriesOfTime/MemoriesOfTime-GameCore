@@ -1,4 +1,4 @@
-package cn.lanink.gamecore.scoreboard.simple;
+package cn.lanink.gamecore.scoreboard.ltname;
 
 /**
  * @author lt_name

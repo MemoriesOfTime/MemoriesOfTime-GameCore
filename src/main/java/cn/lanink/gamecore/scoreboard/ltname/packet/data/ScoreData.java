@@ -1,7 +1,9 @@
-package cn.lanink.gamecore.scoreboard.simple.packet.data;
+package cn.lanink.gamecore.scoreboard.ltname.packet.data;
 
 /**
- * @author lt_name
+ * 参考项目：
+ * https://github.com/Creeperface01/ScoreboardAPI
+ * https://github.com/LucGamesYT/ScoreboardAPI
  */
 public class ScoreData {
 

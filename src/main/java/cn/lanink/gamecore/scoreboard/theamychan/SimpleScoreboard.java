@@ -4,17 +4,23 @@ import cn.lanink.gamecore.scoreboard.base.IScoreboard;
 import cn.nukkit.Player;
 import de.theamychan.scoreboard.api.ScoreboardAPI;
 import de.theamychan.scoreboard.network.DisplaySlot;
+import de.theamychan.scoreboard.network.Scoreboard;
 import de.theamychan.scoreboard.network.ScoreboardDisplay;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lt_name
  */
-public class Scoreboard implements IScoreboard {
+public class SimpleScoreboard implements IScoreboard {
 
-    private final HashMap<Player, de.theamychan.scoreboard.network.Scoreboard> scoreboards = new HashMap<>();
+    private final ConcurrentHashMap<Player, Scoreboard> scoreboards = new ConcurrentHashMap<>();
+
+    @Override
+    public String getScoreboardName() {
+        return "LucGamesYT(de.theamychan.scoreboard.api)";
+    }
 
     @Override
     public void showScoreboard(Player player, String title, List<String> message) {
@@ -33,7 +39,7 @@ public class Scoreboard implements IScoreboard {
     @Override
     public void closeScoreboard(Player player) {
         if (this.scoreboards.containsKey(player)) {
-            de.theamychan.scoreboard.network.Scoreboard scoreboard = this.scoreboards.get(player);
+            Scoreboard scoreboard = this.scoreboards.get(player);
             scoreboard.hideFor(player);
             this.scoreboards.remove(player);
         }

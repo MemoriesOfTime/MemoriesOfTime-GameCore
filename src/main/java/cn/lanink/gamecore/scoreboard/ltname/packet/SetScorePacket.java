@@ -1,10 +1,15 @@
-package cn.lanink.gamecore.scoreboard.simple.packet;
+package cn.lanink.gamecore.scoreboard.ltname.packet;
 
-import cn.lanink.gamecore.scoreboard.simple.packet.data.ScoreData;
+import cn.lanink.gamecore.scoreboard.ltname.packet.data.ScoreData;
 import cn.nukkit.network.protocol.DataPacket;
 
 import java.util.List;
 
+/**
+ * 参考项目：
+ * https://github.com/Creeperface01/ScoreboardAPI
+ * https://github.com/LucGamesYT/ScoreboardAPI
+ */
 public class SetScorePacket extends DataPacket {
 
     public static final byte NETWORK_ID = 0x6c;

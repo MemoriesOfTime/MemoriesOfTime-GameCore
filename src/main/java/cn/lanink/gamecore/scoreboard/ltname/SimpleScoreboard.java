@@ -1,19 +1,22 @@
-package cn.lanink.gamecore.scoreboard.simple;
+package cn.lanink.gamecore.scoreboard.ltname;
 
 import cn.lanink.gamecore.scoreboard.base.IScoreboard;
 import cn.nukkit.Player;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 参考项目：
- * https://github.com/Creeperface01/ScoreboardAPI
- * https://github.com/LucGamesYT/ScoreboardAPI
+ * @author lt_name
  */
 public class SimpleScoreboard implements IScoreboard {
 
-    private final HashMap<Player, Scoreboard> scoreboards = new HashMap<>();
+    private final ConcurrentHashMap<Player, Scoreboard> scoreboards = new ConcurrentHashMap<>();
+
+    @Override
+    public String getScoreboardName() {
+        return "lt-name(cn.lanink.gamecore.scoreboard.ltname)";
+    }
 
     @Override
     public void showScoreboard(Player player, String title, List<String> message) {
@@ -23,14 +26,14 @@ public class SimpleScoreboard implements IScoreboard {
                         title,
                         ScoreboardData.DisplaySlot.SIDEBAR,
                         ScoreboardData.SortOrder.ASCENDING));
-        scoreboard.removeDisplay();
+        scoreboard.clearAllLine();
         int line = 0;
         for (String string : message) {
             scoreboard.setLine(line, string, line);
             line++;
         }
         scoreboard.show(player);
-        scoreboard.updateDisplay();
+        scoreboard.updateDisplayLine();
         this.scoreboards.put(player, scoreboard);
     }
 

@@ -10,6 +10,12 @@ import java.util.List;
 public interface IScoreboard {
 
     /**
+     * @return Scoreboard API Name
+     * 格式： 作者的Github名称(包名)
+     */
+    String getScoreboardName();
+
+    /**
      * 计分板显示信息
      * @param player 玩家
      * @param title 标题
