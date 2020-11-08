@@ -21,7 +21,16 @@ public class SavePlayerInventory {
      * @param player 玩家
      */
     public static void save(Plugin plugin, Player player) {
-        Config config = new Config(new File(plugin.getDataFolder() + "/PlayerInventory/" + player.getName() + ".json"), 1);
+        save(plugin.getDataFolder() + "/PlayerInventory", player);
+    }
+
+    /**
+     * 保存玩家背包
+     * @param dataFolder 存放路径
+     * @param player 玩家
+     */
+    public static void save(String dataFolder, Player player) {
+        Config config = new Config(new File(dataFolder + "/" + player.getName() + ".json"), Config.JSON);
         config.set("Inventory", inventoryToLinkedHashMap(player));
         config.save();
         player.getInventory().clearAll();
@@ -34,9 +43,13 @@ public class SavePlayerInventory {
      * @param player 玩家
      */
     public static void restore(Plugin plugin, Player player) {
-        File file = new File(plugin.getDataFolder() + "/PlayerInventory/" + player.getName() + ".json");
+        restore(plugin.getDataFolder() + "/PlayerInventory", player);
+    }
+
+    public static void restore(String dataFolder, Player player) {
+        File file = new File(dataFolder + "/" + player.getName() + ".json");
         if (file.exists()) {
-            Config config = new Config(file, 1);
+            Config config = new Config(file, Config.JSON);
             if (file.delete()) {
                 player.getInventory().clearAll();
                 player.getUIInventory().clearAll();
