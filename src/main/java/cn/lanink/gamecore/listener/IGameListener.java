@@ -17,6 +17,8 @@ public interface IGameListener<T extends IRoom> extends Listener {
 
     Map<String, T> getListenerRooms();
 
+    T getListenerRoom(String level);
+
     void addListenerRoom(T room);
 
     void removeListenerRoom(String roomName);
