@@ -109,9 +109,24 @@
 
     <repositories>
         <repository>
-            <id>nukkitx-repo</id>
-            <name>nukkitx-snapshot</name>
-            <url>https://repo.nukkitx.com/maven-snapshots</url>
+            <id>opencollab-repo-release</id>
+            <url>https://repo.opencollab.dev/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>opencollab-repo-snapshot</id>
+            <url>https://repo.opencollab.dev/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -138,9 +153,9 @@
         <dependency>
             <groupId>tip</groupId>
             <artifactId>Tips</artifactId>
-            <version>1.7.8</version>
+            <version>1.8.5</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Tips_v1.7.8.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Tips_v1.8.5.jar</systemPath>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.utils;
 
+import cn.lanink.gamecore.api.Info;
 import cn.nukkit.Player;
 import tip.messages.BossBarMessage;
 import tip.messages.NameTagMessage;
@@ -19,6 +20,7 @@ public class Tips {
      * @param level 世界
      * @param player 玩家
      */
+    @Info("为了兼容低版本，暂时不使用新的类")
     public static void closeTipsShow(String level, Player player) {
         Api.setPlayerShowMessage(player.getName(),
                 new NameTagMessage(level, true, ""));
