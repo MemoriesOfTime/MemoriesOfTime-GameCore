@@ -48,21 +48,26 @@ public class Language {
     }
 
     public void update(Config newConfig) {
+        boolean needSave = false;
         HashMap<String, String> cache = new HashMap<>();
         for (String key : this.config.getKeys()) {
             if (newConfig.getKeys().contains(key)) {
                 cache.put(key, this.config.getString(key, "§c Language reading error!"));
             }else {
                 this.config.remove(key);
+                needSave = true;
             }
         }
         for (String key : newConfig.getKeys()) {
             if (!cache.containsKey(key)) {
                 String string = newConfig.getString(key, "§c Language reading error!");
                 this.config.set(key, string);
+                needSave = true;
             }
         }
-        this.config.save(true);
+        if (needSave) {
+            this.config.save(true);
+        }
     }
 
 
