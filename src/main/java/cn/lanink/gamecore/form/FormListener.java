@@ -13,9 +13,9 @@ import cn.nukkit.plugin.Plugin;
  */
 public class FormListener implements Listener {
 
-    private Plugin plugin;
+    private final Plugin plugin;
 
-    FormListener(Plugin plugin) {
+    public FormListener(Plugin plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
