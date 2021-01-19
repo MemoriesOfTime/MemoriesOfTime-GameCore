@@ -6,7 +6,7 @@ import cn.nukkit.level.Level;
 /**
  * @author lt_name
  */
-public interface IRoom extends IRoomStatus {
+public interface IRoom {
 
     Level getLevel();
 

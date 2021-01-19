@@ -25,4 +25,6 @@ public interface IGameListener<T extends IRoom> extends Listener {
 
     void removeListenerRoom(T room);
 
+    void  clearListenerRooms();
+
 }

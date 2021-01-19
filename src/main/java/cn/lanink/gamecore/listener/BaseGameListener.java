@@ -56,4 +56,8 @@ public abstract class BaseGameListener<T extends IRoom> implements IGameListener
         this.listenerRooms.remove(level);
     }
 
+    public void  clearListenerRooms() {
+        this.listenerRooms.clear();
+    }
+
 }
