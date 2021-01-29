@@ -66,7 +66,7 @@ public class Language {
             }
         }
         if (needSave) {
-            this.config.save(true);
+            this.config.save();
         }
     }
 
