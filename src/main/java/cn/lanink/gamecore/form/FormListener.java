@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.form;
 
+import cn.lanink.gamecore.form.windows.AdvancedFormWindowCustom;
 import cn.lanink.gamecore.form.windows.AdvancedFormWindowModal;
 import cn.lanink.gamecore.form.windows.AdvancedFormWindowSimple;
 import cn.nukkit.event.EventHandler;
@@ -28,7 +29,7 @@ public class FormListener implements Listener {
         if (AdvancedFormWindowModal.onEvent(event.getWindow(), event.getResponse(), event.getPlayer(), this.plugin)) {
             return;
         }
-
+        AdvancedFormWindowCustom.onEvent(event.getWindow(), event.getResponse(), event.getPlayer(), this.plugin);
     }
 
 }
