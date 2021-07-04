@@ -1,0 +1,6 @@
+name: MemoriesOfTime-GameCore
+main: cn.lanink.GameCore.gamecore
+version: "1.1.2-SNAPSHOT"
+api: ["1.0.0"]
+load: STARTUP
+author: "LT_Name"
