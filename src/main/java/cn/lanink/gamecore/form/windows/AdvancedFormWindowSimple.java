@@ -1,13 +1,11 @@
 package cn.lanink.gamecore.form.windows;
 
+import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.form.element.ResponseElementButton;
 import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementButton;
-import cn.nukkit.form.response.FormResponse;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowSimple;
-import cn.nukkit.plugin.Plugin;
-import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -18,9 +16,8 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
-public class AdvancedFormWindowSimple extends FormWindowSimple implements SetPlugin {
+public class AdvancedFormWindowSimple extends FormWindowSimple {
 
-    protected Plugin plugin = null;
     protected BiConsumer<ElementButton, Player> buttonClickedListener;
     protected Consumer<Player> formClosedListener;
 
@@ -34,16 +31,6 @@ public class AdvancedFormWindowSimple extends FormWindowSimple implements SetPlu
 
     public AdvancedFormWindowSimple(String title, String content, List<ElementButton> buttons) {
         super(title, content, buttons);
-    }
-
-    @Override
-    public void setPlugin(@NotNull Plugin plugin) {
-        this.plugin = plugin;
-    }
-
-    @Override
-    public Plugin getPlugin() {
-        return this.plugin;
     }
 
     public void addButton(String text, Consumer<Player> listener) {
@@ -72,13 +59,10 @@ public class AdvancedFormWindowSimple extends FormWindowSimple implements SetPlu
         }
     }
 
-    public static boolean onEvent(@NotNull FormWindow formWindow, FormResponse formResponse, @NotNull Player player, @NotNull Plugin plugin) {
+    public static boolean onEvent(@NotNull FormWindow formWindow, @NotNull Player player) {
         if (formWindow instanceof AdvancedFormWindowSimple) {
             AdvancedFormWindowSimple advancedFormWindowSimple = (AdvancedFormWindowSimple) formWindow;
-            if (advancedFormWindowSimple.plugin != null && advancedFormWindowSimple.plugin != plugin) {
-                return false;
-            }
-            if (advancedFormWindowSimple.wasClosed() || advancedFormWindowSimple.getResponse() == null || formResponse == null) {
+            if (advancedFormWindowSimple.wasClosed() || advancedFormWindowSimple.getResponse() == null) {
                 advancedFormWindowSimple.callClosed(player);
             }else {
                 ElementButton elementButton = advancedFormWindowSimple.getResponse().getClickedButton();
@@ -93,8 +77,9 @@ public class AdvancedFormWindowSimple extends FormWindowSimple implements SetPlu
         return false;
     }
 
+    @Override
     public String getJSONData() {
-        return new Gson().toJson(this, FormWindowSimple.class);
+        return GameCore.GSON.toJson(this, FormWindowSimple.class);
     }
 
 }

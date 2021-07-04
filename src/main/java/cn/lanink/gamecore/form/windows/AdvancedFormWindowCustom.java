@@ -1,14 +1,12 @@
 package cn.lanink.gamecore.form.windows;
 
+import cn.lanink.gamecore.GameCore;
 import cn.nukkit.Player;
 import cn.nukkit.form.element.Element;
 import cn.nukkit.form.element.ElementButtonImageData;
-import cn.nukkit.form.response.FormResponse;
 import cn.nukkit.form.response.FormResponseCustom;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowCustom;
-import cn.nukkit.plugin.Plugin;
-import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -19,9 +17,8 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
-public class AdvancedFormWindowCustom extends FormWindowCustom implements SetPlugin {
+public class AdvancedFormWindowCustom extends FormWindowCustom {
 
-    protected Plugin plugin = null;
     protected BiConsumer<FormResponseCustom, Player> buttonClickedListener;
     protected Consumer<Player> formClosedListener;
 
@@ -39,16 +36,6 @@ public class AdvancedFormWindowCustom extends FormWindowCustom implements SetPlu
 
     public AdvancedFormWindowCustom(String title, List<Element> contents, ElementButtonImageData icon) {
         super(title, contents, icon);
-    }
-
-    @Override
-    public void setPlugin(@NotNull Plugin plugin) {
-        this.plugin = plugin;
-    }
-
-    @Override
-    public Plugin getPlugin() {
-        return this.plugin;
     }
 
     public AdvancedFormWindowCustom onResponded(@NotNull BiConsumer<FormResponseCustom, Player> listener) {
@@ -73,16 +60,13 @@ public class AdvancedFormWindowCustom extends FormWindowCustom implements SetPlu
         }
     }
 
-    public static boolean onEvent(@NotNull FormWindow formWindow, FormResponse formResponse, @NotNull Player player, @NotNull Plugin plugin) {
+    public static boolean onEvent(@NotNull FormWindow formWindow, @NotNull Player player) {
         if (formWindow instanceof AdvancedFormWindowCustom) {
             AdvancedFormWindowCustom advancedFormWindowCustom = (AdvancedFormWindowCustom) formWindow;
-            if (advancedFormWindowCustom.plugin != null && advancedFormWindowCustom.plugin != plugin) {
-                return false;
-            }
-            if (advancedFormWindowCustom.wasClosed() || advancedFormWindowCustom.getResponse() == null || formResponse == null) {
+            if (advancedFormWindowCustom.wasClosed() || advancedFormWindowCustom.getResponse() == null) {
                 advancedFormWindowCustom.callClosed(player);
             }else {
-                advancedFormWindowCustom.callResponded((FormResponseCustom) formResponse, player);
+                advancedFormWindowCustom.callResponded(advancedFormWindowCustom.getResponse(), player);
             }
             return true;
         }
@@ -91,7 +75,7 @@ public class AdvancedFormWindowCustom extends FormWindowCustom implements SetPlu
 
     @Override
     public String getJSONData() {
-        return new Gson().toJson(this, FormWindowCustom.class);
+        return GameCore.GSON.toJson(this, FormWindowCustom.class);
     }
 
 }

@@ -7,29 +7,21 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerFormRespondedEvent;
-import cn.nukkit.plugin.Plugin;
 
 /**
  * @author lt_name
  */
 public class FormListener implements Listener {
 
-    private final Plugin plugin;
-
-    public FormListener(Plugin plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onResponded(PlayerFormRespondedEvent event) {
-        if (AdvancedFormWindowSimple.onEvent(event.getWindow(), event.getResponse(), event.getPlayer(), this.plugin)) {
+    public void onPlayerFormResponded(PlayerFormRespondedEvent event) {
+        if (AdvancedFormWindowSimple.onEvent(event.getWindow(), event.getPlayer())) {
             return;
         }
-        if (AdvancedFormWindowModal.onEvent(event.getWindow(), event.getResponse(), event.getPlayer(), this.plugin)) {
+        if (AdvancedFormWindowModal.onEvent(event.getWindow(), event.getPlayer())) {
             return;
         }
-        AdvancedFormWindowCustom.onEvent(event.getWindow(), event.getResponse(), event.getPlayer(), this.plugin);
+        AdvancedFormWindowCustom.onEvent(event.getWindow(), event.getPlayer());
     }
 
 }

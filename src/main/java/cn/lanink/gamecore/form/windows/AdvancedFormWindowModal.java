@@ -1,11 +1,9 @@
 package cn.lanink.gamecore.form.windows;
 
+import cn.lanink.gamecore.GameCore;
 import cn.nukkit.Player;
-import cn.nukkit.form.response.FormResponse;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowModal;
-import cn.nukkit.plugin.Plugin;
-import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -14,23 +12,12 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
-public class AdvancedFormWindowModal extends FormWindowModal implements SetPlugin {
+public class AdvancedFormWindowModal extends FormWindowModal {
 
-    protected Plugin plugin = null;
     protected Consumer<Player> buttonTrueClickedListener, buttonFalseClickedListener, formClosedListener;
 
     public AdvancedFormWindowModal(String title, String content, String trueButtonText, String falseButtonText) {
         super(title, content, trueButtonText, falseButtonText);
-    }
-
-    @Override
-    public void setPlugin(@NotNull Plugin plugin) {
-        this.plugin = plugin;
-    }
-
-    @Override
-    public Plugin getPlugin() {
-        return this.plugin;
     }
 
     public AdvancedFormWindowModal onClickedTrue(@NotNull Consumer<Player> listener) {
@@ -66,13 +53,10 @@ public class AdvancedFormWindowModal extends FormWindowModal implements SetPlugi
         }
     }
 
-    public static boolean onEvent(@NotNull FormWindow formWindow, FormResponse formResponse, @NotNull Player player, @NotNull Plugin plugin) {
+    public static boolean onEvent(@NotNull FormWindow formWindow, @NotNull Player player) {
         if (formWindow instanceof AdvancedFormWindowModal) {
             AdvancedFormWindowModal advancedFormWindowModal = (AdvancedFormWindowModal) formWindow;
-            if (advancedFormWindowModal.plugin != null && advancedFormWindowModal.plugin != plugin) {
-                return false;
-            }
-            if (advancedFormWindowModal.wasClosed() || advancedFormWindowModal.getResponse() == null || formResponse == null) {
+            if (advancedFormWindowModal.wasClosed() || advancedFormWindowModal.getResponse() == null) {
                 advancedFormWindowModal.callClosed(player);
             }else {
                 if (advancedFormWindowModal.getResponse().getClickedButtonId() == 0) {
@@ -87,7 +71,7 @@ public class AdvancedFormWindowModal extends FormWindowModal implements SetPlugi
     }
 
     public String getJSONData() {
-        return new Gson().toJson(this, FormWindowModal.class);
+        return GameCore.GSON.toJson(this, FormWindowModal.class);
     }
 
 }
