@@ -4,3 +4,7 @@ version: "1.2.0-SNAPSHOT"
 api: ["1.0.0"]
 load: STARTUP
 author: "LT_Name"
+softdepend:
+  - "ScoreboardPlugin"
+  - "ScoreboardAPI"
+  - "Tips"

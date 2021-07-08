@@ -3,6 +3,7 @@ package cn.lanink.gamecore.scoreboard;
 import cn.lanink.gamecore.api.Info;
 import cn.lanink.gamecore.scoreboard.base.IScoreboard;
 import cn.nukkit.Server;
+import cn.nukkit.plugin.PluginBase;
 
 /**
  * @author lt_name
@@ -15,19 +16,23 @@ public class ScoreboardUtil {
 
     }
 
-    @Info("推荐仅在插件加载时调用并缓存数据")
+    @Info("获取计分板简单操作类")
     public synchronized static IScoreboard getScoreboard() {
         if (scoreboard == null) {
             try {
                 Class.forName("gt.creeperface.nukkit.scoreboardapi.ScoreboardAPI");
-                if (Server.getInstance().getPluginManager().getPlugin("ScoreboardAPI").isDisabled()) {
+                PluginBase plugin = (PluginBase) Server.getInstance().getPluginManager().getPlugin("ScoreboardAPI");
+                plugin.setEnabled(true);
+                if (plugin.isDisabled()) {
                     throw new Exception("Not Loaded");
                 }
                 scoreboard = new cn.lanink.gamecore.scoreboard.creeperface.SimpleScoreboard();
             } catch (Exception e) {
                 try {
                     Class.forName("de.theamychan.scoreboard.ScoreboardPlugin");
-                    if (Server.getInstance().getPluginManager().getPlugin("ScoreboardPlugin").isDisabled()) {
+                    PluginBase plugin = (PluginBase) Server.getInstance().getPluginManager().getPlugin("ScoreboardPlugin");
+                    plugin.setEnabled(true);
+                    if (plugin.isDisabled()) {
                         throw new Exception("Not Loaded");
                     }
                     scoreboard = new cn.lanink.gamecore.scoreboard.theamychan.SimpleScoreboard();
