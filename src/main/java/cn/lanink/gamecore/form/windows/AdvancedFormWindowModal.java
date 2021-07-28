@@ -35,19 +35,19 @@ public class AdvancedFormWindowModal extends FormWindowModal {
         return this;
     }
 
-    public void callClickedTrue(@NotNull Player player) {
+    protected void callClickedTrue(@NotNull Player player) {
         if (this.buttonTrueClickedListener != null) {
             this.buttonTrueClickedListener.accept(player);
         }
     }
 
-    public void callClickedFalse(@NotNull Player player) {
+    protected void callClickedFalse(@NotNull Player player) {
         if (this.buttonFalseClickedListener != null) {
             this.buttonFalseClickedListener.accept(player);
         }
     }
 
-    public void callClosed(@NotNull Player player) {
+    protected void callClosed(@NotNull Player player) {
         if (this.formClosedListener != null) {
             this.formClosedListener.accept(player);
         }
