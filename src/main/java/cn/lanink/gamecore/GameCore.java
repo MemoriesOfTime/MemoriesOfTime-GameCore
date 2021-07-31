@@ -12,6 +12,17 @@ public class GameCore extends PluginBase {
     public static final Gson GSON = new Gson();
     public static final String VERSION = "?";
 
+    private static GameCore gameCore;
+
+    public static GameCore getInstance() {
+        return gameCore;
+    }
+
+    @Override
+    public void onLoad() {
+        gameCore = this;
+    }
+
     @Override
     public void onEnable() {
         this.getServer().getPluginManager().registerEvents(new FormListener(), this);
