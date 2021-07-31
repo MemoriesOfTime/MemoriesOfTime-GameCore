@@ -185,9 +185,9 @@
         <dependency>
             <groupId>tip</groupId>
             <artifactId>Tips</artifactId>
-            <version>1.8.5</version>
+            <version>2.0.3</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Tips_v1.8.5.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Tips_v2.0.3.jar</systemPath>
         </dependency>
         <!--dependency>
             <groupId>com.smallaswater.easysql</groupId>
