@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class AdvancedFormWindowModal extends FormWindowModal {
 
     protected Consumer<Player> buttonTrueClickedListener, buttonFalseClickedListener, formClosedListener;

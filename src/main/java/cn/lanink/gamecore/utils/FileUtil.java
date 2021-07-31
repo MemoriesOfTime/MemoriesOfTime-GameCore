@@ -8,6 +8,7 @@ import java.io.IOException;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class FileUtil {
 
     public static boolean deleteFile(String file) {

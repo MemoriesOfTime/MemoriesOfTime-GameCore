@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public abstract class BaseGameListener<T extends IRoom> implements IGameListener<T> {
 
     private String listenerName = null;

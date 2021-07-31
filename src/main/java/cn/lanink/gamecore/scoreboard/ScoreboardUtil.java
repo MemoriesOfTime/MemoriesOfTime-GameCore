@@ -8,6 +8,7 @@ import cn.nukkit.plugin.PluginBase;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class ScoreboardUtil {
 
     private static IScoreboard scoreboard;

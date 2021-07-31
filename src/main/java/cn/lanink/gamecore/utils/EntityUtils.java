@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class EntityUtils {
 
     private static final ConcurrentHashMap<String, Number> fieldCache = new ConcurrentHashMap<>();

@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class AdvancedFormWindowSimple extends FormWindowSimple {
 
     protected BiConsumer<ElementButton, Player> buttonClickedListener;

@@ -13,6 +13,7 @@ import java.util.LinkedList;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class Tips {
 
     /**

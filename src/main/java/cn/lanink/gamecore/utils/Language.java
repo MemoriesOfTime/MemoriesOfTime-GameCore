@@ -9,6 +9,7 @@ import java.util.Objects;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class Language {
 
     private final Config config;

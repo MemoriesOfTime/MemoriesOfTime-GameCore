@@ -4,6 +4,7 @@ import cn.nukkit.entity.EntityHuman;
 import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.nbt.tag.CompoundTag;
 
+@SuppressWarnings("unused")
 public class EntityPlayerCorpse extends EntityHuman {
 
     public EntityPlayerCorpse(FullChunk chunk, CompoundTag nbt) {

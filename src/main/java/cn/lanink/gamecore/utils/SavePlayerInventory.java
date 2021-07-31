@@ -13,6 +13,7 @@ import java.util.*;
  * @author SmallasWater
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class SavePlayerInventory {
 
     /**
