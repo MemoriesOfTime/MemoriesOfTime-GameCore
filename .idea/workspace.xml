@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="GameCore" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="df897995-fb02-4c78-a301-69c38472ad3f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/GameCore.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cn_nukkit_nukkit_1_0_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_easecation_Ghosty_lib_1_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_annotations_22_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Nukkit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MemoriesOfTime-GameCore.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/lanink/gamecore/entity/EntityPlayerCorpse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/lanink/gamecore/entity/EntityPlayerCorpse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/lanink/gamecore/pathfinder/PathFinderUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/lanink/gamecore/pathfinder/PathFinderUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/lanink/gamecore/pathfinder/api/PathFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/lanink/gamecore/pathfinder/api/PathFinder.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1xCTEBG8jFskYK84XDOxnOa149V" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Nukkit Plugin/NukkitX/Nukkit.jar" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15527344" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="NukkitX" type="JarApplication">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/../../Nukkit Plugin/NukkitX/Nukkit.jar" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\绿泡泡\Documents\工作目录\Nukkit Plugin\NukkitX" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="df897995-fb02-4c78-a301-69c38472ad3f" name="Default Changelist" comment="" />
+      <created>1629857956500</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1629857956500</updated>
+      <workItem from="1629857958244" duration="881000" />
+      <workItem from="1629860292742" duration="6809000" />
+      <workItem from="1629882758673" duration="116000" />
+      <workItem from="1629894170520" duration="3317000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="414" y="195" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1629896641331">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="414" y="195" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1629896641331" />
+    <state x="740" y="229" key="FileChooserDialogImpl" timestamp="1629896622632">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="740" y="229" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1629896622632" />
+    <state width="1876" height="295" key="GridCell.Tab.0.bottom" timestamp="1629898178278">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1876" height="295" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1629898178278" />
+    <state width="1876" height="295" key="GridCell.Tab.0.center" timestamp="1629898178277">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1876" height="295" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1629898178277" />
+    <state width="1876" height="295" key="GridCell.Tab.0.left" timestamp="1629898178277">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1876" height="295" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1629898178277" />
+    <state width="1876" height="295" key="GridCell.Tab.0.right" timestamp="1629898178277">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1876" height="295" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1629898178277" />
+    <state x="600" y="243" width="752" height="593" key="NewModule_or_Project.wizard" timestamp="1629857998209">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="600" y="243" width="752" height="593" key="NewModule_or_Project.wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1629857998209" />
+    <state x="440" y="114" key="SettingsEditor" timestamp="1629896595323">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="440" y="114" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1629896595323" />
+    <state x="334" y="200" key="new project wizard" timestamp="1629881426204">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="334" y="200" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1629881426204" />
+  </component>
+</project>
