@@ -10,7 +10,6 @@ import java.util.List;
  * @author iGxnon
  * @date  2021/08/24
  */
-@Info("A星路径查找")
 public interface PathFinder {
 
     /**

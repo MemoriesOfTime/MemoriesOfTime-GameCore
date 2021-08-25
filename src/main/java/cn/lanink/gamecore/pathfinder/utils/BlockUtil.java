@@ -57,26 +57,27 @@ public class BlockUtil {
      * @return 是否可透过
      */
     public static boolean isPermeable(Block block) {
-        return !block.isSolid()
-                || block.getId() == Block.END_ROD
-                || block.getId() == Block.DOUBLE_PLANT
-                || block.getId() == Block.VINE
-                || block.getId() == Block.BROWN_MUSHROOM
-                || block.getId() == Block.TORCH
-                || block.getId() == Block.LADDER
-                || block.getId() == Block.SNOW
-                || block.getId() == Block.TRIPWIRE_HOOK
-                || block.getId() == Block.DEAD_BUSH
-                || block.getId() == Block.FLOWER
-                || block.getId() == Block.LEVER
-                || block.getId() == Block.STONE_BUTTON
-                || block.getId() == Block.POWERED_RAIL
-                || block.getId() == Block.RED_MUSHROOM
-                || block.getId() == Block.REDSTONE_BLOCK
-                || block.getId() == Block.DETECTOR_RAIL
-                || block.getId() == Block.SAPLING
-                || block.getId() == Block.SNOW_LAYER
-                || block.getId() == Block.ACTIVATOR_RAIL;
+//        return !block.isSolid()
+//                || block.getId() == Block.END_ROD
+//                || block.getId() == Block.DOUBLE_PLANT
+//                || block.getId() == Block.VINE
+//                || block.getId() == Block.BROWN_MUSHROOM
+//                || block.getId() == Block.TORCH
+//                || block.getId() == Block.LADDER
+//                || block.getId() == Block.SNOW
+//                || block.getId() == Block.TRIPWIRE_HOOK
+//                || block.getId() == Block.DEAD_BUSH
+//                || block.getId() == Block.FLOWER
+//                || block.getId() == Block.LEVER
+//                || block.getId() == Block.STONE_BUTTON
+//                || block.getId() == Block.POWERED_RAIL
+//                || block.getId() == Block.RED_MUSHROOM
+//                || block.getId() == Block.REDSTONE_BLOCK
+//                || block.getId() == Block.DETECTOR_RAIL
+//                || block.getId() == Block.SAPLING
+//                || block.getId() == Block.SNOW_LAYER
+//                || block.getId() == Block.ACTIVATOR_RAIL;
+        return block.canPassThrough();
     }
 
     /**
@@ -85,8 +86,7 @@ public class BlockUtil {
      */
     public static boolean canStand(Block block) {
         return !isPermeable(block)
-                || block.getId() == Block.VINE
-                || block.getId() == Block.LADDER;
+                || block.canBeClimbed();
     }
 
 
@@ -95,9 +95,8 @@ public class BlockUtil {
      * @return 是否可以垂直上升一格 [爬梯子,脚手架]
      */
     public static boolean checkUpAccessed(Block block) {
-        return canStand(block.getLevel().getBlock(block.add(0, -1, 0)))
-                || block.getId() == Block.VINE
-                || block.getId() == Block.LADDER;
+        return canStand(getNearBlock(block, BlockFace.DOWN))
+                || block.canBeClimbed();
     }
 
     /**
