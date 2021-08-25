@@ -15,7 +15,9 @@ import java.util.function.Consumer;
 @SuppressWarnings("unused")
 public class AdvancedFormWindowModal extends FormWindowModal {
 
-    protected Consumer<Player> buttonTrueClickedListener, buttonFalseClickedListener, formClosedListener;
+    protected Consumer<Player> buttonTrueClickedListener;
+    protected Consumer<Player> buttonFalseClickedListener;
+    protected Consumer<Player> formClosedListener;
 
     public AdvancedFormWindowModal(String title, String content, String trueButtonText, String falseButtonText) {
         super(title, content, trueButtonText, falseButtonText);
@@ -71,6 +73,7 @@ public class AdvancedFormWindowModal extends FormWindowModal {
         return false;
     }
 
+    @Override
     public String getJSONData() {
         return GameCore.GSON.toJson(this, FormWindowModal.class);
     }

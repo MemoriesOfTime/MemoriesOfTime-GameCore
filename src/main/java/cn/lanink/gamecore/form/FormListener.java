@@ -11,6 +11,7 @@ import cn.nukkit.event.player.PlayerFormRespondedEvent;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class FormListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

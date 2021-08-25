@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class Scoreboard {
 
     private final String criteriaName = "dummy";

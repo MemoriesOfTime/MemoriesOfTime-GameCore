@@ -5,6 +5,7 @@ import cn.lanink.gamecore.api.Info;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public interface IRoomStatus {
 
     @Info("地图未加载")
@@ -19,11 +20,15 @@ public interface IRoomStatus {
     int ROOM_STATUS_VICTORY = 3;
 
     /**
+     * 设置房间状态
+     *
      * @param status 房间状态
      */
     void setStatus(int status);
 
     /**
+     * 获取房间状态
+     *
      * @return 房间状态
      */
     int getStatus();
