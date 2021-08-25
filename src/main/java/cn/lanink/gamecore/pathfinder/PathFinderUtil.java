@@ -79,6 +79,7 @@ public class PathFinderUtil {
             return this;
         }
 
+        @Override
         public AstarPathFinder build() {
             return new AstarPathFinder(start, target, timeLimit, power);
         }

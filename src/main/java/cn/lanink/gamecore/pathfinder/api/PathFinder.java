@@ -1,7 +1,5 @@
 package cn.lanink.gamecore.pathfinder.api;
 
-import cn.lanink.gamecore.api.Info;
-import cn.nukkit.level.particle.Particle;
 import cn.nukkit.math.Vector3;
 
 import java.util.List;
