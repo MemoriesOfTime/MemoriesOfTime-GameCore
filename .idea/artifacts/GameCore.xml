@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="GameCore">
-    <output-path>$PROJECT_DIR$/../../Nukkit Plugin/NukkitX/plugins</output-path>
-    <root id="archive" name="GameCore.jar">
-      <element id="module-output" name="MemoriesOfTime-GameCore" />
-    </root>
-  </artifact>
-</component>
