@@ -3,7 +3,7 @@ main: cn.lanink.gamecore.GameCore
 version: "1.3.0-SNAPSHOT"
 api: ["1.0.0"]
 load: STARTUP
-author: "LT_Name"
+authors: ["LT_Name", "iGxnon"]
 softdepend:
   - "ScoreboardPlugin"
   - "ScoreboardAPI"
