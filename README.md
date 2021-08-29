@@ -2,7 +2,7 @@
 
 Maven  
 ```xml
- <repository>
+ <repositories>
     <repository>
         <id>repo-lanink-cn</id>
         <url>https://repo.lanink.cn/</url>
