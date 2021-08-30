@@ -4,6 +4,7 @@ import cn.lanink.gamecore.GameCore;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.EntityHuman;
 import cn.nukkit.entity.data.Skin;
+import cn.nukkit.level.Location;
 import cn.nukkit.level.Position;
 import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.nbt.tag.CompoundTag;
@@ -40,6 +41,10 @@ public class EntityPlayerCorpse extends EntityHuman {
                         )
         );
         entityPlayerCorpse.setSkin(skin);
+        entityPlayerCorpse.setGliding(true);
+        if (position instanceof Location) {
+            entityPlayerCorpse.setRotation(((Location) position).getYaw(), 0);
+        }
         return entityPlayerCorpse;
     }
 
