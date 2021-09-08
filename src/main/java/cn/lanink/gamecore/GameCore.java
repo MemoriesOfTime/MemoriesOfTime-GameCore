@@ -1,6 +1,7 @@
 package cn.lanink.gamecore;
 
-import cn.lanink.gamecore.form.FormListener;
+import cn.lanink.gamecore.form.WindowListener;
+import cn.lanink.gamecore.form.inventory.factory.AdvancedInventoryBuilder;
 import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
@@ -42,7 +43,8 @@ public class GameCore extends PluginBase {
 
     @Override
     public void onEnable() {
-        this.getServer().getPluginManager().registerEvents(new FormListener(), this);
+        this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
+        AdvancedInventoryBuilder.init();
         this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
     }
 
