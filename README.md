@@ -22,7 +22,7 @@ Gradle
 
 ```groovy
 maven {
-  url: "https://repo.lanink.cn/"
+  url "https://repo.lanink.cn/"
 }
 
 implementation 'cn.lanink:MemoriesOfTime-GameCore:1.3.0-SNAPSHOT'
