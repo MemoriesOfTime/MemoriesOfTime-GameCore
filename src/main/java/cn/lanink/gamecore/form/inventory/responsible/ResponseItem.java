@@ -1,4 +1,4 @@
-package cn.lanink.gamecore.form.inventory.responsed;
+package cn.lanink.gamecore.form.inventory.responsible;
 
 import cn.nukkit.Player;
 import cn.nukkit.event.inventory.InventoryClickEvent;

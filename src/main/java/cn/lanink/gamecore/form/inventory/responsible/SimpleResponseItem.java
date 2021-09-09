@@ -1,4 +1,4 @@
-package cn.lanink.gamecore.form.inventory.responsed;
+package cn.lanink.gamecore.form.inventory.responsible;
 
 import cn.nukkit.item.Item;
 import org.jetbrains.annotations.NotNull;

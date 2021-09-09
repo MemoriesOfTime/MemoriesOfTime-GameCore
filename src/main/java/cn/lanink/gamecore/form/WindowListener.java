@@ -39,5 +39,4 @@ public class WindowListener implements Listener {
         AdvancedInventory.onEvent(event);
     }
 
-
 }

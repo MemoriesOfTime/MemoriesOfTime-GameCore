@@ -1,7 +1,7 @@
 package cn.lanink.gamecore.form.inventory.advanced;
 
 import cn.lanink.gamecore.GameCore;
-import cn.lanink.gamecore.form.inventory.responsed.ResponseItem;
+import cn.lanink.gamecore.form.inventory.responsible.ResponseItem;
 import cn.nukkit.Player;
 import cn.nukkit.event.Event;
 import cn.nukkit.event.inventory.InventoryClickEvent;
@@ -38,16 +38,15 @@ public abstract class AdvancedInventory extends ContainerInventory {
         }
     });
 
-
-    public AdvancedInventory(InventoryHolder holder, InventoryType type) {
+    public AdvancedInventory(@NotNull InventoryHolder holder, @NotNull InventoryType type) {
         super(holder, type);
     }
 
-    public AdvancedInventory putItem(int slot, ResponseItem item) {
+    public AdvancedInventory putItem(int slot, @NotNull ResponseItem item) {
         return this.putItem(slot, item, false);
     }
 
-    public AdvancedInventory putItem(int slot, ResponseItem item, boolean force) {
+    public AdvancedInventory putItem(int slot, @NotNull ResponseItem item, boolean force) {
         this.setItem(slot, item.getItem());
         if (force) {
             this.containedResponseItem.put(slot, item);
@@ -73,7 +72,6 @@ public abstract class AdvancedInventory extends ContainerInventory {
         }
         Inventory inventory = ((InventoryEvent) event).getInventory();
         if (!(inventory instanceof AdvancedInventory)) {
-            GAME_CORE.getLogger().warning("[AdvancedInventory] 传入的背包不属于 AdvancedInventory");
             return;
         }
         if (event instanceof InventoryClickEvent) {

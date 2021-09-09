@@ -37,4 +37,5 @@ public class AdvancedEntityInventory<T extends Entity> extends AdvancedInventory
     public AdvancedEntityInventory(InventoryHolder holder, InventoryType type) {
         super(holder, type);
     }
+
 }
