@@ -12,7 +12,7 @@ import cn.nukkit.inventory.InventoryType;
 public class AdvancedEntityInventory<T extends Entity> extends AdvancedInventory {
 
     /**
-     * @param entity 需要继承InventoryHolder
+     * @param entity 需要继承 InventoryHolder
      * @param type 背包类型
      */
     public AdvancedEntityInventory(T entity, InventoryType type) {

@@ -1,7 +1,6 @@
 package cn.lanink.gamecore;
 
 import cn.lanink.gamecore.form.WindowListener;
-import cn.lanink.gamecore.form.inventory.factory.AdvancedInventoryBuilder;
 import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
@@ -15,7 +14,7 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
-    public static final String VERSION = "?";
+    public static final String VERSION = "1.3.5-SNAPSHOT git-a72d29a";
 
     private static GameCore gameCore;
 
@@ -44,7 +43,6 @@ public class GameCore extends PluginBase {
     @Override
     public void onEnable() {
         this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
-        AdvancedInventoryBuilder.init();
         this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
     }
 
