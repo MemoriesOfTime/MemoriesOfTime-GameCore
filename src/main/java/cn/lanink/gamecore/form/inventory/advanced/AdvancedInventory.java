@@ -65,7 +65,7 @@ public abstract class AdvancedInventory extends ContainerInventory {
     }
 
     public void callClose(@NotNull Player player) {
-        if(closeInventoryListener == null) {
+        if (closeInventoryListener == null) {
             return;
         }
         closeInventoryListener.accept(player);
