@@ -11,6 +11,14 @@ import cn.nukkit.inventory.InventoryType;
 @SuppressWarnings({"unused", "unchecked"})
 public class AdvancedEntityInventory<T extends Entity> extends AdvancedInventory {
 
+
+    /**
+     * @param entity 需要继承 InventoryHolder
+     */
+    public AdvancedEntityInventory(T entity) {
+        super((InventoryHolder) entity, InventoryType.CHEST);
+    }
+
     /**
      * @param entity 需要继承 InventoryHolder
      * @param type 背包类型
