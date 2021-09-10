@@ -32,7 +32,7 @@ public abstract class AdvancedInventory extends ContainerInventory {
 
     protected ConcurrentMap<Integer, ResponseItem> containedResponseItem = new ConcurrentHashMap<>();
 
-    private Consumer<Player> closeInventoryListener = p -> {};
+    private Consumer<Player> closeInventoryListener;
 
     protected final BiConsumer<InventoryClickEvent, Player> superClickItemListener = ((clickEvent, player) -> {
         int slotPos = clickEvent.getSlot();
@@ -65,6 +65,9 @@ public abstract class AdvancedInventory extends ContainerInventory {
     }
 
     public void callClose(@NotNull Player player) {
+        if(closeInventoryListener == null) {
+            return;
+        }
         closeInventoryListener.accept(player);
     }
 
