@@ -1,5 +1,7 @@
 package cn.lanink.gamecore.form.inventory.advanced;
 
+import cn.nukkit.block.Block;
+import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.inventory.InventoryType;
@@ -10,7 +12,6 @@ import cn.nukkit.inventory.InventoryType;
  */
 @SuppressWarnings({"unused", "unchecked"})
 public class AdvancedEntityInventory<T extends Entity> extends AdvancedInventory {
-
 
     /**
      * @param entity 需要继承 InventoryHolder

@@ -3,6 +3,9 @@ package cn.lanink.gamecore.form.inventory.advanced;
 import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.form.inventory.responsible.ResponseItem;
 import cn.nukkit.Player;
+import cn.nukkit.block.Block;
+import cn.nukkit.blockentity.BlockEntity;
+import cn.nukkit.blockentity.BlockEntityChest;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.event.Event;
 import cn.nukkit.event.inventory.InventoryClickEvent;
@@ -125,6 +128,13 @@ public abstract class AdvancedInventory extends ContainerInventory {
         }
     }
 
-    public abstract Entity getOwner();
+    public Entity getOwner(){
+        return null;
+    }
+
+    public BlockEntity getBlockOwner() {
+        return null;
+    }
+
 
 }
