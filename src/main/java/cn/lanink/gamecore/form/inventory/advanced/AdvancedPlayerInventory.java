@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * @author iGxnon
  * @date 2021/9/9
  */
+@SuppressWarnings("unused")
 public class AdvancedPlayerInventory extends AdvancedInventory{
 
     public AdvancedPlayerInventory(@NotNull Player player) {
