@@ -3,6 +3,7 @@ package cn.lanink.gamecore.form.inventory.advanced;
 import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.form.inventory.responsible.ResponseItem;
 import cn.nukkit.Player;
+import cn.nukkit.entity.Entity;
 import cn.nukkit.event.Event;
 import cn.nukkit.event.inventory.InventoryClickEvent;
 import cn.nukkit.event.inventory.InventoryCloseEvent;
@@ -11,8 +12,10 @@ import cn.nukkit.inventory.ContainerInventory;
 import cn.nukkit.inventory.Inventory;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.inventory.InventoryType;
+import com.google.common.collect.BiMap;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
@@ -22,14 +25,14 @@ import java.util.function.Consumer;
  * @author iGxnon
  * @date 2021/9/8
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "unchecked"})
 public abstract class AdvancedInventory extends ContainerInventory {
 
     protected static final GameCore GAME_CORE = GameCore.getInstance();
 
     protected ConcurrentMap<Integer, ResponseItem> containedResponseItem = new ConcurrentHashMap<>();
 
-    private Consumer<Player> closeInventoryListener;
+    private Consumer<Player> closeInventoryListener = p -> {};
 
     protected final BiConsumer<InventoryClickEvent, Player> superClickItemListener = ((clickEvent, player) -> {
         int slotPos = clickEvent.getSlot();
@@ -82,5 +85,43 @@ public abstract class AdvancedInventory extends ContainerInventory {
                     .callClose(((InventoryCloseEvent) event).getPlayer());
         }
     }
+
+    @Override
+    public boolean open(Player player) {
+        final int windowId = player.getWindowId(this);
+        if (windowId == -1) {
+            player.addWindow(this);
+            return true;
+        }else {
+            return super.open(player);
+        }
+    }
+
+    @Override
+    public void close(Player player) {
+        super.close(player);
+        if (!tryRemoveWindow(player)) {
+            GAME_CORE.getLogger().warning(player.getName() + " 未正常移除背包页面");
+        }
+    }
+
+    public boolean tryRemoveWindow(Player player) {
+        super.close(player);
+        Field windowField;
+        try {
+            windowField = Player.class.getDeclaredField("windows");
+            windowField.setAccessible(true);
+            final BiMap<Inventory, Integer> windows = (BiMap<Inventory, Integer>) windowField.get(player);
+            if (windows.remove(this) == null) {
+                return false;
+            }
+            windowField.set(player, windows);
+            return true;
+        } catch (NoSuchFieldException | IllegalAccessException ignore) {
+            return false;
+        }
+    }
+
+    public abstract Entity getOwner();
 
 }

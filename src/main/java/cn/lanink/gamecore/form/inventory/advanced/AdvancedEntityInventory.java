@@ -22,10 +22,11 @@ public class AdvancedEntityInventory<T extends Entity> extends AdvancedInventory
         }
     }
 
+    @Override
     public T getOwner() {
         try {
-            if (getHolder() instanceof Entity) {
-                return (T) getHolder();
+            if (super.getHolder() instanceof Entity) {
+                return (T) super.getHolder();
             }else {
                 return null;
             }
