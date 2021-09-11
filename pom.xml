@@ -169,18 +169,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>de.theamychan.scoreboard</groupId>
+            <groupId>de.theamychan</groupId>
             <artifactId>ScoreboardAPI</artifactId>
-            <version>1.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ScoreboardAPI-1.3.jar</systemPath>
+            <version>1.3-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>gt.creeperface.nukkit.scoreboardapi</groupId>
             <artifactId>ScoreboardAPI</artifactId>
-            <version>1.4</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ScoreboardAPI-1.4(creeperface).jar</systemPath>
+            <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>tip</groupId>
