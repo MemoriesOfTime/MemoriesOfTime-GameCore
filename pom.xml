@@ -183,9 +183,8 @@
         <dependency>
             <groupId>tip</groupId>
             <artifactId>Tips</artifactId>
-            <version>2.0.6</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Tips_v2.0.6.jar</systemPath>
+            <version>2.0.8</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.easecation</groupId>
