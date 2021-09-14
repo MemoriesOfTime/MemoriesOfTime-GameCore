@@ -6,7 +6,6 @@ import java.util.Map;
 
 /**
  * @author iGxnon
- * @date 2021/08/27
  */
 public class Manager implements IManager {
 

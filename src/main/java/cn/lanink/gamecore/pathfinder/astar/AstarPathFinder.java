@@ -18,8 +18,7 @@ import java.util.List;
 
 /**
  * @author iGxnon
- * @date  2021/08/24
- * @reference https://github.com/iGxnon/SquarePet/blob/main/src/main/java/xyz/lightsky/squarepet/pet/pathfinder/astar/AstarPathfinder.java
+ * https://github.com/iGxnon/SquarePet/blob/main/src/main/java/xyz/lightsky/squarepet/pet/pathfinder/astar/AstarPathfinder.java
  */
 @SuppressWarnings("unused")
 public class AstarPathFinder implements PathFinder {
@@ -146,6 +145,7 @@ public class AstarPathFinder implements PathFinder {
     }
 
     /**
+     * @param power
      * @return 获取 openList中最小 F值的节点
      */
     private AstarNode getMinFNode(double power) {

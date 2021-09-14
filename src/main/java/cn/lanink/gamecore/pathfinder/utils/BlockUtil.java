@@ -7,7 +7,6 @@ import cn.nukkit.math.Vector3;
 
 /**
  * @author iGxnon
- * @date  2021/08/24
  */
 public class BlockUtil {
 
@@ -54,6 +53,7 @@ public class BlockUtil {
     }
 
     /**
+     * @param block 方块
      * @return 是否可透过
      */
     public static boolean isPermeable(Block block) {

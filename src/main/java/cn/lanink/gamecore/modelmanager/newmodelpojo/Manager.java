@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author iGxnon
- * @date 2021/08/27
  */
 public class Manager implements IManager {
 
