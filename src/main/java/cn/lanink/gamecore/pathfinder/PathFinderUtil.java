@@ -9,7 +9,6 @@ import java.util.Objects;
 
 /**
  * @author iGxnon
- * @date  2021/08/24
  */
 @SuppressWarnings("unused")
 public class PathFinderUtil {

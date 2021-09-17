@@ -12,8 +12,7 @@ import java.util.List;
 
 /**
  * @author iGxnon
- * @date 2021/08/24
- * @reference https://github.com/iGxnon/SquarePet/blob/main/src/main/java/xyz/lightsky/squarepet/pet/pathfinder/astar/Node.java
+ * https://github.com/iGxnon/SquarePet/blob/main/src/main/java/xyz/lightsky/squarepet/pet/pathfinder/astar/Node.java
  */
 @SuppressWarnings("unused")
 public class AstarNode {

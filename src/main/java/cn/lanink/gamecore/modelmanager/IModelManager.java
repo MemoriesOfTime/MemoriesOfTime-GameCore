@@ -3,13 +3,11 @@ package cn.lanink.gamecore.modelmanager;
 import cn.nukkit.entity.data.Skin;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author iGxnon
- * @date 2021/08/26
  */
 @SuppressWarnings("unused")
 public interface IModelManager {
@@ -96,7 +94,7 @@ public interface IModelManager {
      * @param file 路径
      * @return 获取模型POJO管理器
      */
-    IManager getManager(File file) throws IOException;
+    IManager getManager(File file);
 
     /**
      * @param json 模型json字符串

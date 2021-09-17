@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * @author iGxnon
- * @date  2021/08/24
  */
 public interface PathFinder {
 
