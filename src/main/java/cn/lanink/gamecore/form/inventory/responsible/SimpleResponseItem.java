@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * @author iGxnon
  * @date 2021/9/8
  */
+@SuppressWarnings("unused")
 public class SimpleResponseItem extends ResponseItem{
 
     public SimpleResponseItem(@NotNull Item item) {

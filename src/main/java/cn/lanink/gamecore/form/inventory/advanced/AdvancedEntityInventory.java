@@ -1,7 +1,5 @@
 package cn.lanink.gamecore.form.inventory.advanced;
 
-import cn.nukkit.block.Block;
-import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.inventory.InventoryType;
