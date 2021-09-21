@@ -22,7 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author lt_name
+ * 窗口操作监听器
+ * 实现AdvancedFormWindow AdvancedInventory操作处理
+ *
+ * @author LT_Name
  */
 @SuppressWarnings("unused")
 public class WindowListener implements Listener {

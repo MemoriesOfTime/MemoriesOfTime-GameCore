@@ -11,6 +11,10 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class FileUtil {
 
+    private FileUtil() {
+        throw new RuntimeException("error");
+    }
+
     public static boolean deleteFile(String file) {
         return deleteFile(new File(file));
     }
