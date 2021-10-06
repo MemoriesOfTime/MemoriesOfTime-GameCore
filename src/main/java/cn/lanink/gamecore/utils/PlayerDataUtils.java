@@ -24,12 +24,12 @@ public class PlayerDataUtils {
         return new PlayerData(player);
     }
 
-    public static PlayerData create(@NotNull File file) {
-        return create(new Config(file, Config.JSON));
+    public static PlayerData create(@NotNull Player player, @NotNull File file) {
+        return create(player, new Config(file, Config.JSON));
     }
 
-    public static PlayerData create(@NotNull Config config) {
-        return new PlayerData(config);
+    public static PlayerData create(@NotNull Player player, @NotNull Config config) {
+        return new PlayerData(player, config);
     }
 
     /**
@@ -44,9 +44,11 @@ public class PlayerDataUtils {
             Item item = inventoryContents.get(i);
 
             LinkedList<String> list = new LinkedList<>();
-            list.add(item.getId() + ":" + item.getDamage());
-            list.add(String.valueOf(item.getCount()));
-            list.add(bytesToBase64(item.getCompoundTag()));
+            if (item != null) {
+                list.add(item.getId() + ":" + item.getDamage());
+                list.add(String.valueOf(item.getCount()));
+                list.add(bytesToBase64(item.getCompoundTag()));
+            }
 
             linkedHashMap.put(i + "", list);
         }
@@ -125,7 +127,9 @@ public class PlayerDataUtils {
             this.player = player;
         }
 
-        private PlayerData(@NotNull Config config) {
+        private PlayerData(@NotNull Player player, @NotNull Config config) {
+            this.player = player;
+
             if (config.exists("inventoryContents")) {
                 this.inventoryContents = linkedHashMapToInventory(config.get("inventoryContents", new HashMap<>()));
             }
@@ -135,8 +139,8 @@ public class PlayerDataUtils {
             if (config.exists("enderChestContents")) {
                 this.enderChestContents = linkedHashMapToInventory(config.get("enderChestContents", new HashMap<>()));
             }
-            this.foodLevel = config.get("foodLevel", 20);
-            this.foodSaturationLevel = config.get("foodSaturationLevel", 20.0F);
+            this.foodLevel = config.getInt("foodLevel", 20);
+            this.foodSaturationLevel = (float) config.getDouble("foodSaturationLevel", 20.0D);
         }
 
         /**
