@@ -19,7 +19,6 @@ public class PlayerDataUtils {
         throw new RuntimeException("error");
     }
 
-
     public static PlayerData create(@NotNull Player player) {
         return new PlayerData(player);
     }

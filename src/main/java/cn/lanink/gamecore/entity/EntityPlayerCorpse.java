@@ -42,6 +42,7 @@ public class EntityPlayerCorpse extends EntityHuman {
         );
         entityPlayerCorpse.setSkin(skin);
         entityPlayerCorpse.setGliding(true);
+        entityPlayerCorpse.setScale(-1);
         if (position instanceof Location) {
             entityPlayerCorpse.setRotation(((Location) position).getYaw(), 0);
         }
