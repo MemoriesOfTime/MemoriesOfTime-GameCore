@@ -13,6 +13,7 @@ import java.util.*;
  *
  * @author LT_Name
  */
+@SuppressWarnings("unused")
 public class PlayerDataUtils {
 
     private PlayerDataUtils() {
@@ -69,8 +70,8 @@ public class PlayerDataUtils {
             List<String> list = null;
             try {
                 list = (List<String>) entry.getValue();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
+
             }
             if (list == null || list.isEmpty()) {
                 continue;
