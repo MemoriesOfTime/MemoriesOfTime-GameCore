@@ -16,7 +16,7 @@ public class EntityUtils {
     private static final ConcurrentHashMap<String, Number> FIELD_CACHE = new ConcurrentHashMap<>();
 
     private EntityUtils() {
-
+        throw new RuntimeException("error");
     }
 
     @Info("解决多版本兼容问题")

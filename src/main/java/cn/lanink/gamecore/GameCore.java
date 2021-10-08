@@ -1,7 +1,8 @@
 package cn.lanink.gamecore;
 
-import cn.lanink.gamecore.form.FormListener;
+import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.modelmanager.ModelManager;
+import cn.lanink.gamecore.utils.MetricsLite;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
 import com.google.gson.Gson;
@@ -42,7 +43,14 @@ public class GameCore extends PluginBase {
 
     @Override
     public void onEnable() {
-        this.getServer().getPluginManager().registerEvents(new FormListener(), this);
+        this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
+
+        try {
+            new MetricsLite(this, 12850);
+        }catch (Exception ignored) {
+
+        }
+
         this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
     }
 
