@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class AdvancedFormWindowSimple extends FormWindowSimple {
 
     protected BiConsumer<ElementButton, Player> buttonClickedListener;
@@ -47,13 +48,13 @@ public class AdvancedFormWindowSimple extends FormWindowSimple {
         return this;
     }
 
-    public void callClicked(@NotNull ElementButton elementButton, @NotNull Player player) {
+    protected void callClicked(@NotNull ElementButton elementButton, @NotNull Player player) {
         if (this.buttonClickedListener != null) {
             this.buttonClickedListener.accept(elementButton, player);
         }
     }
 
-    public void callClosed(@NotNull Player player) {
+    protected void callClosed(@NotNull Player player) {
         if (this.formClosedListener != null) {
             this.formClosedListener.accept(player);
         }

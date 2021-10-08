@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * @author lt_name
+ * @author LT_Name
  */
+@SuppressWarnings("unused")
 public class Language {
 
     private final Config config;
@@ -30,7 +31,7 @@ public class Language {
     }
 
     public String translateString(String key, Object... params) {
-        String string = this.config.getString(key, "§c Language reading error!");
+        String string = this.config.getString(key, "§c Unknown key:" + key);
         if (params != null && params.length > 0) {
             for (int i = 1; i < params.length + 1; i++) {
                 string = string.replace("%" + i + "%", Objects.toString(params[i-1]));
@@ -52,7 +53,7 @@ public class Language {
         HashMap<String, String> cache = new HashMap<>();
         for (String key : this.config.getKeys()) {
             if (newConfig.getKeys().contains(key)) {
-                cache.put(key, this.config.getString(key, "§c Language reading error!"));
+                cache.put(key, this.config.getString(key, "§c Unknown key:" + key));
             }else {
                 this.config.remove(key);
                 needSave = true;
@@ -60,7 +61,7 @@ public class Language {
         }
         for (String key : newConfig.getKeys()) {
             if (!cache.containsKey(key)) {
-                String string = newConfig.getString(key, "§c Language reading error!");
+                String string = newConfig.getString(key, "§c Unknown key:" + key);
                 this.config.set(key, string);
                 needSave = true;
             }

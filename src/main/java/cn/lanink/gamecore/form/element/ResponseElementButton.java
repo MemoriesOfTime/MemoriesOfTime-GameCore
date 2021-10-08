@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class ResponseElementButton extends ElementButton implements ResponsibleElementButton {
 
     private Consumer<Player> clickedListener;

@@ -1,6 +1,5 @@
 package cn.lanink.gamecore.room;
 
-import cn.nukkit.Player;
 import cn.nukkit.level.Level;
 
 /**
@@ -12,12 +11,12 @@ public interface IRoom {
 
     String getLevelName();
 
-    void joinRoom(Player player, boolean spectator);
+    /*void joinRoom(Player player, boolean spectator);
 
     void quitRoom(Player player);
 
     void startGame();
 
-    void endGame(int victory);
+    void endGame(int victory);*/
 
 }

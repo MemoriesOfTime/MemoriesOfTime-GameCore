@@ -18,8 +18,8 @@ public class ScoreboardData {
 
     public static class ScoreboardLine {
 
-        private String message;
-        private int score;
+        private final String message;
+        private final int score;
 
         public ScoreboardLine(String message, int score) {
             this.message = message;

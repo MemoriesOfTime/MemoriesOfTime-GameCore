@@ -12,9 +12,12 @@ import java.util.function.Consumer;
 /**
  * @author lt_name
  */
+@SuppressWarnings("unused")
 public class AdvancedFormWindowModal extends FormWindowModal {
 
-    protected Consumer<Player> buttonTrueClickedListener, buttonFalseClickedListener, formClosedListener;
+    protected Consumer<Player> buttonTrueClickedListener;
+    protected Consumer<Player> buttonFalseClickedListener;
+    protected Consumer<Player> formClosedListener;
 
     public AdvancedFormWindowModal(String title, String content, String trueButtonText, String falseButtonText) {
         super(title, content, trueButtonText, falseButtonText);
@@ -35,19 +38,19 @@ public class AdvancedFormWindowModal extends FormWindowModal {
         return this;
     }
 
-    public void callClickedTrue(@NotNull Player player) {
+    protected void callClickedTrue(@NotNull Player player) {
         if (this.buttonTrueClickedListener != null) {
             this.buttonTrueClickedListener.accept(player);
         }
     }
 
-    public void callClickedFalse(@NotNull Player player) {
+    protected void callClickedFalse(@NotNull Player player) {
         if (this.buttonFalseClickedListener != null) {
             this.buttonFalseClickedListener.accept(player);
         }
     }
 
-    public void callClosed(@NotNull Player player) {
+    protected void callClosed(@NotNull Player player) {
         if (this.formClosedListener != null) {
             this.formClosedListener.accept(player);
         }
@@ -70,6 +73,7 @@ public class AdvancedFormWindowModal extends FormWindowModal {
         return false;
     }
 
+    @Override
     public String getJSONData() {
         return GameCore.GSON.toJson(this, FormWindowModal.class);
     }
