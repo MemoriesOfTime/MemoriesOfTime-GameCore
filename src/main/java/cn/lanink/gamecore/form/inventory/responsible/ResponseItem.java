@@ -25,12 +25,12 @@ public abstract class ResponseItem {
     }
 
     public ResponseItem onClick(@NotNull BiConsumer<InventoryClickEvent, Player> listener) {
-        clickItemListener = listener;
+        this.clickItemListener = listener;
         return this;
     }
 
     public void callClick(@NotNull InventoryClickEvent event, @NotNull Player player) {
-        clickItemListener.accept(event, player);
+        this.clickItemListener.accept(event, player);
     }
 
     public Item getItem() {

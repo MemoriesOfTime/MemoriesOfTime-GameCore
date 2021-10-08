@@ -12,6 +12,7 @@ import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.inventory.InventoryClickEvent;
 import cn.nukkit.event.inventory.InventoryCloseEvent;
+import cn.nukkit.event.inventory.InventoryTransactionEvent;
 import cn.nukkit.event.player.PlayerFormRespondedEvent;
 import cn.nukkit.event.player.PlayerServerSettingsRequestEvent;
 import cn.nukkit.event.player.PlayerSettingsRespondedEvent;
@@ -69,6 +70,11 @@ public class WindowListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onInventoryClose(InventoryCloseEvent event) {
+        AdvancedInventory.onEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onInventoryTransaction(InventoryTransactionEvent event) {
         AdvancedInventory.onEvent(event);
     }
 

@@ -9,14 +9,19 @@ import cn.nukkit.event.Event;
 import cn.nukkit.event.inventory.InventoryClickEvent;
 import cn.nukkit.event.inventory.InventoryCloseEvent;
 import cn.nukkit.event.inventory.InventoryEvent;
+import cn.nukkit.event.inventory.InventoryTransactionEvent;
 import cn.nukkit.inventory.ContainerInventory;
 import cn.nukkit.inventory.Inventory;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.inventory.InventoryType;
+import cn.nukkit.inventory.transaction.action.InventoryAction;
+import cn.nukkit.inventory.transaction.action.SlotChangeAction;
+import cn.nukkit.item.Item;
 import com.google.common.collect.BiMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
@@ -46,6 +51,10 @@ public abstract class AdvancedInventory extends ContainerInventory {
         super(holder, type);
     }
 
+    protected AdvancedInventory(InventoryHolder holder, InventoryType type, Map<Integer, Item> items, Integer overrideSize, String overrideTitle) {
+        super(holder, type, items, overrideSize, overrideTitle);
+    }
+
     public AdvancedInventory putItem(int slot, @NotNull ResponseItem item) {
         return this.putItem(slot, item, false);
     }
@@ -73,20 +82,29 @@ public abstract class AdvancedInventory extends ContainerInventory {
     }
 
     public static void onEvent(Event event) {
-        if (!(event instanceof InventoryEvent)) {
-            GAME_CORE.getLogger().warning("[AdvancedInventory] 传入的事件不属于背包事件");
-            return;
-        }
-        Inventory inventory = ((InventoryEvent) event).getInventory();
-        if (!(inventory instanceof AdvancedInventory)) {
-            return;
-        }
-        if (event instanceof InventoryClickEvent) {
-            ((AdvancedInventory) inventory).superClickItemListener
-                    .accept((InventoryClickEvent) event, ((InventoryClickEvent) event).getPlayer());
-        }else if (event instanceof InventoryCloseEvent) {
-            ((AdvancedInventory) inventory)
-                    .callClose(((InventoryCloseEvent) event).getPlayer());
+        if (event instanceof InventoryEvent) {
+            Inventory inventory = ((InventoryEvent) event).getInventory();
+            if (!(inventory instanceof AdvancedInventory)) {
+                return;
+            }
+            if (event instanceof InventoryClickEvent) {
+                ((AdvancedInventory) inventory).superClickItemListener
+                        .accept((InventoryClickEvent) event, ((InventoryClickEvent) event).getPlayer());
+            } else if (event instanceof InventoryCloseEvent) {
+                ((AdvancedInventory) inventory)
+                        .callClose(((InventoryCloseEvent) event).getPlayer());
+            }
+        }else if (event instanceof InventoryTransactionEvent) {
+            InventoryTransactionEvent transactionEvent = (InventoryTransactionEvent) event;
+            for (InventoryAction action : transactionEvent.getTransaction().getActions()) {
+                if (action instanceof SlotChangeAction) {
+                    SlotChangeAction slotChangeAction = (SlotChangeAction) action;
+                    if (slotChangeAction.getInventory() instanceof AdvancedInventory &&
+                            slotChangeAction.getTargetItem().getId() == 0) {
+                        event.setCancelled(true);
+                    }
+                }
+            }
         }
     }
 

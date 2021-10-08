@@ -3,8 +3,12 @@ package cn.lanink.gamecore.form.inventory.advanced;
 import cn.nukkit.block.BlockChest;
 import cn.nukkit.blockentity.BlockEntityChest;
 import cn.nukkit.entity.Entity;
+import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.inventory.InventoryType;
+import cn.nukkit.item.Item;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 /**
  * @author iGxnon
@@ -22,6 +26,10 @@ public class AdvancedChestInventory extends AdvancedInventory {
         if(holder.getPair() != null) {
             throw new RuntimeException("该箱子不能和另外一个箱子合并!");
         }
+    }
+
+    protected AdvancedChestInventory(InventoryHolder holder, InventoryType type, Map<Integer, Item> items, Integer overrideSize, String overrideTitle) {
+        super(holder, type, items, overrideSize, overrideTitle);
     }
 
     @Override
