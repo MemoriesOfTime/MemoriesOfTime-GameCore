@@ -146,78 +146,94 @@ public class PlayerDataUtils {
         /**
          * 保存所有数据
          */
-        public void saveAll() {
+        public PlayerData saveAll() {
             this.saveInventory();
             this.saveEnderChestInventory();
             this.saveFoodData();
+
+            return this;
         }
 
         /**
          * 还原所有已保存的数据
          */
-        public void restoreAll() {
+        public PlayerData restoreAll() {
             this.restoreInventory();
             this.restoreEnderChestInventory();
             this.restoreFoodData();
+
+            return this;
         }
 
         /**
          * 保存玩家背包内容
          */
-        public void saveInventory() {
+        public PlayerData saveInventory() {
             this.inventoryContents = this.player.getInventory().getContents();
             this.offhandInventoryContents = this.player.getOffhandInventory().getContents();
+
+            return this;
         }
 
         /**
          * 还原玩家背包内容
          */
-        public void restoreInventory() {
+        public PlayerData restoreInventory() {
             if (this.inventoryContents != null) {
                 this.player.getInventory().setContents(this.inventoryContents);
             }
             if (this.offhandInventoryContents != null) {
                 this.player.getOffhandInventory().setContents(this.offhandInventoryContents);
             }
+
+            return this;
         }
 
         /**
          * 保存玩家末影箱内容
          */
-        public void saveEnderChestInventory() {
+        public PlayerData saveEnderChestInventory() {
             this.enderChestContents = this.player.getEnderChestInventory().getContents();
+
+            return this;
         }
 
         /**
          * 还原玩家末影箱内容
          */
-        public void restoreEnderChestInventory() {
+        public PlayerData restoreEnderChestInventory() {
             if (this.enderChestContents != null) {
                 this.player.getEnderChestInventory().setContents(this.enderChestContents);
             }
+
+            return this;
         }
 
         /**
          * 保存玩家饥饿值数据
          */
-        public void saveFoodData() {
+        public PlayerData saveFoodData() {
             this.foodLevel = this.player.getFoodData().getLevel();
             this.foodSaturationLevel = this.player.getFoodData().getFoodSaturationLevel();
+
+            return this;
         }
 
         /**
          * 还原玩家饥饿值数据
          */
-        public void restoreFoodData() {
+        public PlayerData restoreFoodData() {
             this.player.getFoodData().setLevel(this.foodLevel);
             this.player.getFoodData().setFoodSaturationLevel(this.foodSaturationLevel);
+
+            return this;
         }
 
-        public void saveToFile(File file) {
-            this.saveToFile(new Config(file, Config.JSON));
+        public PlayerData saveToFile(File file) {
+            return this.saveToFile(new Config(file, Config.JSON));
         }
 
-        public void saveToFile(Config config) {
+        public PlayerData saveToFile(Config config) {
             if (this.inventoryContents != null) {
                 config.set("inventoryContents", inventoryToLinkedHashMap(this.inventoryContents));
             }
@@ -232,6 +248,8 @@ public class PlayerDataUtils {
             config.set("foodSaturationLevel", this.foodSaturationLevel);
 
             config.save();
+
+            return this;
         }
 
     }
