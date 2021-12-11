@@ -42,9 +42,9 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
         ((FakeEntity) this.getHolder()).setInventory(this);
     }
 
-    protected UpdateBlockPacket getDefaultPack(int id, BlockVector3 pos) {
+    protected UpdateBlockPacket getDefaultPack(int protocolId, int id, BlockVector3 pos) {
         UpdateBlockPacket updateBlock = new UpdateBlockPacket();
-        updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(id, 0);
+        updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(protocolId, id, 0);
         updateBlock.flags = UpdateBlockPacket.FLAG_ALL_PRIORITY;
         updateBlock.x = pos.x;
         updateBlock.y = pos.y;
@@ -89,7 +89,7 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
     }
 
     protected void placeFakeChest(Player who, BlockVector3 pos) {
-        who.dataPacket(this.getDefaultPack(BlockID.CHEST, pos));
+        who.dataPacket(this.getDefaultPack(who.protocol, BlockID.CHEST, pos));
         BlockEntityDataPacket blockEntityData = new BlockEntityDataPacket();
         blockEntityData.x = pos.x;
         blockEntityData.y = pos.y;
