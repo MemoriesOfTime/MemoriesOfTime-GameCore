@@ -38,6 +38,10 @@ public class AdvancedFormWindowModal extends FormWindowModal {
         return this;
     }
 
+    public void showToPlayer(@NotNull Player player) {
+        player.showFormWindow(this);
+    }
+
     protected void callClickedTrue(@NotNull Player player) {
         if (this.buttonTrueClickedListener != null) {
             this.buttonTrueClickedListener.accept(player);

@@ -49,6 +49,10 @@ public class AdvancedFormWindowCustom extends FormWindowCustom {
         return this;
     }
 
+    public void showToPlayer(@NotNull Player player) {
+        player.showFormWindow(this);
+    }
+
     protected void callResponded(@NotNull FormResponseCustom formResponseCustom, @NotNull Player player) {
         if (this.buttonClickedListener != null) {
             this.buttonClickedListener.accept(formResponseCustom, player);

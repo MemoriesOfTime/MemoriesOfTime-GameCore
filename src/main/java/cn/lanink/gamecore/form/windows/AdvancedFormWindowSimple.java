@@ -34,8 +34,9 @@ public class AdvancedFormWindowSimple extends FormWindowSimple {
         super(title, content, buttons);
     }
 
-    public void addButton(String text, Consumer<Player> listener) {
+    public AdvancedFormWindowSimple addButton(String text, Consumer<Player> listener) {
         this.addButton(new ResponseElementButton(text).onClicked(listener));
+        return this;
     }
 
     public AdvancedFormWindowSimple onClicked(@NotNull BiConsumer<ElementButton, Player> listener) {
@@ -46,6 +47,10 @@ public class AdvancedFormWindowSimple extends FormWindowSimple {
     public AdvancedFormWindowSimple onClosed(@NotNull Consumer<Player> listener) {
         this.formClosedListener = Objects.requireNonNull(listener);
         return this;
+    }
+
+    public void showToPlayer(@NotNull Player player) {
+        player.showFormWindow(this);
     }
 
     protected void callClicked(@NotNull ElementButton elementButton, @NotNull Player player) {
