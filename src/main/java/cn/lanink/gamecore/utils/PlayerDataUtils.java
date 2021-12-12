@@ -114,7 +114,7 @@ public class PlayerDataUtils {
 
     public static class PlayerData {
 
-        private Player player;
+        private final Player player;
 
         private Map<Integer, Item> inventoryContents;
         private Map<Integer, Item> offhandInventoryContents;
