@@ -128,7 +128,7 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
                         public void onRun() {
                             Vector3 blockPosition = blocks.get(index).asVector3();
                             UpdateBlockPacket updateBlock = new UpdateBlockPacket();
-                            updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(who.getLevel().getBlock(blockPosition).getFullId());
+                            updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(who.protocol, who.getLevel().getBlock(blockPosition).getFullId());
                             updateBlock.flags = UpdateBlockPacket.FLAG_ALL_PRIORITY;
                             updateBlock.x = blockPosition.getFloorX();
                             updateBlock.y = blockPosition.getFloorY();
