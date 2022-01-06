@@ -81,7 +81,6 @@ public class ItemInfoUtils {
         return true;
     }
 
-    //TODO 添加更多查询方法
     public static ItemInfo getItemInfoById(int id) {
         return getItemInfoById(id, 0);
     }
