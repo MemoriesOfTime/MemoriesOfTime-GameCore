@@ -1,6 +1,6 @@
 package cn.lanink.gamecore.hotswap.load;
 
-import cn.lanink.gamecore.hotswap.Module;
+import cn.lanink.gamecore.hotswap.ModuleBase;
 import cn.lanink.gamecore.utils.Download;
 import cn.nukkit.Server;
 import cn.nukkit.plugin.Plugin;
@@ -31,7 +31,7 @@ public class ModuleLoader {
     private final Map<String, Class<?>> classes = new HashMap<>();
     private final Map<String, ModuleClassLoader> classLoaders = new HashMap<>();
 
-    private final ConcurrentHashMap<String, Module> loadedModules = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, ModuleBase> loadedModules = new ConcurrentHashMap<>();
 
     public ModuleLoader() {
         throw new RuntimeException("error!");
@@ -52,28 +52,28 @@ public class ModuleLoader {
      */
     public void loadModuleFromWebUrl(String url, String folder, String moduleName) {
         Download.download(url, new File(plugin.getDataFolder(), folder + "/" + moduleName + ".jar"), file -> {
-            Module module = loadModule(file);
-            module.onEnable();
+            ModuleBase module = loadModule(file);
+            module.setEnabled(true);
         });
     }
 
     public void loadModuleFromWebUrl(String url, File saveTo) {
         Download.download(url, saveTo, file -> {
-            Module module = loadModule(file);
-            module.onEnable();
+            ModuleBase module = loadModule(file);
+            module.setEnabled(true);
         });
     }
 
-    public Module loadModuleWithDefault(String moduleName) {
+    public ModuleBase loadModuleWithDefault(String moduleName) {
         return loadModule(new File(plugin.getDataFolder() + "/modules/" + moduleName + ".jar"));
     }
 
-    public Module loadModuleFromModuleFolderAndModuleName(String folder, String moduleName) {
+    public ModuleBase loadModuleFromModuleFolderAndModuleName(String folder, String moduleName) {
         return loadModule(new File(plugin.getDataFolder() + "/" + folder + "/" + moduleName + ".jar"));
     }
 
 
-    public Module loadModule(@NonNull File file) {
+    public ModuleBase loadModule(@NonNull File file) {
         try {
             PluginDescription description = this.getModuleDescription(file);
             if (description != null) {
@@ -86,15 +86,15 @@ public class ModuleLoader {
                     throw new RuntimeException(description.getName() + " ClassLoader get failed!");
                 }
                 this.classLoaders.put(description.getName(), classLoader);
-                Module module;
+                ModuleBase module;
                 try {
                     Class<?> javaClass = classLoader.loadClass(className);
-                    if (!Module.class.isAssignableFrom(javaClass)) {
+                    if (!ModuleBase.class.isAssignableFrom(javaClass)) {
                         throw new RuntimeException("Main class `" + description.getMain() + "' does not extend Module");
                     }
                     try {
-                        Class<?> pluginClass = javaClass.asSubclass(Module.class);
-                        module = (Module) pluginClass.newInstance();
+                        Class<?> pluginClass = javaClass.asSubclass(ModuleBase.class);
+                        module = (ModuleBase) pluginClass.newInstance();
                         this.initModule(module, description, file);
                         this.loadedModules.put(module.getName(), module);
                         return module;
@@ -132,23 +132,21 @@ public class ModuleLoader {
         }
     }
 
-    private void initModule(Module module, PluginDescription description, File file) {
+    private void initModule(ModuleBase module, PluginDescription description, File file) {
         module.init(this.server, description, file, plugin);
     }
 
 
-    public static void enableModule(Module module) {
+    public static void enableModule(ModuleBase module) {
         if (module != null && !module.isEnabled()) {
             module.setEnabled(true);
-            module.onEnable();
         }
     }
 
 
-    public static void disableModule(Module module) {
+    public static void disableModule(ModuleBase module) {
         if (module != null && module.isEnabled()) {
             module.setEnabled(false);
-            module.onDisable();
         }
     }
 

@@ -9,7 +9,7 @@ import java.io.File;
 /**
  * @author iGxnon
  */
-public abstract class Module implements IModule {
+public abstract class ModuleBase implements IModule {
 
     private Server server;
     private boolean isEnabled = false;
@@ -20,48 +20,56 @@ public abstract class Module implements IModule {
     private Plugin parentPlugin;
 
     public void init(Server server, PluginDescription description, File file, Plugin parentPlugin) {
-        if(!initialized) {
+        if(!this.initialized) {
             this.description = description;
             this.server = server;
             this.file = file;
             this.parentPlugin = parentPlugin;
-            logger = new ModuleLogger(this, parentPlugin);
-            initialized = true;
+            this.logger = new ModuleLogger(this, parentPlugin);
+            this.initialized = true;
         }
     }
 
     @Override
-    public void setEnabled(boolean val) {
-        isEnabled = true;
+    public void setEnabled(boolean enabled) {
+        if (!this.initialized) {
+            throw new RuntimeException("Not initialized!");
+        }
+        this.isEnabled = enabled;
+        if(this.isEnabled) {
+            this.onEnable();
+        }else {
+            this.onDisable();
+        }
     }
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return this.isEnabled;
     }
 
     public ModuleLogger getLogger() {
-        return logger;
+        return this.logger;
     }
 
     public File getFile() {
-        return file;
+        return this.file;
     }
 
     public PluginDescription getDescription() {
-        return description;
+        return this.description;
     }
 
     public Server getServer() {
-        return server;
+        return this.server;
     }
 
     public Plugin getParentPlugin() {
-        return parentPlugin;
+        return this.parentPlugin;
     }
 
     @Override
     public String getName() {
-        return description.getName();
+        return this.description.getName();
     }
 }

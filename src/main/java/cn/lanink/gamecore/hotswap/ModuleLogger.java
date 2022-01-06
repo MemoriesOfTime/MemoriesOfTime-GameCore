@@ -10,17 +10,17 @@ import lombok.NonNull;
  */
 public class ModuleLogger implements Logger {
 
-    private final Module module;
+    private final ModuleBase module;
     private final String prefix;
     private final Plugin parent;
 
-    public ModuleLogger(@NonNull Module module, @NonNull Plugin parentPlugin) {
+    public ModuleLogger(@NonNull ModuleBase module, @NonNull Plugin parentPlugin) {
         this.module = module;
         this.parent = parentPlugin;
         this.prefix = "[" + module.getName() + "]";
     }
 
-    public Module getModule() {
+    public ModuleBase getModule() {
         return module;
     }
 
