@@ -1,0 +1,157 @@
+package cn.lanink.gamecore.hotswap.load;
+
+import cn.lanink.gamecore.hotswap.Module;
+import cn.nukkit.Server;
+import cn.nukkit.plugin.Plugin;
+import cn.nukkit.plugin.PluginDescription;
+import cn.nukkit.utils.Utils;
+import lombok.NonNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
+/**
+ * @author iGxnon
+ * 实例化该类然后加载你的子模块
+ */
+@SuppressWarnings("unused")
+public class ModuleLoader {
+
+    private final Plugin plugin;
+    private final Server server;
+
+    private final Map<String, Class<?>> classes = new HashMap<>();
+    private final Map<String, ModuleClassLoader> classLoaders = new HashMap<>();
+
+    public ModuleLoader() {
+        throw new RuntimeException("error!");
+    }
+
+    public ModuleLoader(Plugin plugin) {
+        this.plugin = plugin;
+        this.server = plugin.getServer();
+    }
+
+    public Module loadModuleFromWebUrl(String url) {
+        // TODO
+        return null;
+    }
+
+    public Module loadModuleWithDefault(String moduleName) {
+        return loadModule(new File(plugin.getDataFolder() + "/modules/" + moduleName + ".jar"));
+    }
+
+    public Module loadModuleFromModuleFolderAndModuleName(String folder, String moduleName) {
+        return loadModule(new File(plugin.getDataFolder() + "/" + folder + "/" + moduleName + ".jar"));
+    }
+
+
+    public Module loadModule(@NonNull File file) {
+        try {
+            PluginDescription description = this.getModuleDescription(file);
+            if (description != null) {
+                String className = description.getMain();
+                ModuleClassLoader classLoader;
+                try {
+                    // 使用了本类的类加载器作为模块到父加载器，本类加载器是Nukkit提供的PluginClassLoader，所以模块可以访问到插件数据
+                    classLoader = new ModuleClassLoader(this, this.getClass().getClassLoader(), file);
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(description.getName() + " ClassLoader get failed!");
+                }
+                this.classLoaders.put(description.getName(), classLoader);
+                Module module;
+                try {
+                    Class<?> javaClass = classLoader.loadClass(className);
+                    if (!Module.class.isAssignableFrom(javaClass)) {
+                        throw new RuntimeException("Main class `" + description.getMain() + "' does not extend Module");
+                    }
+                    try {
+                        Class<?> pluginClass = javaClass.asSubclass(Module.class);
+                        module = (Module) pluginClass.newInstance();
+                        this.initModule(module, description, file);
+                        return module;
+                    } catch (ClassCastException e) {
+                        throw new RuntimeException(description.getName() + " Error whilst initializing main class");
+                    } catch (InstantiationException | IllegalAccessException e) {
+                        throw new RuntimeException(description.getName() + " load failed case: unknow reason");
+                    }
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(description.getName() + " main class not found");
+                }
+            } else {
+                throw new RuntimeException(file.getName() + " module.yml or plugin.yml not found!");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private PluginDescription getModuleDescription(@NonNull File file) {
+        try (JarFile jar = new JarFile(file)) {
+            JarEntry entry = jar.getJarEntry("module.yml");
+            if (entry == null) {
+                entry = jar.getJarEntry("plugin.yml");
+            }
+            if (entry == null) {
+                return null;
+            }
+            try (InputStream stream = jar.getInputStream(entry)) {
+                return new PluginDescription(Utils.readFile(stream));
+            }
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private void initModule(Module module, PluginDescription description, File file) {
+        module.init(this.server, description, file, plugin);
+    }
+
+
+    public static void enableModule(Module module) {
+        if (module != null && !module.isEnabled()) {
+            module.setEnabled(true);
+            module.onEnable();
+        }
+    }
+
+
+    public static void disableModule(Module module) {
+        if (module != null && module.isEnabled()) {
+            module.setEnabled(false);
+            module.onDisable();
+        }
+    }
+
+    Class<?> getClassByName(final String name) {
+        Class<?> cachedClass = classes.get(name);
+        if (cachedClass != null) {
+            return cachedClass;
+        } else {
+            for (ModuleClassLoader loader : this.classLoaders.values()) {
+                try {
+                    cachedClass = loader.findClass(name, false);
+                } catch (ClassNotFoundException ignore) {
+                }
+                if (cachedClass != null) {
+                    return cachedClass;
+                }
+            }
+        }
+        return null;
+    }
+
+    void setClass(final String name, final Class<?> clazz) {
+        if (!classes.containsKey(name)) {
+            classes.put(name, clazz);
+        }
+    }
+
+}
