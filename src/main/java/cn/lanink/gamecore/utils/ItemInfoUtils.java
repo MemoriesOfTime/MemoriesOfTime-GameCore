@@ -29,7 +29,6 @@ public class ItemInfoUtils {
             throw new AssertionError("Unable to load Resources/ItemInfoData.json");
         }
         JsonArray json = JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8)).getAsJsonArray();
-
         for (JsonElement element : json) {
             if (!element.isJsonObject()) {
                 throw new IllegalStateException("Invalid entry");
