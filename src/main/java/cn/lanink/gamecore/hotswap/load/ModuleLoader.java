@@ -1,6 +1,7 @@
 package cn.lanink.gamecore.hotswap.load;
 
 import cn.lanink.gamecore.hotswap.Module;
+import cn.lanink.gamecore.utils.Download;
 import cn.nukkit.Server;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginDescription;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -29,6 +31,8 @@ public class ModuleLoader {
     private final Map<String, Class<?>> classes = new HashMap<>();
     private final Map<String, ModuleClassLoader> classLoaders = new HashMap<>();
 
+    private final ConcurrentHashMap<String, Module> loadedModules = new ConcurrentHashMap<>();
+
     public ModuleLoader() {
         throw new RuntimeException("error!");
     }
@@ -38,9 +42,26 @@ public class ModuleLoader {
         this.server = plugin.getServer();
     }
 
-    public Module loadModuleFromWebUrl(String url) {
-        // TODO
-        return null;
+    /**
+     * 从url里下载jar包并加载
+     * 注: 这里调用了onEnable
+     *     储存在loadedModules里的是模块配置文件里的name的值
+     * @param url 网络url
+     * @param folder 插件的子模块目录
+     * @param moduleName 子模块名称
+     */
+    public void loadModuleFromWebUrl(String url, String folder, String moduleName) {
+        Download.download(url, new File(plugin.getDataFolder(), folder + "/" + moduleName + ".jar"), file -> {
+            Module module = loadModule(file);
+            module.onEnable();
+        });
+    }
+
+    public void loadModuleFromWebUrl(String url, File saveTo) {
+        Download.download(url, saveTo, file -> {
+            Module module = loadModule(file);
+            module.onEnable();
+        });
     }
 
     public Module loadModuleWithDefault(String moduleName) {
@@ -75,6 +96,7 @@ public class ModuleLoader {
                         Class<?> pluginClass = javaClass.asSubclass(Module.class);
                         module = (Module) pluginClass.newInstance();
                         this.initModule(module, description, file);
+                        this.loadedModules.put(module.getName(), module);
                         return module;
                     } catch (ClassCastException e) {
                         throw new RuntimeException(description.getName() + " Error whilst initializing main class");
