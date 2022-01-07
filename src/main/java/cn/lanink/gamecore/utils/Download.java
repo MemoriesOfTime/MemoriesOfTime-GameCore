@@ -18,8 +18,8 @@ import java.util.function.Consumer;
  */
 public class Download {
 
-    // 每个任务下载 8 kb数据
-    private static final int THRESHOLD = 64 * 1024;
+    // 每个任务下载 128 kb数据
+    private static final int THRESHOLD = 128 * 1024;
 
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -46,6 +46,7 @@ public class Download {
                 // 同步
                 while (!pool.awaitTermination(1, TimeUnit.SECONDS)) {
                 }
+                if (callback == null) return;
                 callback.accept(saveFile);
             }catch (Exception e) {
                 e.printStackTrace();

@@ -51,13 +51,16 @@ public class ModuleLoader {
      * @param moduleName 子模块名称
      */
     public void loadModuleFromWebUrl(String url, String folder, String moduleName) {
-        Download.download(url, new File(plugin.getDataFolder(), folder + "/" + moduleName + ".jar"), file -> {
+        File saveFile = new File(plugin.getDataFolder() + "/" + folder, moduleName + ".jar");
+        saveFile.getParentFile().mkdirs();
+        Download.download(url, saveFile, file -> {
             ModuleBase module = loadModule(file);
             module.setEnabled(true);
         });
     }
 
     public void loadModuleFromWebUrl(String url, File saveTo) {
+        saveTo.getParentFile().mkdirs();
         Download.download(url, saveTo, file -> {
             ModuleBase module = loadModule(file);
             module.setEnabled(true);
@@ -174,4 +177,7 @@ public class ModuleLoader {
         }
     }
 
+    public ConcurrentHashMap<String, ModuleBase> getLoadedModules() {
+        return loadedModules;
+    }
 }

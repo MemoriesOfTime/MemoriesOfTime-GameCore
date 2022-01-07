@@ -1,7 +1,7 @@
 package cn.lanink.gamecore;
 
 import cn.lanink.gamecore.form.WindowListener;
-import cn.lanink.gamecore.hotswap.load.ModuleLoader;
+import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.lanink.gamecore.utils.MetricsLite;
 import cn.nukkit.entity.data.Skin;
@@ -16,7 +16,7 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
-    public static final String VERSION = "?";
+    public static final String VERSION = "1.4.2-SNAPSHOT git-82abf10";
 
     private static GameCore gameCore;
 
@@ -28,7 +28,7 @@ public class GameCore extends PluginBase {
     public static final ModelManager MODEL = new ModelManager();
 
     // 同上
-    public final ModuleLoader moduleLoader = new ModuleLoader(this);
+    public final HotSwapManager hotSwapManager = new HotSwapManager(this);
 
     static {
         Skin skin = new Skin();
@@ -45,6 +45,7 @@ public class GameCore extends PluginBase {
     @Override
     public void onLoad() {
         gameCore = this;
+        this.saveResource("modules.txt");
     }
 
     @Override
@@ -57,7 +58,17 @@ public class GameCore extends PluginBase {
 
         }
 
+
+        hotSwapManager.loadModulesFromLocal();
+
+        hotSwapManager.downloadModules();
+
+
         this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
     }
 
+    @Override
+    public void onDisable() {
+        hotSwapManager.disableAllModules();
+    }
 }
