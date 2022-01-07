@@ -44,7 +44,7 @@ public class ModuleLoader {
 
     /**
      * 从url里下载jar包并加载
-     * 注: 这里调用了onEnable
+     * 注: 这里调用了setEnabled
      *     储存在loadedModules里的是模块配置文件里的name的值
      * @param url 网络url
      * @param folder 插件的子模块目录

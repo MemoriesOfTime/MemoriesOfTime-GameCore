@@ -19,7 +19,8 @@ public abstract class ModuleBase implements IModule {
     private ModuleLogger logger;
     private Plugin parentPlugin;
 
-    public void init(Server server, PluginDescription description, File file, Plugin parentPlugin) {
+    @Override
+    public final void init(Server server, PluginDescription description, File file, Plugin parentPlugin) {
         if(!this.initialized) {
             this.description = description;
             this.server = server;
@@ -31,7 +32,7 @@ public abstract class ModuleBase implements IModule {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
+    public final void setEnabled(boolean enabled) {
         if (!this.initialized) {
             throw new RuntimeException("Not initialized!");
         }
@@ -43,33 +44,42 @@ public abstract class ModuleBase implements IModule {
         }
     }
 
+    protected abstract void onEnable();
+
+    protected abstract void onDisable();
+
     @Override
-    public boolean isEnabled() {
+    public final boolean isEnabled() {
         return this.isEnabled;
     }
 
-    public ModuleLogger getLogger() {
+    @Override
+    public final ModuleLogger getLogger() {
         return this.logger;
     }
 
-    public File getFile() {
+    @Override
+    public final File getFile() {
         return this.file;
     }
 
-    public PluginDescription getDescription() {
+    @Override
+    public final PluginDescription getDescription() {
         return this.description;
     }
 
-    public Server getServer() {
+    @Override
+    public final Server getServer() {
         return this.server;
     }
 
-    public Plugin getParentPlugin() {
+    @Override
+    public final Plugin getParentPlugin() {
         return this.parentPlugin;
     }
 
     @Override
-    public String getName() {
+    public final String getName() {
         return this.description.getName();
     }
 }
