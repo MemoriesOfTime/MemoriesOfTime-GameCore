@@ -16,7 +16,7 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
-    public static final String VERSION = "1.4.2-SNAPSHOT git-82abf10";
+    public static final String VERSION = "1.5.2-SNAPSHOT git-82abf10";
 
     private static GameCore gameCore;
 
@@ -61,7 +61,7 @@ public class GameCore extends PluginBase {
 
         hotSwapManager.loadModulesFromLocal();
 
-        hotSwapManager.downloadModules();
+        hotSwapManager.loadModulesFromWeb();
 
 
         this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);

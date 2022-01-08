@@ -39,7 +39,26 @@ public class Download {
                 HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
                 connection.setReadTimeout(5000);
                 connection.setRequestMethod("GET");
+                connection.setRequestProperty("Connection", "keep-alive");
+                connection.setRequestProperty("Accept", "*/*");
+                connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
+
                 long len = connection.getContentLength();
+                if ("chunked".equals(connection.getHeaderField("Transfer-Encoding"))) { // chunked transfer 采用单线程下载
+                    RandomAccessFile out = new RandomAccessFile(saveFile, "rw");
+                    out.seek(0);
+                    byte[] b = new byte[1024];
+                    InputStream in = connection.getInputStream();
+                    int read = 0;
+                    while ((read = in.read(b)) >= 0) {
+                        out.write(b, 0, read);
+                    }
+                    in.close();
+                    out.close();
+                    if (callback == null) return;
+                    callback.accept(saveFile);
+                    return;
+                }
                 ForkJoinPool pool = new ForkJoinPool();
                 pool.submit(new DownloadTask(strUrl,0, len, saveFile));
                 pool.shutdown();
