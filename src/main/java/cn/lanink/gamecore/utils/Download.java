@@ -77,7 +77,8 @@ public class Download {
             }
         });
         executor.shutdown();
-        return true;
+        //TODO 检查完整性
+        return saveFile.exists();
     }
 
     static class DownloadTask extends RecursiveAction {
