@@ -28,20 +28,23 @@ public class Download {
      * @param strUrl 目标url
      * @param saveFile 保存到文件
      * @param callback 下载完的回调
+     *
+     * @return 是否因为文件不存在而下载
      */
-    public static void download(String strUrl, File saveFile, Consumer<File> callback) {
+    public static boolean download(String strUrl, File saveFile, Consumer<File> callback) {
         if (saveFile.exists()) {
-            return;
+            return false;
         }
         executor.submit(() -> {
             try {
                 URL url = new URL(strUrl);
                 HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
-                connection.setReadTimeout(5000);
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Connection", "keep-alive");
                 connection.setRequestProperty("Accept", "*/*");
                 connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
+                connection.setReadTimeout(5000);
+
 
                 long len = connection.getContentLength();
                 if ("chunked".equals(connection.getHeaderField("Transfer-Encoding"))) { // chunked transfer 采用单线程下载
@@ -72,6 +75,7 @@ public class Download {
             }
         });
         executor.shutdown();
+        return true;
     }
 
     static class DownloadTask extends RecursiveAction {

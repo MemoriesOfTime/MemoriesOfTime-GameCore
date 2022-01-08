@@ -27,7 +27,10 @@ public class HotSwapManager {
     public void downloadModules() {
         ModulesFileLoader loader = new ModulesFileLoader(new File(this.parentPlugin.getDataFolder(), "modules.txt"));
         loader.getHttpUrls().forEach((k, v) -> {
-            Download.download(v, new File(this.parentPlugin.getDataFolder() + "/modules", k + ".jar"), null);
+            boolean checked = Download.download(v, new File(this.parentPlugin.getDataFolder() + "/modules", k + ".jar"), null);
+            if (!checked) {
+                this.parentPlugin.getLogger().info(k + ".jar already exists, skip downloading it");
+            }
         });
     }
 

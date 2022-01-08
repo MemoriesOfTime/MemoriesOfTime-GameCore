@@ -53,18 +53,24 @@ public class ModuleLoader {
     public void loadModuleFromWebUrl(String url, String folder, String moduleName) {
         File saveFile = new File(plugin.getDataFolder() + "/" + folder, moduleName + ".jar");
         saveFile.getParentFile().mkdirs();
-        Download.download(url, saveFile, file -> {
+        boolean checked = Download.download(url, saveFile, file -> {
             ModuleBase module = loadModule(file);
             module.setEnabled(true);
         });
+        if (!checked) {
+            this.plugin.getLogger().info(moduleName + ".jar had already downloaded");
+        }
     }
 
     public void loadModuleFromWebUrl(String url, File saveTo) {
         saveTo.getParentFile().mkdirs();
-        Download.download(url, saveTo, file -> {
+        boolean checked = Download.download(url, saveTo, file -> {
             ModuleBase module = loadModule(file);
             module.setEnabled(true);
         });
+        if (!checked) {
+            this.plugin.getLogger().info(saveTo.getName() + " had already downloaded");
+        }
     }
 
     public ModuleBase loadModuleWithDefault(String moduleName) {
