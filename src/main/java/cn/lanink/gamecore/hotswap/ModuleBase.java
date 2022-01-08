@@ -36,6 +36,9 @@ public abstract class ModuleBase implements IModule {
         if (!this.initialized) {
             throw new RuntimeException("Not initialized!");
         }
+        if (this.isEnabled == enabled) {
+            return;
+        }
         this.isEnabled = enabled;
         if(this.isEnabled) {
             this.onEnable();

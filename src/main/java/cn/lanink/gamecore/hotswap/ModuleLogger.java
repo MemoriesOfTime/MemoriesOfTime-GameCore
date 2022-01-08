@@ -66,7 +66,7 @@ public class ModuleLogger implements Logger {
 
     @Override
     public void log(LogLevel logLevel, String s) {
-        // Nothing here
+        parent.getLogger().log(logLevel, prefix + ": " + s);
     }
 
     @Override
@@ -111,6 +111,6 @@ public class ModuleLogger implements Logger {
 
     @Override
     public void log(LogLevel logLevel, String s, Throwable throwable) {
-        // Nothing here
+        parent.getLogger().log(logLevel, prefix + ": " + s, throwable);
     }
 }
