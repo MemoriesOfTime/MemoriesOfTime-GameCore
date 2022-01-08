@@ -18,6 +18,8 @@ import java.util.function.Consumer;
  */
 public class Download {
 
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
+
     // 每个任务下载 128 kb数据
     private static final int THRESHOLD = 128 * 1024;
 
@@ -42,7 +44,7 @@ public class Download {
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Connection", "keep-alive");
                 connection.setRequestProperty("Accept", "*/*");
-                connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
+                connection.setRequestProperty("User-Agent", USER_AGENT);
                 connection.setReadTimeout(5000);
 
 
@@ -124,7 +126,7 @@ public class Download {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Connection", "keep-alive");
             connection.setRequestProperty("Accept", "*/*");
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
+            connection.setRequestProperty("User-Agent", USER_AGENT);
 
             return connection;
         }
