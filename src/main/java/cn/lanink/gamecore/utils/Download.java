@@ -122,6 +122,10 @@ public class Download {
             HttpURLConnection connection = (HttpURLConnection) new URL(strUrl).openConnection();
             connection.setReadTimeout(5000);
             connection.setRequestMethod("GET");
+            connection.setRequestProperty("Connection", "keep-alive");
+            connection.setRequestProperty("Accept", "*/*");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
+
             return connection;
         }
     }
