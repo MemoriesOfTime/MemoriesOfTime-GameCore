@@ -1,0 +1,3 @@
+[submodule "src/main/resources/Resources"]
+	path = src/main/resources/Resources
+	url = https://github.com/MemoriesOfTime/MemoriesOfTime-GameCore-Resources
