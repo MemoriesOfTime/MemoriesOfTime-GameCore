@@ -23,8 +23,6 @@ public class Download {
     // 每个任务下载 128 kb数据
     private static final int THRESHOLD = 128 * 1024;
 
-    private static final ExecutorService executor = Executors.newSingleThreadExecutor();
-
     /**
      * 下载
      * @param strUrl 目标url
@@ -34,6 +32,7 @@ public class Download {
      * @return 是否因为文件不存在而下载
      */
     public static boolean download(String strUrl, File saveFile, Consumer<File> callback) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         if (saveFile.exists()) {
             return false;
         }
@@ -78,7 +77,11 @@ public class Download {
         });
         executor.shutdown();
         //TODO 检查完整性
-        return saveFile.exists();
+
+        // executor 执行下载可能会比主线程晚一步，这会导致这个返回不确定(大概率是 false，那就和上面不存在返回false一样了)
+        // 这里强行修改成 true，返回值的意义是: true -> `因为文件不存在而下载`; false -> `因为文件存在而不下载`
+        // return saveFile.exists();
+        return true;
     }
 
     static class DownloadTask extends RecursiveAction {
