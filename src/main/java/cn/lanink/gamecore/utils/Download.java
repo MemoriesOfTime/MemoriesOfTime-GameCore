@@ -23,6 +23,7 @@ public class Download {
     // 每个任务下载 128 kb数据
     private static final int THRESHOLD = 128 * 1024;
 
+
     /**
      * 下载
      * @param strUrl 目标url
