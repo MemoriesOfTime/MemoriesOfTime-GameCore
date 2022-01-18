@@ -1,5 +1,6 @@
 package cn.lanink.gamecore;
 
+import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
 import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
@@ -50,25 +51,30 @@ public class GameCore extends PluginBase {
 
     @Override
     public void onEnable() {
+        //Form
         this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
 
+        //HotSwap
+        hotSwapManager.loadModulesFromLocal();
+        hotSwapManager.loadModulesFromWeb();
+
+        //FloatingTextUtils
+        this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.TickTask(this), 1);
+        this.getServer().getScheduler().scheduleAsyncTask(this, new FloatingTextUtils.AsyncTickTask());
+
+        //bStats
         try {
             new MetricsLite(this, 12850);
         }catch (Exception ignored) {
 
         }
 
-
-        hotSwapManager.loadModulesFromLocal();
-
-        hotSwapManager.loadModulesFromWeb();
-
-
         this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
     }
 
     @Override
     public void onDisable() {
+        //HotSwap
         hotSwapManager.disableAllModules();
     }
 }
