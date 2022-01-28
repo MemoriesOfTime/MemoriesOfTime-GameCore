@@ -1,6 +1,7 @@
 package cn.lanink.gamecore.floatingtext;
 
 import cn.lanink.gamecore.GameCore;
+import cn.lanink.gamecore.entity.TextFakeEntity;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Position;
 import cn.nukkit.scheduler.AsyncTask;

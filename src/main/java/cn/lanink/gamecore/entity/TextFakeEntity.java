@@ -1,6 +1,7 @@
-package cn.lanink.gamecore.floatingtext;
+package cn.lanink.gamecore.entity;
 
 import cn.lanink.gamecore.GameCore;
+import cn.lanink.gamecore.ranking.IEntityRanking;
 import cn.lanink.gamecore.utils.EntityUtils;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -24,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
-public class TextFakeEntity extends Position {
+public class TextFakeEntity extends Position implements IEntityRanking {
 
     @Getter
     protected final long id;
