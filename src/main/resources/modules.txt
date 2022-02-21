@@ -1,4 +1,3 @@
-
 # 开头使用 '#' 可以注释掉这一行
 # '#' 要放在一行的开头，前面不能有其他字符
 
@@ -7,7 +6,6 @@
 repo(https://repo.lanink.cn/)
 
 # 类似 Gradle 的格式
-implementation(cn.lanink.module:EasyMySQL:1.0.0)
 implementation(cn.lanink.module:OkHttp3Lib:1.0.0)
 
 # 你也可以使用一个 http 协议的 url 来指定一个模块 jar 包下载并安装
