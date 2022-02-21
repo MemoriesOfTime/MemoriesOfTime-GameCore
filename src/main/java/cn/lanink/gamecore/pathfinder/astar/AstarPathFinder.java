@@ -63,7 +63,7 @@ public class AstarPathFinder implements PathFinder {
     }
 
     @Override
-    public List<Vector3> find(boolean async) {
+    public void find(boolean async) {
         if(async) {
             Server.getInstance().getScheduler().scheduleAsyncTask(GameCore.getInstance(), new AsyncTask() {
                 @Override
@@ -71,9 +71,8 @@ public class AstarPathFinder implements PathFinder {
                     find();
                 }
             });
-            return result == null ? null : getResult();
         }else {
-            return find();
+            this.find();
         }
     }
 

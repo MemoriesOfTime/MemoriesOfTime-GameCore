@@ -1,0 +1,25 @@
+# 开头使用 '#' 可以注释掉这一行
+# '#' 要放在一行的开头，前面不能有其他字符
+
+# 自定义的远程的仓库，注意没有""，很抱歉，目前不能自定义多个
+# ()中间不能有空格
+repo(https://repo.lanink.cn/)
+
+# 类似 Gradle 的格式
+implementation(cn.lanink.module:OkHttp3Lib:1.0.0)
+
+# 你也可以使用一个 http 协议的 url 来指定一个模块 jar 包下载并安装
+http_url(SimpleKotlinLib-1.0.0:https://image-1259160349.cos.ap-chengdu.myqcloud.com/img/SimpleKotlinLib_ModuleForGameCore.jar)
+
+# 更多功能待更新
+
+##############
+
+# 构建规范
+
+# 由于并没有实现类似maven的全部功能，所以加载远程仓库的模块jar包会按照以下规则
+
+# 读取上面的repo，作为主地址
+# 读取上面的implementation，例如读取到 cn.lanink:SimpleKotlinLib:1.0.0
+# 便会尝试下载 https://repo.lanink.cn/cn/lanink/SimpleKotlinLib/1.0.0/SimpleKotlinLib-1.0.0.jar
+# 如果这个模块又依赖另一个jar包，很遗憾，插件不能连同下载
