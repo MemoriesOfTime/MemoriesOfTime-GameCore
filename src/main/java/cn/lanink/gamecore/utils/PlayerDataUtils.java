@@ -135,7 +135,7 @@ public class PlayerDataUtils {
         }
 
         private PlayerData(@NotNull Player player, @NotNull Config config) {
-            this.player = player;
+            this(player);
 
             if (config.exists("inventoryContents")) {
                 this.inventoryContents = linkedHashMapToInventory(config.get("inventoryContents", new HashMap<>()));
@@ -147,10 +147,14 @@ public class PlayerDataUtils {
                 this.enderChestContents = linkedHashMapToInventory(config.get("enderChestContents", new HashMap<>()));
             }
 
-            this.foodLevel = config.getInt("foodLevel", -1);
-            this.foodSaturationLevel = (float) config.getDouble("foodSaturationLevel", -1.0);
+            if (config.exists("foodLevel")) {
+                this.foodLevel = config.getInt("foodLevel", -1);
+                this.foodSaturationLevel = (float) config.getDouble("foodSaturationLevel", -1.0);
+            }
 
-            this.gameMode = config.getInt("gameMode", -1);
+            if (config.exists("gameMode")) {
+                this.gameMode = config.getInt("gameMode", -1);
+            }
         }
 
         /**
