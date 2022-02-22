@@ -25,6 +25,10 @@ public class PlayerDataUtils {
         return new PlayerData(player);
     }
 
+    public static PlayerData create(@NotNull Player player, @NotNull Plugin plugin) {
+        return create(player, new File(plugin.getDataFolder() + "/PlayerStatusData/" + player.getName() + ".json"));
+    }
+
     public static PlayerData create(@NotNull Player player, @NotNull File file) {
         return create(player, new Config(file, Config.JSON));
     }
