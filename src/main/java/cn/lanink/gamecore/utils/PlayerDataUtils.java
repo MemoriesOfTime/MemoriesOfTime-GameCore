@@ -1,7 +1,10 @@
 package cn.lanink.gamecore.utils;
 
+import cn.lanink.gamecore.api.Info;
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.item.Item;
+import cn.nukkit.level.Position;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.utils.Config;
 import org.jetbrains.annotations.NotNull;
@@ -10,10 +13,11 @@ import java.io.File;
 import java.util.*;
 
 /**
- * 玩家数据工具类 - 背包保存 末影箱保存 饥饿值等数据
+ * 玩家数据工具类
  *
  * @author LT_Name
  */
+@Info("玩家数据工具类 - 背包保存 末影箱保存 饥饿值 游戏模式 玩家位置")
 @SuppressWarnings("unused")
 public class PlayerDataUtils {
 
@@ -117,6 +121,38 @@ public class PlayerDataUtils {
         return Base64.getDecoder().decode(hexString);
     }
 
+    /**
+     * Position转为保存用Map
+     *
+     * @param position 位置
+     * @return Map
+     */
+    public static Map<String, Object> positionToMap(Position position) {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+
+        map.put("x", position.x);
+        map.put("y", position.y);
+        map.put("z", position.z);
+        map.put("level", position.level.getFolderName());
+
+        return map;
+    }
+
+    /**
+     * 保存用Map转为Position
+     *
+     * @param map 保存用Map
+     * @return Position
+     */
+    public static Position mapToPosition(Map<String, Object> map) {
+        Position position = new Position(
+                (Double) map.getOrDefault("x", 0.0D),
+                (Double) map.getOrDefault("y", 0.0D),
+                (Double) map.getOrDefault("z", 0.0D),
+                Server.getInstance().getLevelByName((String) map.getOrDefault("level", "world")));
+        return position.isValid() ? position : null;
+    }
+
     public static class PlayerData {
 
         private final Player player;
@@ -129,6 +165,8 @@ public class PlayerDataUtils {
         private float foodSaturationLevel = -1.0F;
 
         private int gameMode = -1;
+
+        private Position position = null;
 
         private PlayerData(@NotNull Player player) {
             this.player = player;
@@ -155,6 +193,10 @@ public class PlayerDataUtils {
             if (config.exists("gameMode")) {
                 this.gameMode = config.getInt("gameMode", -1);
             }
+
+            if (config.exists("position")) {
+                this.position = mapToPosition(config.get("position", new HashMap<>()));
+            }
         }
 
         /**
@@ -167,6 +209,7 @@ public class PlayerDataUtils {
             this.saveEnderChestInventory();
             this.saveFoodData();
             this.saveGameMode();
+            this.savePosition();
 
             return this;
         }
@@ -181,6 +224,7 @@ public class PlayerDataUtils {
             this.restoreEnderChestInventory();
             this.restoreFoodData();
             this.restoreGameMode();
+            this.restorePosition();
 
             return this;
         }
@@ -287,6 +331,30 @@ public class PlayerDataUtils {
         }
 
         /**
+         * 保存玩家位置
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData savePosition() {
+            this.position = this.player.getPosition();
+
+            return this;
+        }
+
+        /**
+         * 还原玩家位置
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData restorePosition() {
+            if (this.position != null) {
+                this.player.setPosition(this.position);
+            }
+
+            return this;
+        }
+
+        /**
          * 保存到文件
          *
          * @param plugin 插件
@@ -330,6 +398,10 @@ public class PlayerDataUtils {
 
             if (this.gameMode >= 0) {
                 config.set("gameMode", this.gameMode);
+            }
+
+            if (this.position != null) {
+                config.set("position", positionToMap(this.position));
             }
 
             config.save();
