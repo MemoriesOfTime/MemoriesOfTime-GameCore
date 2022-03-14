@@ -348,6 +348,7 @@ public class PlayerDataUtils {
          */
         public PlayerData restorePosition() {
             if (this.position != null) {
+                this.player.teleport(this.position, null);
                 this.player.setPosition(this.position);
             }
 
