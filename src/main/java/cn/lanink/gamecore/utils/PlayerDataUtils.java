@@ -1,7 +1,11 @@
 package cn.lanink.gamecore.utils;
 
+import cn.lanink.gamecore.api.Info;
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.item.Item;
+import cn.nukkit.level.Position;
+import cn.nukkit.plugin.Plugin;
 import cn.nukkit.utils.Config;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,10 +13,11 @@ import java.io.File;
 import java.util.*;
 
 /**
- * 玩家数据工具类 - 背包保存 末影箱保存 饥饿值等数据
+ * 玩家数据工具类
  *
  * @author LT_Name
  */
+@Info("玩家数据工具类 - 背包保存 末影箱保存 饥饿值 游戏模式 玩家位置")
 @SuppressWarnings("unused")
 public class PlayerDataUtils {
 
@@ -22,6 +27,10 @@ public class PlayerDataUtils {
 
     public static PlayerData create(@NotNull Player player) {
         return new PlayerData(player);
+    }
+
+    public static PlayerData create(@NotNull Player player, @NotNull Plugin plugin) {
+        return create(player, new File(plugin.getDataFolder() + "/PlayerStatusData/" + player.getName() + ".json"));
     }
 
     public static PlayerData create(@NotNull Player player, @NotNull File file) {
@@ -112,23 +121,59 @@ public class PlayerDataUtils {
         return Base64.getDecoder().decode(hexString);
     }
 
+    /**
+     * Position转为保存用Map
+     *
+     * @param position 位置
+     * @return Map
+     */
+    public static Map<String, Object> positionToMap(Position position) {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+
+        map.put("x", position.x);
+        map.put("y", position.y);
+        map.put("z", position.z);
+        map.put("level", position.level.getFolderName());
+
+        return map;
+    }
+
+    /**
+     * 保存用Map转为Position
+     *
+     * @param map 保存用Map
+     * @return Position
+     */
+    public static Position mapToPosition(Map<String, Object> map) {
+        Position position = new Position(
+                (Double) map.getOrDefault("x", 0.0D),
+                (Double) map.getOrDefault("y", 0.0D),
+                (Double) map.getOrDefault("z", 0.0D),
+                Server.getInstance().getLevelByName((String) map.getOrDefault("level", "world")));
+        return position.isValid() ? position : null;
+    }
+
     public static class PlayerData {
 
         private final Player player;
 
-        private Map<Integer, Item> inventoryContents;
-        private Map<Integer, Item> offhandInventoryContents;
-        private Map<Integer, Item> enderChestContents;
+        private Map<Integer, Item> inventoryContents = null;
+        private Map<Integer, Item> offhandInventoryContents = null;
+        private Map<Integer, Item> enderChestContents = null;
 
-        private int foodLevel = 20;
-        private float foodSaturationLevel = 20.0F;
+        private int foodLevel = -1;
+        private float foodSaturationLevel = -1.0F;
+
+        private int gameMode = -1;
+
+        private Position position = null;
 
         private PlayerData(@NotNull Player player) {
             this.player = player;
         }
 
         private PlayerData(@NotNull Player player, @NotNull Config config) {
-            this.player = player;
+            this(player);
 
             if (config.exists("inventoryContents")) {
                 this.inventoryContents = linkedHashMapToInventory(config.get("inventoryContents", new HashMap<>()));
@@ -139,34 +184,55 @@ public class PlayerDataUtils {
             if (config.exists("enderChestContents")) {
                 this.enderChestContents = linkedHashMapToInventory(config.get("enderChestContents", new HashMap<>()));
             }
-            this.foodLevel = config.getInt("foodLevel", 20);
-            this.foodSaturationLevel = (float) config.getDouble("foodSaturationLevel", 20.0D);
+
+            if (config.exists("foodLevel")) {
+                this.foodLevel = config.getInt("foodLevel", -1);
+                this.foodSaturationLevel = (float) config.getDouble("foodSaturationLevel", -1.0);
+            }
+
+            if (config.exists("gameMode")) {
+                this.gameMode = config.getInt("gameMode", -1);
+            }
+
+            if (config.exists("position")) {
+                this.position = mapToPosition(config.get("position", new HashMap<>()));
+            }
         }
 
         /**
          * 保存所有数据
+         *
+         * @return PlayerData实例
          */
         public PlayerData saveAll() {
             this.saveInventory();
             this.saveEnderChestInventory();
             this.saveFoodData();
+            this.saveGameMode();
+            this.savePosition();
 
             return this;
         }
 
         /**
          * 还原所有已保存的数据
+         *
+         * @return PlayerData实例
          */
         public PlayerData restoreAll() {
             this.restoreInventory();
             this.restoreEnderChestInventory();
             this.restoreFoodData();
+            this.restoreGameMode();
+            this.restorePosition();
 
             return this;
         }
 
         /**
          * 保存玩家背包内容
+         *
+         * @return PlayerData实例
          */
         public PlayerData saveInventory() {
             this.inventoryContents = this.player.getInventory().getContents();
@@ -177,6 +243,8 @@ public class PlayerDataUtils {
 
         /**
          * 还原玩家背包内容
+         *
+         * @return PlayerData实例
          */
         public PlayerData restoreInventory() {
             if (this.inventoryContents != null) {
@@ -191,6 +259,8 @@ public class PlayerDataUtils {
 
         /**
          * 保存玩家末影箱内容
+         *
+         * @return PlayerData实例
          */
         public PlayerData saveEnderChestInventory() {
             this.enderChestContents = this.player.getEnderChestInventory().getContents();
@@ -200,6 +270,8 @@ public class PlayerDataUtils {
 
         /**
          * 还原玩家末影箱内容
+         *
+         * @return PlayerData实例
          */
         public PlayerData restoreEnderChestInventory() {
             if (this.enderChestContents != null) {
@@ -211,6 +283,8 @@ public class PlayerDataUtils {
 
         /**
          * 保存玩家饥饿值数据
+         *
+         * @return PlayerData实例
          */
         public PlayerData saveFoodData() {
             this.foodLevel = this.player.getFoodData().getLevel();
@@ -221,18 +295,92 @@ public class PlayerDataUtils {
 
         /**
          * 还原玩家饥饿值数据
+         *
+         * @return PlayerData实例
          */
         public PlayerData restoreFoodData() {
-            this.player.getFoodData().setLevel(this.foodLevel);
-            this.player.getFoodData().setFoodSaturationLevel(this.foodSaturationLevel);
+            if (this.foodLevel >= 0) {
+                this.player.getFoodData().setLevel(this.foodLevel, this.foodSaturationLevel);
+            }
 
             return this;
         }
 
+        /**
+         * 保存玩家游戏模式
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData saveGameMode() {
+            this.gameMode = this.player.getGamemode();
+
+            return this;
+        }
+
+        /**
+         * 还原玩家游戏模式
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData restoreGameMode() {
+            if (this.gameMode > 0) {
+                this.player.setGamemode(this.gameMode);
+            }
+
+            return this;
+        }
+
+        /**
+         * 保存玩家位置
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData savePosition() {
+            this.position = this.player.getPosition();
+
+            return this;
+        }
+
+        /**
+         * 还原玩家位置
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData restorePosition() {
+            if (this.position != null) {
+                this.player.teleport(this.position, null);
+                this.player.setPosition(this.position);
+            }
+
+            return this;
+        }
+
+        /**
+         * 保存到文件
+         *
+         * @param plugin 插件
+         * @return PlayerData实例
+         */
+        public PlayerData saveToFile(Plugin plugin) {
+            return this.saveToFile(new File(plugin.getDataFolder() + "/PlayerStatusData/" + this.player.getName() + ".json"));
+        }
+
+        /**
+         * 保存到文件
+         *
+         * @param file 文件
+         * @return PlayerData实例
+         */
         public PlayerData saveToFile(File file) {
             return this.saveToFile(new Config(file, Config.JSON));
         }
 
+        /**
+         * 保存到文件
+         *
+         * @param config 配置文件
+         * @return PlayerData实例
+         */
         public PlayerData saveToFile(Config config) {
             if (this.inventoryContents != null) {
                 config.set("inventoryContents", inventoryToLinkedHashMap(this.inventoryContents));
@@ -244,8 +392,18 @@ public class PlayerDataUtils {
                 config.set("enderChestContents", inventoryToLinkedHashMap(this.enderChestContents));
             }
 
-            config.set("foodLevel", this.foodLevel);
-            config.set("foodSaturationLevel", this.foodSaturationLevel);
+            if (this.foodLevel >= 0) {
+                config.set("foodLevel", this.foodLevel);
+                config.set("foodSaturationLevel", this.foodSaturationLevel);
+            }
+
+            if (this.gameMode >= 0) {
+                config.set("gameMode", this.gameMode);
+            }
+
+            if (this.position != null) {
+                config.set("position", positionToMap(this.position));
+            }
 
             config.save();
 
