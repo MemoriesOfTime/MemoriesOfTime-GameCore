@@ -31,7 +31,7 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class WindowListener implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerFormResponded(PlayerFormRespondedEvent event) {
         if (AdvancedFormWindowSimple.onEvent(event.getWindow(), event.getPlayer())) {
             return;
@@ -42,12 +42,12 @@ public class WindowListener implements Listener {
         AdvancedFormWindowCustom.onEvent(event.getWindow(), event.getPlayer());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerSettingsResponded(PlayerSettingsRespondedEvent event) {
         AdvancedFormWindowCustom.onEvent(event.getWindow(), event.getPlayer());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onSettingsRequest(PlayerServerSettingsRequestEvent event) {
         Player player = event.getPlayer();
         HashMap<Integer, FormWindow> map = new HashMap<>(event.getSettings());
@@ -63,17 +63,17 @@ public class WindowListener implements Listener {
         }, 20);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryClick(InventoryClickEvent event) {
         AdvancedInventory.onEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryClose(InventoryCloseEvent event) {
         AdvancedInventory.onEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryTransaction(InventoryTransactionEvent event) {
         AdvancedInventory.onEvent(event);
     }

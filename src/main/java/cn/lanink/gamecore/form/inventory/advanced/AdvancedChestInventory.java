@@ -33,11 +33,6 @@ public class AdvancedChestInventory extends AdvancedInventory {
     }
 
     @Override
-    public Entity getOwner() {
-        return null;
-    }
-
-    @Override
     public BlockEntityChest getBlockOwner() {
         return (BlockEntityChest) getHolder();
     }
