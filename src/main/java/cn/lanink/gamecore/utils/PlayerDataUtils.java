@@ -156,6 +156,7 @@ public class PlayerDataUtils {
     public static class PlayerData {
 
         private final Player player;
+        private Config config = null;
 
         private Map<Integer, Item> inventoryContents = null;
         private Map<Integer, Item> offhandInventoryContents = null;
@@ -174,6 +175,7 @@ public class PlayerDataUtils {
 
         private PlayerData(@NotNull Player player, @NotNull Config config) {
             this(player);
+            this.config = config;
 
             if (config.exists("inventoryContents")) {
                 this.inventoryContents = linkedHashMapToInventory(config.get("inventoryContents", new HashMap<>()));
@@ -352,6 +354,19 @@ public class PlayerDataUtils {
                 this.player.setPosition(this.position);
             }
 
+            return this;
+        }
+
+        /**
+         * 保存到文件（需要提前设置config）
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData saveToFile() {
+            if (this.config == null) {
+                throw new RuntimeException("PlayerData config is null!");
+            }
+            this.saveToFile(this.config);
             return this;
         }
 
