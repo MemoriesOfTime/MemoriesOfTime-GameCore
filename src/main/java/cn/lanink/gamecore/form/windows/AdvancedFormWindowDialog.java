@@ -143,7 +143,7 @@ public class AdvancedFormWindowDialog {
 
         this.getBindEntity().setDataProperty(new ByteEntityData(EntityUtils.getEntityField("DATA_HAS_NPC_COMPONENT", Entity.DATA_HAS_NPC_COMPONENT), 1));
         this.getBindEntity().setDataProperty(new StringEntityData(EntityUtils.getEntityField("DATA_NPC_SKIN_ID", Entity.DATA_NPC_SKIN_ID), this.getSkinData()));
-        this.getBindEntity().setDataProperty(new StringEntityData(EntityUtils.getEntityField("DATA_NPC_ACTIONS", 41), actionJson));
+        this.getBindEntity().setDataProperty(new StringEntityData(EntityUtils.getEntityField("DATA_URL_TAG", Entity.DATA_URL_TAG), actionJson));
         this.getBindEntity().setDataProperty(new StringEntityData(EntityUtils.getEntityField("DATA_INTERACTIVE_TAG", Entity.DATA_INTERACTIVE_TAG), this.getContent()));
 
         NPCDialoguePacket packet = new NPCDialoguePacket();
@@ -180,7 +180,6 @@ public class AdvancedFormWindowDialog {
         ResponseElementDialogButton clickedButton = response.getClickedButton();
         if (packet.getRequestType() == NPCRequestPacket.RequestType.EXECUTE_ACTION && clickedButton != null) {
             clickedButton.callClicked(player, response);
-            dialog.close(player, response);
             dialog.isClosed = true;
         }
 
