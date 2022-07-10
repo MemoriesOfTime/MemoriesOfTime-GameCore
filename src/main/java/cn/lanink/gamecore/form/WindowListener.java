@@ -1,6 +1,8 @@
 package cn.lanink.gamecore.form;
 
 import cn.lanink.gamecore.GameCore;
+import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
+import cn.lanink.gamecore.form.windows.AdvancedFormWindowDialog;
 import cn.lanink.gamecore.form.inventory.advanced.AdvancedInventory;
 import cn.lanink.gamecore.form.windows.AdvancedFormWindowCustom;
 import cn.lanink.gamecore.form.windows.AdvancedFormWindowModal;
@@ -16,6 +18,7 @@ import cn.nukkit.event.inventory.InventoryTransactionEvent;
 import cn.nukkit.event.player.PlayerFormRespondedEvent;
 import cn.nukkit.event.player.PlayerServerSettingsRequestEvent;
 import cn.nukkit.event.player.PlayerSettingsRespondedEvent;
+import cn.nukkit.event.server.DataPacketReceiveEvent;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.network.protocol.ServerSettingsResponsePacket;
 
@@ -30,6 +33,15 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public class WindowListener implements Listener {
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onDataPacketReceive(DataPacketReceiveEvent event) {
+        if (event.getPacket() instanceof NPCRequestPacket) {
+            if (AdvancedFormWindowDialog.onEvent((NPCRequestPacket) event.getPacket(), event.getPlayer())) {
+                event.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerFormResponded(PlayerFormRespondedEvent event) {
