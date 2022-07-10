@@ -1,6 +1,6 @@
 name: MemoriesOfTime-GameCore
 main: cn.lanink.gamecore.GameCore
-version: "1.5.6"
+version: "1.5.7-SNAPSHOT"
 api: ["1.0.0"]
 load: STARTUP
 authors: ["LT_Name", "iGxnon"]
