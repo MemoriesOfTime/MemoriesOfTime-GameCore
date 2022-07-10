@@ -5,6 +5,8 @@ import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.lanink.gamecore.utils.MetricsLite;
+import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
+import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
 import com.google.gson.Gson;
