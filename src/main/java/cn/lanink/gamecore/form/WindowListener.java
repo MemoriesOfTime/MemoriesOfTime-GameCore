@@ -1,7 +1,6 @@
 package cn.lanink.gamecore.form;
 
 import cn.lanink.gamecore.GameCore;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.lanink.gamecore.form.windows.AdvancedFormWindowDialog;
 import cn.lanink.gamecore.form.inventory.advanced.AdvancedInventory;
 import cn.lanink.gamecore.form.windows.AdvancedFormWindowCustom;
@@ -20,6 +19,7 @@ import cn.nukkit.event.player.PlayerServerSettingsRequestEvent;
 import cn.nukkit.event.player.PlayerSettingsRespondedEvent;
 import cn.nukkit.event.server.DataPacketReceiveEvent;
 import cn.nukkit.form.window.FormWindow;
+import cn.nukkit.network.protocol.NPCRequestPacket;
 import cn.nukkit.network.protocol.ServerSettingsResponsePacket;
 
 import java.util.HashMap;

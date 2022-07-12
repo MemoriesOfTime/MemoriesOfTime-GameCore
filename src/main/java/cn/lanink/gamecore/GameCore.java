@@ -1,7 +1,5 @@
 package cn.lanink.gamecore;
 
-import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
 import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
@@ -55,9 +53,6 @@ public class GameCore extends PluginBase {
 
     @Override
     public void onEnable() {
-        this.getServer().getNetwork().registerPacket(NPCDialoguePacket.NETWORK_ID, NPCDialoguePacket.class);
-        this.getServer().getNetwork().registerPacket(NPCRequestPacket.NETWORK_ID, NPCRequestPacket.class);
-
         //Form
         this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
 
