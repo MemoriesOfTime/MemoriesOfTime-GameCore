@@ -5,6 +5,7 @@ import cn.lanink.gamecore.api.Info;
 /**
  * @author lt_name
  */
+@Deprecated
 @SuppressWarnings("unused")
 public interface IRoomStatus {
 

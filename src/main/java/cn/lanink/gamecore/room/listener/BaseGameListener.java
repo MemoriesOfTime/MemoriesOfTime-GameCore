@@ -1,6 +1,6 @@
-package cn.lanink.gamecore.listener;
+package cn.lanink.gamecore.room.listener;
 
-import cn.lanink.gamecore.room.IRoom;
+import cn.lanink.gamecore.room.IGameRoom;
 import cn.lanink.gamecore.utils.exception.GameListenerInitException;
 import cn.nukkit.level.Level;
 
@@ -10,9 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
-@Deprecated
 @SuppressWarnings("unused")
-public abstract class BaseGameListener<T extends IRoom> implements IGameListener<T> {
+public abstract class BaseGameListener<T extends IGameRoom> implements IGameListener<T> {
 
     private String listenerName = null;
     private final ConcurrentHashMap<String, T> listenerRooms = new ConcurrentHashMap<>();
@@ -21,11 +20,11 @@ public abstract class BaseGameListener<T extends IRoom> implements IGameListener
     public final void init(String listenerName) throws GameListenerInitException {
         if (this.listenerName == null) {
             if (listenerName == null || listenerName.trim().isEmpty()) {
-                throw new GameListenerInitException("空参数");
+                throw new GameListenerInitException("Empty parameter");
             }
             this.listenerName = listenerName;
         }else {
-            throw new GameListenerInitException("重复初始化");
+            throw new GameListenerInitException("Repeat initialization");
         }
     }
 
