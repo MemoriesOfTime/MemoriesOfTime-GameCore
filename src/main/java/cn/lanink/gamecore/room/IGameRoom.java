@@ -4,6 +4,9 @@ import cn.nukkit.Player;
 import cn.nukkit.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author LT_Name
  */
@@ -19,6 +22,15 @@ public interface IGameRoom {
      * @return 游戏模式
      */
     String getGameMode();
+
+    /**
+     * 获取房间要启用的监听器
+     *
+     * @return 监听器列表
+     */
+    default List<String> getListeners() {
+        return new ArrayList<>();
+    }
 
     /**
      * 设置房间状态
@@ -47,5 +59,19 @@ public interface IGameRoom {
     default boolean isCanJoin(@Nullable Player player) {
         return this.getStatus() == GameRoomStatus.ROOM_READY;
     }
+
+    /**
+     * 房间更新 每tick调用一次
+     *
+     * @param tick 当前tick
+     */
+    void onUpdate(int tick);
+
+    /**
+     * 房间异步更新 每tick调用一次
+     *
+     * @param tick 当前tick
+     */
+    void onAsyncUpdate(int tick);
 
 }
