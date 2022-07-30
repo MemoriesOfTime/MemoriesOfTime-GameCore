@@ -1,8 +1,12 @@
 package cn.lanink.gamecore.room;
 
 import cn.nukkit.level.Level;
+import cn.nukkit.plugin.Plugin;
+import lombok.Getter;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author LT_Name
@@ -10,34 +14,66 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class GameRoomManager {
 
-    private GameRoomManager() {
-        throw new RuntimeException("error");
+    private static final ConcurrentHashMap<Plugin, GameRoomManager> GAME_ROOM_MANAGER_MAP = new ConcurrentHashMap<>();
+
+    public static GameRoomManager get(Plugin plugin) {
+        return GAME_ROOM_MANAGER_MAP.computeIfAbsent(plugin, GameRoomManager::new);
     }
 
-    private static final HashMap<String, GameRoom> GAME_ROOM_MAP = new HashMap<>();
+    @Getter
+    private final Plugin plugin;
+    private final ConcurrentHashMap<String, IGameRoom> gameRoomMap = new ConcurrentHashMap<>();
 
-    public static boolean hasGameRoom(Level level) {
+    private GameRoomManager(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public boolean hasGameRoom(Level level) {
         return hasGameRoom(level.getFolderName());
     }
 
-    public static boolean hasGameRoom(String world) {
-        return GAME_ROOM_MAP.containsKey(world);
+    public boolean hasGameRoom(String world) {
+        return this.gameRoomMap.containsKey(world);
     }
 
-    public static void addGameRoom(Level level, GameRoom gameRoom) {
-        addGameRoom(level.getFolderName(), gameRoom);
+    public IGameRoom getGameRoom(Level level) {
+        return this.getGameRoom(level.getFolderName());
     }
 
-    public static void addGameRoom(String level, GameRoom gameRoom) {
-        GAME_ROOM_MAP.put(level, gameRoom);
+    public IGameRoom getGameRoom(String world) {
+        return this.gameRoomMap.get(world);
     }
 
-    public static void removeGameRoom(Level level) {
-        removeGameRoom(level.getFolderName());
+    public List<IGameRoom> getGameRoomsByMode(String gameMode) {
+        return this.getGameRoomsByMode(gameMode, false);
     }
 
-    public static void removeGameRoom(String level) {
-        GAME_ROOM_MAP.remove(level);
+    public List<IGameRoom> getGameRoomsByMode(String gameMode, boolean checkCanJoin) {
+        ArrayList<IGameRoom> list = new ArrayList<>();
+        for (IGameRoom room : this.gameRoomMap.values()) {
+            if (checkCanJoin && room.isCanJoin()) {
+                if (room.getGameMode().equalsIgnoreCase(gameMode)) {
+                    list.add(room);
+                }
+            }
+        }
+        return list;
+    }
+
+    public void addGameRoom(Level level, IGameRoom iGameRoom) {
+        this.addGameRoom(level.getFolderName(), iGameRoom);
+    }
+
+    public void addGameRoom(String level, IGameRoom iGameRoom) {
+        this.gameRoomMap.put(level, iGameRoom);
+    }
+
+    public void removeGameRoom(Level level) {
+        this.removeGameRoom(level.getFolderName());
+    }
+
+    public void removeGameRoom(String level) {
+        this.gameRoomMap.remove(level);
     }
 
 }
