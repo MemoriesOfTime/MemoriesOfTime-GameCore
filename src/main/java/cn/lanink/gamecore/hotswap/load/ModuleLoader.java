@@ -98,8 +98,7 @@ public class ModuleLoader {
             }
             this.classLoaders.put(description.getName(), classLoader);
 
-            // 将模块的类加载器注入到 nk 的插件加载器里，不支持 PEM1
-            // todo 支持 PM1E
+            // 将模块的类加载器注入到 nk 的插件加载器里，不支持 PM1E
             try {
                 PluginClassLoader injectPluginClassLoader = new PluginClassLoader((JavaPluginLoader) GameCore.getInstance().getPluginLoader(), classLoader, file);
                 Field loadersF = PluginManager.class.getDeclaredField("fileAssociations");
