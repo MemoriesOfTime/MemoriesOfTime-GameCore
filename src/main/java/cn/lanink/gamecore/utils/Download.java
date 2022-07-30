@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.utils;
 
+import cn.lanink.gamecore.GameCore;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 
@@ -23,6 +24,43 @@ public class Download {
     // 每个任务下载 128 kb数据
     private static final int THRESHOLD = 128 * 1024;
 
+    private static void download(String strUrl, File saveFile) throws Exception {
+        HttpURLConnection connection = DownloadTask.getConnection(strUrl);
+
+        long len = connection.getContentLength();
+        if ("chunked".equals(connection.getHeaderField("Transfer-Encoding"))) { // chunked transfer 采用单线程下载
+            RandomAccessFile out = new RandomAccessFile(saveFile, "rw");
+            out.seek(0);
+            byte[] b = new byte[1024];
+            InputStream in = connection.getInputStream();
+            int read = 0;
+            while ((read = in.read(b)) >= 0) {
+                out.write(b, 0, read);
+            }
+            in.close();
+            out.close();
+            return;
+        }
+        ForkJoinPool pool = new ForkJoinPool();
+        pool.submit(new DownloadTask(strUrl,0, len, saveFile));
+        pool.shutdown();
+        // 同步
+        while (!pool.awaitTermination(1, TimeUnit.SECONDS)) {
+        }
+    }
+
+    public static boolean downloadSync(String strUrl, File saveFile) {
+        if (saveFile.exists()) {
+            return false;
+        }
+        try {
+            download(strUrl, saveFile);
+            return true;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     /**
      * 下载
@@ -32,52 +70,19 @@ public class Download {
      *
      * @return 是否因为文件不存在而下载
      */
-    public static boolean download(String strUrl, File saveFile, Consumer<File> callback) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+    public static boolean downloadAsync(String strUrl, File saveFile, Consumer<File> callback) {
         if (saveFile.exists()) {
             return false;
         }
-        executor.submit(() -> {
+        GameCore.DownloadTaskExecutor.submit(() -> {
             try {
-                URL url = new URL(strUrl);
-                HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Connection", "keep-alive");
-                connection.setRequestProperty("Accept", "*/*");
-                connection.setRequestProperty("User-Agent", USER_AGENT);
-                connection.setReadTimeout(5000);
-
-
-                long len = connection.getContentLength();
-                if ("chunked".equals(connection.getHeaderField("Transfer-Encoding"))) { // chunked transfer 采用单线程下载
-                    RandomAccessFile out = new RandomAccessFile(saveFile, "rw");
-                    out.seek(0);
-                    byte[] b = new byte[1024];
-                    InputStream in = connection.getInputStream();
-                    int read = 0;
-                    while ((read = in.read(b)) >= 0) {
-                        out.write(b, 0, read);
-                    }
-                    in.close();
-                    out.close();
-                    if (callback == null) return;
-                    callback.accept(saveFile);
-                    return;
-                }
-                ForkJoinPool pool = new ForkJoinPool();
-                pool.submit(new DownloadTask(strUrl,0, len, saveFile));
-                pool.shutdown();
-                // 同步
-                while (!pool.awaitTermination(1, TimeUnit.SECONDS)) {
-                }
+                download(strUrl, saveFile);
                 if (callback == null) return;
                 callback.accept(saveFile);
             }catch (Exception e) {
                 e.printStackTrace();
             }
         });
-        executor.shutdown();
-        //TODO 检查完整性
 
         // executor 执行下载可能会比主线程晚一步，这会导致这个返回不确定(大概率是 false，那就和上面不存在返回false一样了)
         // 这里强行修改成 true，返回值的意义是: true -> `因为文件不存在而下载`; false -> `因为文件存在而不下载`
@@ -103,7 +108,7 @@ public class Download {
         @Override
         protected void compute() {
             if (end - start < THRESHOLD) {
-                HttpURLConnection connection = getConnection();
+                HttpURLConnection connection = getConnection(this.strUrl);
                 connection.setRequestProperty("Range", "bytes=" + start + "-" + end);
 
                 RandomAccessFile out = new RandomAccessFile(file, "rw");
@@ -125,7 +130,7 @@ public class Download {
             }
         }
 
-        public HttpURLConnection getConnection() throws IOException {
+        static HttpURLConnection getConnection(String strUrl) throws IOException {
             HttpURLConnection connection = (HttpURLConnection) new URL(strUrl).openConnection();
             connection.setReadTimeout(5000);
             connection.setRequestMethod("GET");

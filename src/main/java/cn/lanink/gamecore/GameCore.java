@@ -12,6 +12,8 @@ import cn.nukkit.plugin.PluginBase;
 import com.google.gson.Gson;
 
 import java.util.Base64;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author lt_name
@@ -19,6 +21,7 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
+    public static final ExecutorService DownloadTaskExecutor = Executors.newScheduledThreadPool(3);
     public static final String VERSION = "?";
 
     public static boolean debug = false;
@@ -83,5 +86,6 @@ public class GameCore extends PluginBase {
     public void onDisable() {
         //HotSwap
         hotSwapManager.disableAllModules();
+        DownloadTaskExecutor.shutdown();
     }
 }

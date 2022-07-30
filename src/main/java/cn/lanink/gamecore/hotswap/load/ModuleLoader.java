@@ -53,25 +53,17 @@ public class ModuleLoader {
      */
     public void loadModuleFromWebUrl(String url, String folder, String moduleName) {
         File saveFile = new File(plugin.getDataFolder() + "/" + folder, moduleName + ".jar");
-        saveFile.getParentFile().mkdirs();
-        boolean checked = Download.download(url, saveFile, file -> {
-            ModuleBase module = loadModule(file);
-            module.setEnabled(true);
-        });
-        if (!checked) {
-            this.plugin.getLogger().info(moduleName + ".jar had already downloaded");
-        }
+        loadModuleFromWebUrl(url, saveFile);
     }
 
     public void loadModuleFromWebUrl(String url, File saveTo) {
         saveTo.getParentFile().mkdirs();
-        boolean checked = Download.download(url, saveTo, file -> {
-            ModuleBase module = loadModule(file);
-            module.setEnabled(true);
-        });
+        boolean checked = Download.downloadSync(url, saveTo);
         if (!checked) {
-            this.plugin.getLogger().info(saveTo.getName() + " had already downloaded");
+            this.plugin.getLogger().info(saveTo.getName() + ".jar had already downloaded");
         }
+        ModuleBase module = loadModule(saveTo);
+        module.setEnabled(true);
     }
 
     public ModuleBase loadModuleWithDefault(String moduleName) {
@@ -82,13 +74,14 @@ public class ModuleLoader {
         return loadModule(new File(plugin.getDataFolder() + "/" + folder + "/" + moduleName + ".jar"));
     }
 
-
     public ModuleBase loadModule(@NonNull File file) {
+        return loadModule(file, getModuleDescription(file));
+    }
+
+    public ModuleBase loadModule(@NonNull File file, PluginDescription description) {
         try {
-            PluginDescription description = this.getModuleDescription(file);
             if (description == null)
                 throw new RuntimeException(file.getName() + " module.yml or plugin.yml not found!");
-            String className = description.getMain();
             ModuleClassLoader classLoader;
             try {
                 // 使用了本类的类加载器作为模块到父加载器，本类加载器是Nukkit提供的PluginClassLoader，所以模块可以访问到插件数据
@@ -98,7 +91,7 @@ public class ModuleLoader {
             }
             this.classLoaders.put(description.getName(), classLoader);
 
-            // 将模块的类加载器注入到 nk 的插件加载器里，不支持 PM1E
+            // 将模块的类加载器注入到 nk 的插件加载器里，不支持 PM1E, 2022/7/30 已经获得 PM1 本人同意，之后的 PM1ENK 的发行版本会支持
             try {
                 PluginClassLoader injectPluginClassLoader = new PluginClassLoader((JavaPluginLoader) GameCore.getInstance().getPluginLoader(), classLoader, file);
                 Field loadersF = PluginManager.class.getDeclaredField("fileAssociations");
@@ -118,6 +111,7 @@ public class ModuleLoader {
                 GameCore.getInstance().getLogger().warning("§c plugins in the outside may not be able to depend on this module");
             }
 
+            String className = description.getMain();
             ModuleBase module;
             try {
                 Class<?> javaClass = classLoader.loadClass(className);
@@ -144,7 +138,7 @@ public class ModuleLoader {
         return null;
     }
 
-    private PluginDescription getModuleDescription(@NonNull File file) {
+    public static PluginDescription getModuleDescription(@NonNull File file) {
         try (JarFile jar = new JarFile(file)) {
             JarEntry entry = jar.getJarEntry("module.yml");
             if (entry == null) {
