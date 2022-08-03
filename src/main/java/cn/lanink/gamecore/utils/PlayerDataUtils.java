@@ -7,6 +7,7 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Position;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.utils.Config;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -156,6 +157,9 @@ public class PlayerDataUtils {
     public static class PlayerData {
 
         private final Player player;
+        @Getter
+        private File file = null;
+        @Getter
         private Config config = null;
 
         private Map<Integer, Item> inventoryContents = null;
@@ -165,6 +169,9 @@ public class PlayerDataUtils {
         private int foodLevel = -1;
         private float foodSaturationLevel = -1.0F;
 
+        private int exp = -1;
+        private int expLevel = -1;
+
         private int gameMode = -1;
 
         private Position position = null;
@@ -173,32 +180,62 @@ public class PlayerDataUtils {
             this.player = player;
         }
 
+        private PlayerData(@NotNull Player player, @NotNull File file) {
+            this(player);
+            this.file = file;
+
+            this.reload();
+        }
+
         private PlayerData(@NotNull Player player, @NotNull Config config) {
             this(player);
             this.config = config;
 
-            if (config.exists("inventoryContents")) {
+            this.reload();
+        }
+
+        /**
+         * 重新读取
+         *
+         * @return 是否成功
+         */
+        public boolean reload() {
+            if (this.file == null || !this.file.exists()) {
+                return false;
+            }
+            if (this.config == null) {
+                this.config = new Config(this.file, Config.JSON);
+            }
+
+            if (this.config.exists("inventoryContents")) {
                 this.inventoryContents = linkedHashMapToInventory(config.get("inventoryContents", new HashMap<>()));
             }
-            if (config.exists("offhandInventoryContents")) {
+            if (this.config.exists("offhandInventoryContents")) {
                 this.offhandInventoryContents = linkedHashMapToInventory(config.get("offhandInventoryContents", new HashMap<>()));
             }
-            if (config.exists("enderChestContents")) {
+            if (this.config.exists("enderChestContents")) {
                 this.enderChestContents = linkedHashMapToInventory(config.get("enderChestContents", new HashMap<>()));
             }
 
-            if (config.exists("foodLevel")) {
+            if (this.config.exists("foodLevel")) {
                 this.foodLevel = config.getInt("foodLevel", -1);
                 this.foodSaturationLevel = (float) config.getDouble("foodSaturationLevel", -1.0);
             }
 
-            if (config.exists("gameMode")) {
+            if (this.config.exists("exp")) {
+                this.exp = config.getInt("exp", -1);
+                this.expLevel = config.getInt("expLevel", -1);
+            }
+
+            if (this.config.exists("gameMode")) {
                 this.gameMode = config.getInt("gameMode", -1);
             }
 
-            if (config.exists("position")) {
+            if (this.config.exists("position")) {
                 this.position = mapToPosition(config.get("position", new HashMap<>()));
             }
+
+            return true;
         }
 
         /**
@@ -210,6 +247,7 @@ public class PlayerDataUtils {
             this.saveInventory();
             this.saveEnderChestInventory();
             this.saveFoodData();
+            this.saveExperienceLevel();
             this.saveGameMode();
             this.savePosition();
 
@@ -225,6 +263,7 @@ public class PlayerDataUtils {
             this.restoreInventory();
             this.restoreEnderChestInventory();
             this.restoreFoodData();
+            this.restoreExperienceLevel();
             this.restoreGameMode();
             this.restorePosition();
 
@@ -309,6 +348,36 @@ public class PlayerDataUtils {
         }
 
         /**
+         * 保存玩家经验值数据
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData saveExperienceLevel() {
+            this.exp = this.player.getExperience();
+            this.expLevel = this.player.getExperienceLevel();
+
+            return this;
+        }
+
+        /**
+         * 还原玩家经验值数据
+         *
+         * @return PlayerData实例
+         */
+        public PlayerData restoreExperienceLevel() {
+            if (this.exp >= 0) {
+                if (this.expLevel >= 0) {
+                    this.player.setExperience(this.exp, this.expLevel);
+                } else {
+                    this.player.setExperience(this.exp);
+                }
+
+            }
+
+            return this;
+        }
+
+        /**
          * 保存玩家游戏模式
          *
          * @return PlayerData实例
@@ -355,6 +424,10 @@ public class PlayerDataUtils {
             }
 
             return this;
+        }
+
+        public boolean isFileExists() {
+            return this.file != null && this.file.exists();
         }
 
         /**
@@ -410,6 +483,11 @@ public class PlayerDataUtils {
             if (this.foodLevel >= 0) {
                 config.set("foodLevel", this.foodLevel);
                 config.set("foodSaturationLevel", this.foodSaturationLevel);
+            }
+
+            if (this.exp >= 0) {
+                config.set("exp", this.exp);
+                config.set("expLevel", this.expLevel);
             }
 
             if (this.gameMode >= 0) {
