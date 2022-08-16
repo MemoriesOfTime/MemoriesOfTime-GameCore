@@ -11,8 +11,6 @@ import cn.nukkit.network.protocol.NPCDialoguePacket;
 import cn.nukkit.network.protocol.NPCRequestPacket;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
