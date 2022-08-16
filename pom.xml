@@ -257,7 +257,7 @@
         <dependency>
             <groupId>cn.powernukkitx</groupId>
             <artifactId>powernukkitx</artifactId>
-            <version>1.6.0.0-PNX-SNAPSHOT</version>
+            <version>1.19.20-r4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
