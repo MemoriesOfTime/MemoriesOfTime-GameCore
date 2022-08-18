@@ -1,6 +1,5 @@
 package cn.lanink.gamecore.utils;
 
-import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.api.Info;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -206,10 +205,10 @@ public class PlayerDataUtils {
          * @return 是否成功
          */
         public boolean reload() {
-            if (this.file == null || !this.file.exists()) {
-                return false;
-            }
             if (this.config == null) {
+                if (this.file == null || !this.file.exists()) {
+                    return false;
+                }
                 this.config = new Config(this.file, Config.JSON);
             }
 
