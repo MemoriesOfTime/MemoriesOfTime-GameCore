@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.utils;
 
+import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.api.Info;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -55,9 +56,11 @@ public class PlayerDataUtils {
 
             LinkedList<String> list = new LinkedList<>();
             if (item != null) {
-                list.add(item.getId() + ":" + item.getDamage());
-                list.add(String.valueOf(item.getCount()));
-                list.add(bytesToBase64(item.getCompoundTag()));
+                String namespaceId = item.getNamespaceId();
+                list.add(namespaceId); //0
+                list.add(String.valueOf(item.getCount())); //1
+                list.add(bytesToBase64(item.getCompoundTag())); //2
+                list.add(String.valueOf(item.getDamage())); //3 为了兼容之前的版本放在后面
             }
 
             linkedHashMap.put(i + "", list);
@@ -90,6 +93,9 @@ public class PlayerDataUtils {
             item.setCount(Integer.parseInt(list.get(1)));
             if (!"not".equals(String.valueOf(list.get(2)))) {
                 item.setNamedTag(Item.parseCompoundTag(base64ToBytes(list.get(2))));
+            }
+            if (list.size() >= 4) {
+                item.setDamage(Integer.parseInt(list.get(3)));
             }
             map.put(Integer.parseInt(entry.getKey()), item);
         }
