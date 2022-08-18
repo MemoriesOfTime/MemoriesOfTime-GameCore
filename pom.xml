@@ -6,7 +6,7 @@
 
     <groupId>cn.lanink</groupId>
     <artifactId>MemoriesOfTime-GameCore</artifactId>
-    <version>1.6.0.1-PNX<!-- -SNAPSHOT--></version>
+    <version>1.6.1.0-PNX-SNAPSHOT</version>
 
     <name>MemoriesOfTime-GameCore</name>
     <description>MemoriesOfTime-GameCore -- A dependency</description>
@@ -257,7 +257,7 @@
         <dependency>
             <groupId>cn.powernukkitx</groupId>
             <artifactId>powernukkitx</artifactId>
-            <version>1.19.20-r4</version>
+            <version>1.19.20-r5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -281,7 +281,7 @@
         <dependency>
             <groupId>net.easecation</groupId>
             <artifactId>Ghosty</artifactId>
-            <version>lib-1.1.0</version>
+            <version>lib-1.2.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
