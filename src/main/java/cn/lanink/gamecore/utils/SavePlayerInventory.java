@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.utils;
 
+import cn.lanink.gamecore.GameCore;
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
 import cn.nukkit.nbt.tag.CompoundTag;
@@ -22,6 +23,7 @@ public class SavePlayerInventory {
      * @param plugin 插件（获取存储路径）
      * @param player 玩家
      */
+    @Deprecated
     public static void save(Plugin plugin, Player player) {
         save(plugin.getDataFolder() + "/PlayerInventory", player);
     }
@@ -31,7 +33,14 @@ public class SavePlayerInventory {
      * @param dataFolder 存放路径
      * @param player 玩家
      */
+    @Deprecated
     public static void save(String dataFolder, Player player) {
+        try {
+            throw new RuntimeException();
+        }catch (Exception e) {
+            GameCore.getInstance().getLogger().warning("SavePlayerInventory#save()方法即将被弃用！", e);
+        }
+
         Config config = new Config(new File(dataFolder + "/" + player.getName() + ".json"), Config.JSON);
         config.set("Inventory", inventoryToLinkedHashMap(player));
         config.save();
@@ -44,11 +53,18 @@ public class SavePlayerInventory {
      * @param plugin 插件（获取存储路径）
      * @param player 玩家
      */
+    @Deprecated
     public static void restore(Plugin plugin, Player player) {
         restore(plugin.getDataFolder() + "/PlayerInventory", player);
     }
 
     public static void restore(String dataFolder, Player player) {
+        try {
+            throw new RuntimeException();
+        }catch (Exception e) {
+            GameCore.getInstance().getLogger().warning("SavePlayerInventory#restore()方法即将被弃用！", e);
+        }
+
         File file = new File(dataFolder + "/" + player.getName() + ".json");
         if (file.exists()) {
             Config config = new Config(file, Config.JSON);
@@ -65,7 +81,14 @@ public class SavePlayerInventory {
      * @param player 玩家
      * @return LinkedHashMap
      */
+    @Deprecated
     public static LinkedHashMap<String, Object> inventoryToLinkedHashMap(Player player) {
+        try {
+            throw new RuntimeException();
+        }catch (Exception e) {
+            GameCore.getInstance().getLogger().warning("SavePlayerInventory#inventoryToLinkedHashMap()方法即将被弃用！", e);
+        }
+
         LinkedHashMap<String, Object> inventory = new LinkedHashMap<>();
         for (int i = -1; i < player.getInventory().getSize() + 4; i++) {
             LinkedList<String> list = new LinkedList<>();
@@ -89,7 +112,14 @@ public class SavePlayerInventory {
      * @param src 字节数组
      * @return base64字符串
      */
+    @Deprecated
     public static String bytesToBase64(byte[] src) {
+        try {
+            throw new RuntimeException();
+        }catch (Exception e) {
+            GameCore.getInstance().getLogger().warning("SavePlayerInventory#bytesToBase64()方法即将被弃用！", e);
+        }
+
         if (src == null || src.length <= 0) {
             return "not";
         }
@@ -101,7 +131,14 @@ public class SavePlayerInventory {
      * @param player 玩家
      * @param inventory 物品Map
      */
+    @Deprecated
     public static void putInventory(Player player, Map<String, Object> inventory) {
+        try {
+            throw new RuntimeException();
+        }catch (Exception e) {
+            GameCore.getInstance().getLogger().warning("SavePlayerInventory#putInventory()方法即将被弃用！", e);
+        }
+
         if (inventory == null || inventory.isEmpty()) {
             return;
         }
@@ -137,7 +174,14 @@ public class SavePlayerInventory {
      * @param hexString base64
      * @return 字节数组
      */
+    @Deprecated
     public static byte[] base64ToBytes(String hexString) {
+        try {
+            throw new RuntimeException();
+        }catch (Exception e) {
+            GameCore.getInstance().getLogger().warning("SavePlayerInventory#base64ToBytes()方法即将被弃用！", e);
+        }
+
         if (hexString == null || "".equals(hexString)) {
             return null;
         }

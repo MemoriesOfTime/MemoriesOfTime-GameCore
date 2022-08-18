@@ -51,6 +51,10 @@ public class GameCore extends PluginBase {
     public void onLoad() {
         gameCore = this;
         this.saveResource("modules.txt");
+
+        //HotSwap
+        this.hotSwapManager.loadModulesFromLocal();
+        this.hotSwapManager.loadModulesFromWeb();
     }
 
     @Override
@@ -60,10 +64,6 @@ public class GameCore extends PluginBase {
 
         //Form
         this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
-
-        //HotSwap
-        hotSwapManager.loadModulesFromLocal();
-        hotSwapManager.loadModulesFromWeb();
 
         //FloatingTextUtils
         this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.TickTask(this), 1);
