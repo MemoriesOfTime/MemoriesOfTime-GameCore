@@ -55,9 +55,9 @@ public class PlayerDataUtils {
 
             LinkedList<String> list = new LinkedList<>();
             if (item != null) {
-                list.add(item.getId() + ":" + item.getDamage());
-                list.add(String.valueOf(item.getCount()));
-                list.add(bytesToBase64(item.getCompoundTag()));
+                list.add(item.getId() + ":" + item.getDamage()); //0
+                list.add(String.valueOf(item.getCount())); //1
+                list.add(bytesToBase64(item.getCompoundTag())); //2
             }
 
             linkedHashMap.put(i + "", list);
@@ -200,10 +200,10 @@ public class PlayerDataUtils {
          * @return 是否成功
          */
         public boolean reload() {
-            if (this.file == null || !this.file.exists()) {
-                return false;
-            }
             if (this.config == null) {
+                if (this.file == null || !this.file.exists()) {
+                    return false;
+                }
                 this.config = new Config(this.file, Config.JSON);
             }
 
