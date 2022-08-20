@@ -56,7 +56,7 @@ public class PlayerDataUtils {
                 list.add(entry.getValue().getNamespaceId()); //0
                 list.add(String.valueOf(entry.getValue().getCount())); //1
                 list.add(bytesToBase64(entry.getValue().getCompoundTag())); //2
-                list.add(String.valueOf(item.getDamage())); //3 为了兼容之前的版本放在后面
+                list.add(String.valueOf(entry.getValue().getDamage())); //3 为了兼容之前的版本放在后面
             }
 
             linkedHashMap.put(entry.getKey() + "", list);
