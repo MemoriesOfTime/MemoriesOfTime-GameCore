@@ -50,17 +50,15 @@ public class PlayerDataUtils {
      */
     public static LinkedHashMap<String, List<?>> inventoryToLinkedHashMap(@NotNull Map<Integer, Item> inventoryContents) {
         LinkedHashMap<String, List<?>> linkedHashMap = new LinkedHashMap<>();
-        for (int i = 0; i < inventoryContents.size(); i++) {
-            Item item = inventoryContents.get(i);
-
+        for (Map.Entry<Integer, Item> entry : inventoryContents.entrySet()) {
             LinkedList<String> list = new LinkedList<>();
-            if (item != null) {
-                list.add(item.getId() + ":" + item.getDamage()); //0
-                list.add(String.valueOf(item.getCount())); //1
-                list.add(bytesToBase64(item.getCompoundTag())); //2
+            if (entry.getValue() != null) {
+                list.add(entry.getValue().getId() + ":" + entry.getValue().getDamage()); //0
+                list.add(String.valueOf(entry.getValue().getCount())); //1
+                list.add(bytesToBase64(entry.getValue().getCompoundTag())); //2
             }
 
-            linkedHashMap.put(i + "", list);
+            linkedHashMap.put(entry.getKey() + "", list);
         }
         return linkedHashMap;
     }
