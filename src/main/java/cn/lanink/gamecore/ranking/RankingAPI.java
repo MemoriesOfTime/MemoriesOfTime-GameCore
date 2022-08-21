@@ -5,7 +5,6 @@ import cn.lanink.gamecore.ranking.task.AsyncUpdateTask;
 import cn.lanink.gamecore.ranking.task.UpdateTask;
 import cn.nukkit.level.Position;
 import cn.nukkit.plugin.Plugin;
-import cn.nukkit.plugin.PluginLogger;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +13,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public class RankingAPI {
 
-    private static RankingAPI rankingAPI;
+    private static final RankingAPI rankingAPI;
+
+    static {
+        rankingAPI = new RankingAPI();
+    }
 
     @Getter
     private boolean isEnabled;
@@ -28,11 +31,10 @@ public class RankingAPI {
         return rankingAPI;
     }
 
-    public void onLoad() {
-        rankingAPI = this;
-    }
-
-    public void onEnable() {
+    public void enable() {
+        if (this.isEnabled) {
+            return;
+        }
         this.asyncUpdateTask = new AsyncUpdateTask();
         GameCore.getInstance().getServer().getScheduler().scheduleAsyncTask(GameCore.getInstance(), this.asyncUpdateTask);
 
@@ -41,13 +43,17 @@ public class RankingAPI {
         this.isEnabled = true;
     }
 
-    public void onDisable() {
+    public void disable() {
+        if (!this.isEnabled) {
+            return;
+        }
         for (Ranking ranking : this.asyncUpdateTask.getRankings()) {
             ranking.close();
         }
         for (Ranking ranking : this.updateTask.getRankings()) {
             ranking.close();
         }
+        this.isEnabled = false;
     }
 
     /**
@@ -60,11 +66,6 @@ public class RankingAPI {
      */
     public static Ranking createRanking(@NotNull Plugin plugin, @NotNull String name, @NotNull Position position) {
         return new Ranking(plugin, name, position);
-    }
-
-
-    public PluginLogger getLogger() {
-        return GameCore.getInstance().getLogger();
     }
 
 }
