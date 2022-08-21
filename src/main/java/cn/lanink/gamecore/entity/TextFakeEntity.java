@@ -55,6 +55,8 @@ public class TextFakeEntity extends Position implements IEntityRanking {
     private final Set<Player> hasSpawned = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     @Getter
+    protected String defaultShowText;
+    @Getter
     protected final Map<Player, String> showTextMap = new ConcurrentHashMap<>();
 
     @Getter
@@ -92,7 +94,7 @@ public class TextFakeEntity extends Position implements IEntityRanking {
     }
 
     public void setShowText(@NotNull String showText) {
-        this.showTextMap.put(null, showText);
+        this.defaultShowText = showText;
     }
 
     public void setShowText(@NotNull Player player, @NotNull String showText) {
@@ -141,7 +143,7 @@ public class TextFakeEntity extends Position implements IEntityRanking {
                 if (!this.hasSpawned.contains(player) || i % 2400 == 0) {
                     this.spawnTo(player);
                 }
-                this.sendText(player, this.getShowTextMap().get(null));
+                this.sendText(player, this.getDefaultShowText());
             }
         }
         for (Map.Entry<Player, String> entry : this.getShowTextMap().entrySet()) {
@@ -164,7 +166,7 @@ public class TextFakeEntity extends Position implements IEntityRanking {
     }
 
     public boolean hasDefaultShowText() {
-        return this.showTextMap.get(null) != null && this.showTextMap.get(null).length() > 0;
+        return this.defaultShowText != null && !this.defaultShowText.isEmpty();
     }
 
     public void spawnTo(@NotNull Player player) {

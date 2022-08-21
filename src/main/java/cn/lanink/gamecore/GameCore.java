@@ -1,5 +1,6 @@
 package cn.lanink.gamecore;
 
+import cn.lanink.gamecore.ranking.RankingAPI;
 import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
 import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
@@ -19,7 +20,7 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
-    public static final String VERSION = "?";
+    public static final String VERSION = "1.6.2-SNAPSHOT git-f8bbda3";
 
     public static boolean debug = false;
 
@@ -69,6 +70,9 @@ public class GameCore extends PluginBase {
         this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.TickTask(this), 1);
         this.getServer().getScheduler().scheduleAsyncTask(this, new FloatingTextUtils.AsyncTickTask());
 
+        //RankingAPI
+        RankingAPI.getInstance().enable();
+
         //bStats
         try {
             new MetricsLite(this, 12850);
@@ -82,6 +86,9 @@ public class GameCore extends PluginBase {
     @Override
     public void onDisable() {
         //HotSwap
-        hotSwapManager.disableAllModules();
+        this.hotSwapManager.disableAllModules();
+
+        //RankingAPI
+        RankingAPI.getInstance().disable();
     }
 }

@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.ranking;
 
+import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.entity.TextFakeEntity;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -172,7 +173,7 @@ public class Ranking {
             this.entityRanking = newEntityRanking.getConstructor().newInstance();
             this.entityRanking.setPosition(this.position);
         } catch (Exception e) {
-            this.rankingAPI.getLogger().error("创建实体时出现错误：", e);
+            GameCore.getInstance().getLogger().error("[RankingAPI] 创建实体时出现错误：", e);
         }
     }
 
