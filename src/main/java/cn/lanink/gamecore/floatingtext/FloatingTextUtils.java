@@ -1,7 +1,7 @@
 package cn.lanink.gamecore.floatingtext;
 
 import cn.lanink.gamecore.GameCore;
-import cn.lanink.gamecore.entity.TextFakeEntity;
+import cn.lanink.gamecore.entity.TextFakeTextFakeEntity;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Position;
 import cn.nukkit.scheduler.AsyncTask;
@@ -16,13 +16,13 @@ import java.util.Map;
  */
 public class FloatingTextUtils {
 
-    private static final HashMap<Long, TextFakeEntity> ENTITY_MAP = new HashMap<>();
+    private static final HashMap<Long, TextFakeTextFakeEntity> ENTITY_MAP = new HashMap<>();
 
     /**
      * 临时显示一个浮空字
      */
-    public static TextFakeEntity showTextTemporary(@NotNull Position position, @NotNull String showText, int showTick) {
-        TextFakeEntity textFakeEntity = new TextFakeEntity(getIdleID());
+    public static TextFakeTextFakeEntity showTextTemporary(@NotNull Position position, @NotNull String showText, int showTick) {
+        TextFakeTextFakeEntity textFakeEntity = new TextFakeTextFakeEntity(getIdleID());
         textFakeEntity.setPosition(position);
         textFakeEntity.setShowText(showText);
         if (showTick > 0) {
@@ -36,7 +36,7 @@ public class FloatingTextUtils {
      * @return 空闲实体id
      */
     public static long getIdleID() {
-        for (Map.Entry<Long, TextFakeEntity> entry : ENTITY_MAP.entrySet()) {
+        for (Map.Entry<Long, TextFakeTextFakeEntity> entry : ENTITY_MAP.entrySet()) {
             if (entry.getValue().isClosed()) {
                 return entry.getKey();
             }
@@ -52,7 +52,7 @@ public class FloatingTextUtils {
 
         @Override
         public void onRun(int i) {
-            for (TextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
+            for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 try {
                     if (textFakeEntity.needTick()) {
                         textFakeEntity.onTick(i);
@@ -90,13 +90,13 @@ public class FloatingTextUtils {
                 this.tick++;
             }
 
-            for (TextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
+            for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 textFakeEntity.close();
             }
         }
 
         private void work(int tick) {
-            for (TextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
+            for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 try {
                     if (textFakeEntity.needAsyncTick()) {
                         textFakeEntity.onAsyncTick(tick);
