@@ -1,14 +1,16 @@
 package cn.lanink.gamecore;
 
+import cn.lanink.gamecore.ranking.RankingAPI;
+import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
+import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
 import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.lanink.gamecore.utils.MetricsLite;
-import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.utils.Config;
 import com.google.gson.Gson;
 
 import java.util.Base64;
@@ -19,7 +21,6 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
-    public static final String VERSION = "?";
 
     public static boolean debug = false;
 
@@ -69,6 +70,9 @@ public class GameCore extends PluginBase {
         this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.TickTask(this), 1);
         this.getServer().getScheduler().scheduleAsyncTask(this, new FloatingTextUtils.AsyncTickTask());
 
+        //RankingAPI
+        RankingAPI.getInstance().enable();
+
         //bStats
         try {
             new MetricsLite(this, 12850);
@@ -76,12 +80,22 @@ public class GameCore extends PluginBase {
 
         }
 
-        this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
+        this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + this.getVersion());
     }
 
     @Override
     public void onDisable() {
         //HotSwap
-        hotSwapManager.disableAllModules();
+        this.hotSwapManager.disableAllModules();
+
+        //RankingAPI
+        RankingAPI.getInstance().disable();
     }
+
+    public String getVersion() {
+        Config config = new Config(Config.PROPERTIES);
+        config.load(this.getResource("git.properties"));
+        return config.get("git.build.version", this.getDescription().getVersion()) + "-" + config.get("git.commit.id.abbrev", "Unknown");
+    }
+
 }

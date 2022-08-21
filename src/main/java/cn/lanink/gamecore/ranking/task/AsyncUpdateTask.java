@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.ranking.task;
 
+import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.ranking.Ranking;
 import cn.lanink.gamecore.ranking.RankingAPI;
 import cn.nukkit.scheduler.AsyncTask;
@@ -43,14 +44,14 @@ public class AsyncUpdateTask extends AsyncTask implements IRankingAPITask {
             try {
                 this.work(this.tick);
             } catch (Exception e) {
-                RankingAPI.getInstance().getLogger().error("AsyncUpdateTask遍历Ranking时出错：", e);
+                GameCore.getInstance().getLogger().error("[RankingAPI] AsyncUpdateTask遍历Ranking时出错：", e);
             }
 
             long duration = System.currentTimeMillis() - startTime;
             try {
                 Thread.sleep(Math.max(50L - duration, 1));
             } catch (Exception e) {
-                RankingAPI.getInstance().getLogger().error("AsyncUpdateTask尝试休眠时出错：", e);
+                GameCore.getInstance().getLogger().error("[RankingAPI] AsyncUpdateTask尝试休眠时出错：", e);
             }
 
             this.tick++;
