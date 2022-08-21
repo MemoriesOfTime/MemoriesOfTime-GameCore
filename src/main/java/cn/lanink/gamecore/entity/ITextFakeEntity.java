@@ -1,4 +1,4 @@
-package cn.lanink.gamecore.ranking;
+package cn.lanink.gamecore.entity;
 
 import cn.nukkit.Player;
 import cn.nukkit.level.Position;
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author lt_name
  */
-public interface IEntityRanking {
+public interface ITextFakeEntity {
 
     void setPosition(Position position);
 
