@@ -10,6 +10,7 @@ import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.lanink.gamecore.utils.MetricsLite;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.utils.Config;
 import com.google.gson.Gson;
 
 import java.util.Base64;
@@ -20,7 +21,6 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
-    public static final String VERSION = "1.6.2-SNAPSHOT git-f8bbda3";
 
     public static boolean debug = false;
 
@@ -80,7 +80,7 @@ public class GameCore extends PluginBase {
 
         }
 
-        this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
+        this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + this.getVersion());
     }
 
     @Override
@@ -91,4 +91,11 @@ public class GameCore extends PluginBase {
         //RankingAPI
         RankingAPI.getInstance().disable();
     }
+
+    public String getVersion() {
+        Config config = new Config(Config.PROPERTIES);
+        config.load(this.getResource("git.properties"));
+        return config.get("git.build.version", this.getDescription().getVersion()) + "-" + config.get("git.commit.id.abbrev", "Unknown");
+    }
+
 }

@@ -122,15 +122,9 @@
                         </goals>
                         <configuration>
                             <includes>
-                                <include>${project.basedir}/src/main/java/cn/lanink/gamecore/GameCore.java</include>
                                 <include>${project.basedir}/src/main/resources/plugin.yml</include>
                             </includes>
                             <replacements>
-                                <replacement>
-                                    <token>VERSION = ".*"</token>
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <value>VERSION = "${project.version} git-${git.commit.id.abbrev}"</value>
-                                </replacement>
                                 <replacement>
                                     <token>version: ".*"</token>
                                     <value>version: "${project.version}"</value>
