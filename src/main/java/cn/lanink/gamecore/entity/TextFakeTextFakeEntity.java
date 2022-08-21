@@ -1,7 +1,6 @@
 package cn.lanink.gamecore.entity;
 
 import cn.lanink.gamecore.GameCore;
-import cn.lanink.gamecore.ranking.IEntityRanking;
 import cn.lanink.gamecore.utils.EntityUtils;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -25,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
-public class TextFakeEntity extends Position implements IEntityRanking {
+public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity {
 
     @Getter
     protected final long id;
@@ -62,11 +61,11 @@ public class TextFakeEntity extends Position implements IEntityRanking {
     @Getter
     private int maxCanSeeDistance = 16 * Server.getInstance().getViewDistance();
 
-    public TextFakeEntity() {
+    public TextFakeTextFakeEntity() {
         this.id = Entity.entityCount++;
     }
 
-    public TextFakeEntity(long id) {
+    public TextFakeTextFakeEntity(long id) {
         this.id = id;
     }
 

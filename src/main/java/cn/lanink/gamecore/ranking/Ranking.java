@@ -1,7 +1,8 @@
 package cn.lanink.gamecore.ranking;
 
 import cn.lanink.gamecore.GameCore;
-import cn.lanink.gamecore.entity.TextFakeEntity;
+import cn.lanink.gamecore.entity.ITextFakeEntity;
+import cn.lanink.gamecore.entity.TextFakeTextFakeEntity;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.level.Position;
@@ -30,7 +31,7 @@ public class Ranking {
     @Getter
     private Position position;
     @Getter
-    private IEntityRanking entityRanking;
+    private ITextFakeEntity entityRanking;
     private RankingFormat rankingFormat = RankingFormat.getDefaultFormat();
 
     private Supplier<Map<String, ? extends Number>> supplier = null;
@@ -58,7 +59,7 @@ public class Ranking {
         this.plugin = plugin;
         this.setName(name);
         this.setPosition(position);
-        this.setRankingEntity(TextFakeEntity.class);
+        this.setRankingEntity(TextFakeTextFakeEntity.class);
         this.schedulerTask();
     }
 
@@ -165,7 +166,7 @@ public class Ranking {
      *
      * @param newEntityRanking 新排行榜实体
      */
-    public void setRankingEntity(@NotNull Class<? extends IEntityRanking> newEntityRanking) {
+    public void setRankingEntity(@NotNull Class<? extends ITextFakeEntity> newEntityRanking) {
         if (this.entityRanking != null) {
             this.entityRanking.close();
         }
