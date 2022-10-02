@@ -71,10 +71,14 @@ public class GameRoomManager<T extends GameRoom> {
         return true;
     }
 
+    public T getCanJoinGameRoom() {
+        return null;
+    }
+
     /**
      * @return 玩家可以加入的房间游戏列表
      */
-    public List<T> getCanJoinGameRoom() {
+    public List<T> getCanJoinGameRoomList() {
         return new ArrayList<>(this.gameRoomMap.values());
     }
 
