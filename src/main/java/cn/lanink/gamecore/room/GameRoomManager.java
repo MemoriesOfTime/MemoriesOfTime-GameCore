@@ -2,42 +2,80 @@ package cn.lanink.gamecore.room;
 
 import cn.nukkit.level.Level;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author LT_Name
  */
 @SuppressWarnings("unused")
-public class GameRoomManager {
+public class GameRoomManager<T extends GameRoom> {
 
-    private GameRoomManager() {
-        throw new RuntimeException("error");
+    private final ConcurrentHashMap<String, T> gameRoomMap = new ConcurrentHashMap<>();
+
+    public GameRoomManager() {
+
     }
 
-    private static final HashMap<String, GameRoom> GAME_ROOM_MAP = new HashMap<>();
-
-    public static boolean hasGameRoom(Level level) {
+    public boolean hasGameRoom(Level level) {
         return hasGameRoom(level.getFolderName());
     }
 
-    public static boolean hasGameRoom(String world) {
-        return GAME_ROOM_MAP.containsKey(world);
+    public boolean hasGameRoom(String world) {
+        return this.gameRoomMap.containsKey(world);
     }
 
-    public static void addGameRoom(Level level, GameRoom gameRoom) {
+    public void addGameRoom(Level level, T gameRoom) {
         addGameRoom(level.getFolderName(), gameRoom);
     }
 
-    public static void addGameRoom(String level, GameRoom gameRoom) {
-        GAME_ROOM_MAP.put(level, gameRoom);
+    public void addGameRoom(String level, T gameRoom) {
+        this.gameRoomMap.put(level, gameRoom);
     }
 
-    public static void removeGameRoom(Level level) {
+    public void removeGameRoom(Level level) {
         removeGameRoom(level.getFolderName());
     }
 
-    public static void removeGameRoom(String level) {
-        GAME_ROOM_MAP.remove(level);
+    public void removeGameRoom(String level) {
+        this.gameRoomMap.remove(level);
+    }
+
+    public T getGameRoom(Level level) {
+        return getGameRoom(level.getFolderName());
+    }
+
+    public T getGameRoom(String level) {
+        return this.gameRoomMap.get(level);
+    }
+
+    public ConcurrentHashMap<String, T> getGameRoomMap() {
+        return gameRoomMap;
+    }
+
+    public boolean loadGameRoom(Level level) {
+        return loadGameRoom(level.getFolderName());
+    }
+
+    public boolean loadGameRoom(String level) {
+        return !this.gameRoomMap.containsKey(level);
+    }
+
+    public boolean unloadGameRoom(Level level) {
+        return unloadGameRoom(level.getFolderName());
+    }
+
+    public boolean unloadGameRoom(String world) {
+        this.gameRoomMap.remove(world);
+        return true;
+    }
+
+    /**
+     * @return 玩家可以加入的房间游戏列表
+     */
+    public List<T> getCanJoinGameRoom() {
+        return new ArrayList<>(this.gameRoomMap.values());
     }
 
 }
