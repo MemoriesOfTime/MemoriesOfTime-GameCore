@@ -38,7 +38,12 @@ public class ScoreboardUtil {
                     }
                     scoreboard = new cn.lanink.gamecore.scoreboard.theamychan.SimpleScoreboard();
                 } catch (Exception e1) {
-                    scoreboard = new cn.lanink.gamecore.scoreboard.ltname.SimpleScoreboard();
+                    try {
+                        Class.forName("cn.nukkit.scoreboard.scoreboard.ScoreboardLine");
+                        scoreboard = new cn.lanink.gamecore.scoreboard.powernukkitx.SimpleScoreboard();
+                    } catch (Exception e2) {
+                        scoreboard = new cn.lanink.gamecore.scoreboard.ltname.SimpleScoreboard();
+                    }
                 }
             }
         }

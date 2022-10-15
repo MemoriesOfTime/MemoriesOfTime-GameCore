@@ -1,13 +1,16 @@
-package cn.lanink.gamecore.scoreboard.ltname;
+package cn.lanink.gamecore.scoreboard.powernukkitx;
 
 import cn.lanink.gamecore.scoreboard.base.IScoreboard;
 import cn.nukkit.Player;
+import cn.nukkit.scoreboard.data.DisplaySlot;
+import cn.nukkit.scoreboard.data.SortOrder;
+import cn.nukkit.scoreboard.scoreboard.Scoreboard;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author lt_name
+ * @author LT_Name
  */
 public class SimpleScoreboard implements IScoreboard {
 
@@ -15,7 +18,7 @@ public class SimpleScoreboard implements IScoreboard {
 
     @Override
     public String getScoreboardName() {
-        return "lt-name(cn.lanink.gamecore.scoreboard.ltname)";
+        return "PowerNukkitX(cn.nukkit.scoreboard.scoreboard)";
     }
 
     @Override
@@ -24,26 +27,19 @@ public class SimpleScoreboard implements IScoreboard {
                 new Scoreboard(
                         title,
                         title,
-                        ScoreboardData.DisplaySlot.SIDEBAR,
-                        ScoreboardData.SortOrder.ASCENDING)
+                        "dummy",
+                        SortOrder.ASCENDING)
         );
-        scoreboard.clearAllLine();
-        int line = 0;
-        for (String string : message) {
-            scoreboard.setLine(line, string, line);
-            line++;
-        }
-        scoreboard.show(player);
-        scoreboard.updateDisplayLine();
+        scoreboard.setLines(message);
+        scoreboard.addViewer(player, DisplaySlot.SIDEBAR);
         this.scoreboards.put(player, scoreboard);
     }
 
     @Override
     public void closeScoreboard(Player player) {
         if (this.scoreboards.containsKey(player)) {
-            this.scoreboards.get(player).hide(player);
+            this.scoreboards.get(player).removeViewer(player, DisplaySlot.SIDEBAR);
             this.scoreboards.remove(player);
         }
     }
-
 }
