@@ -6,7 +6,7 @@
 
     <groupId>cn.lanink</groupId>
     <artifactId>MemoriesOfTime-GameCore</artifactId>
-    <version>1.6.3.0-PM1E<!-- -SNAPSHOT--></version>
+    <version>1.6.4.0-PM1E-SNAPSHOT</version>
 
     <name>MemoriesOfTime-GameCore</name>
     <description>MemoriesOfTime-GameCore -- A dependency</description>

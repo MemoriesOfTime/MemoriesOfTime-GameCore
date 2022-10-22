@@ -1,10 +1,10 @@
 package cn.lanink.gamecore.form.windows;
 
 import cn.lanink.gamecore.form.element.ResponseElementDialogButton;
-import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.lanink.gamecore.form.response.FormResponseDialog;
 import cn.lanink.gamecore.utils.EntityUtils;
+import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
+import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.Player;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.data.ByteEntityData;
@@ -81,6 +81,11 @@ public class AdvancedFormWindowDialog {
         this.buttons = buttons;
     }
 
+    public ResponseElementDialogButton addAdvancedButton(String text) {
+        return this.addButton(new ResponseElementDialogButton(text, text));
+    }
+
+    @Deprecated
     public ResponseElementDialogButton addButton(String text) {
         return this.addButton(new ResponseElementDialogButton(text, text));
     }

@@ -2,8 +2,8 @@ package cn.lanink.gamecore.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -25,7 +25,7 @@ public class ZipUtils {
                 throw new Exception("创建解压目标文件夹失败");
             }
         }
-        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath));
+        ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(Paths.get(zipFilePath)));
         ZipEntry zipEntry = zipInputStream.getNextEntry();
         while (zipEntry != null) {
             String unzipFilePath = desDirectory + File.separator + zipEntry.getName();
@@ -34,7 +34,7 @@ public class ZipUtils {
             } else {
                 File file = new File(unzipFilePath);
                 mkdir(file.getParentFile());
-                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(unzipFilePath));
+                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(Files.newOutputStream(Paths.get(unzipFilePath)));
                 byte[] bytes = new byte[1024];
                 int readLen;
                 while ((readLen = zipInputStream.read(bytes)) != -1) {
