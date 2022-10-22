@@ -396,7 +396,7 @@ public class PlayerDataUtils {
          * @return PlayerData实例
          */
         public PlayerData restoreGameMode() {
-            if (this.gameMode > 0) {
+            if (this.gameMode >= 0) {
                 this.player.setGamemode(this.gameMode);
             }
 
