@@ -66,12 +66,7 @@ public class HotSwapManager {
                         .listFiles()))
                 .filter(File::isFile)
                 .filter(file -> file.getName().endsWith(".jar"))
-                .forEach(file -> {
-                    ModuleBase module = this.moduleLoader.loadModule(file);
-                    if (module != null) {
-                        module.setEnabled(true);
-                    }
-                });
+                .forEach(this.moduleLoader::loadModule);
     }
 
     public ModuleBase loadModuleFromLocal(File file) {
@@ -86,8 +81,22 @@ public class HotSwapManager {
         return this.moduleLoader.getLoadedModules();
     }
 
+    public void enableModule(String name) {
+        if (this.getLoadedModules().containsKey(name)) {
+            this.getLoadedModules().get(name).setEnabled(true);
+        }
+    }
+
+    public void enableAllModules() {
+        this.getLoadedModules().forEach((k, v) -> {
+            v.setEnabled(true);
+        });
+    }
+
     public void disableModule(String name) {
-        this.getLoadedModules().get(name).setEnabled(false);
+        if (this.getLoadedModules().containsKey(name)) {
+            this.getLoadedModules().get(name).setEnabled(false);
+        }
     }
 
     public void disableAllModules() {
