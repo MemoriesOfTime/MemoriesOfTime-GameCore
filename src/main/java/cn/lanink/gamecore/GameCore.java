@@ -1,13 +1,13 @@
 package cn.lanink.gamecore;
 
-import cn.lanink.gamecore.ranking.RankingAPI;
-import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
 import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
+import cn.lanink.gamecore.ranking.RankingAPI;
 import cn.lanink.gamecore.utils.MetricsLite;
+import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
+import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
@@ -62,6 +62,9 @@ public class GameCore extends PluginBase {
     public void onEnable() {
         this.getServer().getNetwork().registerPacket(NPCDialoguePacket.NETWORK_ID, NPCDialoguePacket.class);
         this.getServer().getNetwork().registerPacket(NPCRequestPacket.NETWORK_ID, NPCRequestPacket.class);
+
+        //HotSwap
+        this.hotSwapManager.enableAllModules();
 
         //Form
         this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
