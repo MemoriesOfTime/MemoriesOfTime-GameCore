@@ -43,6 +43,10 @@ public class ModuleLoader {
         this.server = plugin.getServer();
     }
 
+    public void enabledModules() {
+        this.loadedModules.values().forEach(moduleBase -> moduleBase.setEnabled(true));
+    }
+
     /**
      * 从url里下载jar包并加载
      * 注: 这里调用了setEnabled
@@ -54,10 +58,7 @@ public class ModuleLoader {
     public void loadModuleFromWebUrl(String url, String folder, String moduleName) {
         File saveFile = new File(plugin.getDataFolder() + "/" + folder, moduleName + ".jar");
         saveFile.getParentFile().mkdirs();
-        boolean checked = Download.download(url, saveFile, file -> {
-            ModuleBase module = loadModule(file);
-            module.setEnabled(true);
-        });
+        boolean checked = Download.download(url, saveFile, this::loadModule);
         if (!checked) {
             this.plugin.getLogger().info(moduleName + ".jar had already downloaded");
         }
@@ -65,10 +66,7 @@ public class ModuleLoader {
 
     public void loadModuleFromWebUrl(String url, File saveTo) {
         saveTo.getParentFile().mkdirs();
-        boolean checked = Download.download(url, saveTo, file -> {
-            ModuleBase module = loadModule(file);
-            module.setEnabled(true);
-        });
+        boolean checked = Download.download(url, saveTo, this::loadModule);
         if (!checked) {
             this.plugin.getLogger().info(saveTo.getName() + " had already downloaded");
         }
@@ -162,7 +160,7 @@ public class ModuleLoader {
     }
 
     private void initModule(ModuleBase module, PluginDescription description, File file) {
-        module.init(this.server, description, file, plugin);
+        module.init(Server.getInstance(), description, file, this.plugin);
     }
 
 

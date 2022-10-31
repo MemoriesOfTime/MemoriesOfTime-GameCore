@@ -81,7 +81,7 @@ public class AdvancedFormWindowDialog extends cn.nukkit.dialog.window.FormWindow
         packet.setDialogue(this.getContent());
         packet.setNpcName(this.getTitle());
         packet.setSceneName(this.getSceneName());
-        packet.setActionJson(this.getButtonJSONData());
+        packet.setActionJson(actionJson);
         WINDOW_DIALOG_CACHE.put(this.getSceneName(), this);
         player.dataPacket(packet);
     }

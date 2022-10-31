@@ -5,6 +5,7 @@ import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
 import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
+import cn.lanink.gamecore.ranking.RankingAPI;
 import cn.lanink.gamecore.utils.MetricsLite;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
@@ -58,6 +59,9 @@ public class GameCore extends PluginBase {
 
     @Override
     public void onEnable() {
+        //HotSwap
+        this.hotSwapManager.enableAllModules();
+
         //Form
         this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
 
