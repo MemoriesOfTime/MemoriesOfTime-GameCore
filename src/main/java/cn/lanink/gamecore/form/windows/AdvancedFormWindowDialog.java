@@ -4,6 +4,7 @@ import cn.lanink.gamecore.form.element.ResponseElementDialogButton;
 import cn.nukkit.Player;
 import cn.nukkit.dialog.element.ElementDialogButton;
 import cn.nukkit.dialog.response.FormResponseDialog;
+import cn.nukkit.dialog.window.FormWindowDialog;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.data.ByteEntityData;
 import cn.nukkit.entity.data.StringEntityData;
@@ -19,7 +20,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
-public class AdvancedFormWindowDialog extends cn.nukkit.dialog.window.FormWindowDialog {
+public class AdvancedFormWindowDialog extends FormWindowDialog {
 
     protected BiConsumer<Player, FormResponseDialog> formClosedListener;
 
@@ -29,7 +30,7 @@ public class AdvancedFormWindowDialog extends cn.nukkit.dialog.window.FormWindow
         this(title, content,bindEntity, new ArrayList<>());
     }
 
-    public AdvancedFormWindowDialog(String title, String content, Entity bindEntity, List<cn.nukkit.dialog.element.ElementDialogButton> buttons) {
+    public AdvancedFormWindowDialog(String title, String content, Entity bindEntity, List<ElementDialogButton> buttons) {
         super(title, content, bindEntity, buttons);
         if (this.getBindEntity() == null) {
             throw new IllegalArgumentException("bindEntity cannot be null!");
