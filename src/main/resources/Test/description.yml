@@ -1,0 +1,19 @@
+header: |-
+  这是一个测试文件，您不需要对此文件进行任何修改
+  This is a test file, you don't need to modify this file
+  ================================================
+  1.这是头部的描述
+  2.这是头部的描述
+footer: |-
+  这是底部的描述的第一行
+  这是第二行
+
+test: "第一个测试的描述"
+testtest: "第二个测试的描述"
+mapt: "mapt的描述"
+mapt.map1.map1: "map1的描述"
+mapt.map1.maptt.map1: "测试内容"
+mapt.map1.maptt.map2: "测试内容"
+mapt.map1.map2: "map2的描述"
+mapt.map12: "map12的描述"
+hello: "hello的描述"

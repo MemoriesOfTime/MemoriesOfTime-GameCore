@@ -35,4 +35,5 @@ public class ResponseElementDialogButton extends cn.nukkit.dialog.element.Elemen
     public ResponseElementDialogButton(String name, String text, Mode mode, int type) {
         super(name, text, null, mode, type);
     }
+
 }
