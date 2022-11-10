@@ -1,7 +1,9 @@
 package cn.lanink.gamecore.form.element;
 
 import cn.lanink.gamecore.form.response.FormResponseDialog;
+import cn.lanink.gamecore.utils.packet.ProtocolVersion;
 import cn.nukkit.Player;
+import cn.nukkit.network.protocol.ProtocolInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,11 +13,15 @@ import java.util.function.BiConsumer;
 
 public class ResponseElementDialogButton {
 
-    private String button_name; // json 格式需要，勿改
-
-    private String text;
+    private String button_name;
 
     private List<CmdLine> data;
+
+    private int mode;
+
+    private int type;
+
+    private String text;
 
     private transient BiConsumer<Player, FormResponseDialog> clickedListener;
 
@@ -31,20 +37,6 @@ public class ResponseElementDialogButton {
         }
         return false;
     }
-
-    public static class CmdLine{
-        public CmdLine(String cmd_line, int cmd_ver){
-            this.cmd_line = cmd_line;
-            this.cmd_ver = cmd_ver;
-        }
-        public String cmd_line;
-        public int cmd_ver;
-        public static final int CMD_VER = 19;
-    }
-
-    private int mode;
-
-    private int type;
 
     public ResponseElementDialogButton(String name, String text){
         this(name, text, Mode.BUTTON_MODE);
@@ -62,11 +54,11 @@ public class ResponseElementDialogButton {
         this.type = type;
     }
 
-    public List<CmdLine> updateButtonData(){
+    public List<CmdLine> updateButtonData() {
         List<CmdLine> list = new ArrayList<>();
         String[] split = text.split("\n");
         for (String str : split) {
-            list.add(new CmdLine(str,CmdLine.CMD_VER));
+            list.add(new CmdLine(str, CmdLine.CMD_VER));
         }
         return list;
     }
@@ -119,9 +111,20 @@ public class ResponseElementDialogButton {
         this.type = type;
     }
 
+    public static class CmdLine {
+        public CmdLine(String cmd_line, int cmd_ver){
+            this.cmd_line = cmd_line;
+            this.cmd_ver = cmd_ver;
+        }
+        public String cmd_line;
+        public int cmd_ver;
+        public static final int CMD_VER = ProtocolInfo.CURRENT_PROTOCOL >= ProtocolVersion.v1_19_40 ? 24 : 19;
+    }
+
     public enum Mode {
         BUTTON_MODE,
         ON_EXIT,
         ON_ENTER
     }
+
 }

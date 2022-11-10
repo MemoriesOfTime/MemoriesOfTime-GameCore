@@ -14,9 +14,8 @@ public class NPCRequestPacket extends DataPacket {
     
     public String data = "";
     
-    public int skinType = 0;
+    public int actionType = 0;
 
-    
     public String sceneName = "";
 
     public long getRequestedEntityRuntimeId() {
@@ -43,12 +42,12 @@ public class NPCRequestPacket extends DataPacket {
         this.data = data;
     }
 
-    public int getSkinType() {
-        return skinType;
+    public int getActionType() {
+        return actionType;
     }
 
-    public void setSkinType(int skinType) {
-        this.skinType = skinType;
+    public void setActionType(int actionType) {
+        this.actionType = actionType;
     }
 
     public String getSceneName() {
@@ -80,7 +79,7 @@ public class NPCRequestPacket extends DataPacket {
         this.entityRuntimeId = super.getEntityRuntimeId();
         this.requestType = RequestType.values()[this.getByte()];
         this.data = this.getString();
-        this.skinType = this.getByte();
+        this.actionType = this.getByte();
         this.sceneName = this.getString();
     }
 
@@ -90,7 +89,7 @@ public class NPCRequestPacket extends DataPacket {
         this.putEntityRuntimeId(this.entityRuntimeId);
         this.putByte((byte) requestType.ordinal());
         this.putString(this.data);
-        this.putByte((byte) this.skinType);
+        this.putByte((byte) this.actionType);
         this.putString(this.sceneName);
     }
 }

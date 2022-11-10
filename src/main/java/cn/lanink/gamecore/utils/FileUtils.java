@@ -7,17 +7,15 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @author lt_name
+ * @author LT_Name
  */
-@Deprecated
+@Info("文件工具类")
 @SuppressWarnings("unused")
-@Info("已改名为FileUtils")
-public class FileUtil {
+public class FileUtils {
 
-    private FileUtil() {
+    private FileUtils() {
         throw new RuntimeException("error");
     }
-
     public static boolean deleteFile(String file) {
         return deleteFile(new File(file));
     }

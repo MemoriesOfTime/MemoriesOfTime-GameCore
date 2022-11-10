@@ -5,6 +5,7 @@ import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.lanink.gamecore.ranking.RankingAPI;
+import cn.lanink.gamecore.utils.ConfigUtils;
 import cn.lanink.gamecore.utils.MetricsLite;
 import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
 import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
@@ -83,6 +84,9 @@ public class GameCore extends PluginBase {
 
         }
 
+        //Test
+        this.runTest();
+
         this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + this.getVersion());
     }
 
@@ -99,6 +103,20 @@ public class GameCore extends PluginBase {
         Config config = new Config(Config.PROPERTIES);
         config.load(this.getResource("git.properties"));
         return config.get("git.build.version", this.getDescription().getVersion()) + "-" + config.get("git.commit.id.abbrev", "Unknown");
+    }
+
+    public void runTest() {
+        this.saveResource("Test/config.yml", true);
+        this.saveResource("Test/description.yml", true);
+
+        Config config = new Config(this.getDataFolder() + "/Test/config.yml", Config.YAML);
+        config.set("test", "Change test");
+        config.save();
+
+        ConfigUtils.addDescription(
+                config,
+                new Config(this.getDataFolder() + "/Test/description.yml", Config.YAML)
+        );
     }
 
 }
