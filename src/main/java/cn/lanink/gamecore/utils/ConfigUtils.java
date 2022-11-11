@@ -27,17 +27,29 @@ public class ConfigUtils {
         addDescription(file, new Config(description));
     }
 
+    public static void addDescription(File file, File description, boolean clearOriginalComment) {
+        addDescription(file, new Config(description), clearOriginalComment);
+    }
+
     public static void addDescription(Config config, Config description) {
+        addDescription(config, description, true);
+    }
+
+    public static void addDescription(Config config, Config description, boolean clearOriginalComment) {
         try {
             Field field = config.getClass().getDeclaredField("file");
             field.setAccessible(true);
-            addDescription((File) field.get(config), description);
+            addDescription((File) field.get(config), description, clearOriginalComment);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void addDescription(File file, Config description) {
+        addDescription(file, description, true);
+    }
+
+    public static void addDescription(File file, Config description, boolean clearOriginalComment) {
         if (!file.exists()) {
             return;
         }
@@ -60,8 +72,20 @@ public class ConfigUtils {
             Pattern pattern = Pattern.compile("^( *)([a-zA-Z0-9]+):");
             int lastIdent = 0;
             String[] last = null;
+            int blankLine = 0;
             //逐行读取并添加介绍
             while ((line = in.readLine()) != null) {
+                if (clearOriginalComment && line.trim().startsWith("#")) {
+                    continue;
+                }
+
+                if (line.trim().isEmpty()) {
+                    if (blankLine > 1) {
+                        continue;
+                    }
+                    blankLine++;
+                }
+
                 Matcher matcher = pattern.matcher(line);
                 if (!matcher.find()) {
                     result.append(line).append(System.lineSeparator());
@@ -105,11 +129,15 @@ public class ConfigUtils {
                 }
 
                 result.append(line).append(System.lineSeparator());
+                blankLine = 0;
             }
 
             //添加尾部
             if (description.exists(KEY_FOOTER) && !description.getString(KEY_FOOTER).trim().isEmpty()) {
-                result.append(System.lineSeparator()).append(System.lineSeparator()); //空两行
+                while (blankLine < 2) {
+                    result.append(System.lineSeparator());
+                    blankLine++;
+                }
                 for (String footer : description.getString(KEY_FOOTER).trim().split("\n")) {
                     result.append("# ").append(footer).append(System.lineSeparator());
                 }
