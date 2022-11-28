@@ -69,7 +69,7 @@ public class ConfigUtils {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
             String line;
             LinkedList<String[]> path = new LinkedList<>();
-            Pattern pattern = Pattern.compile("^( *)([a-zA-Z0-9\u4e00-\u9fa5]+):");
+            Pattern pattern = Pattern.compile("^( *)([a-zA-Z0-9\u4e00-\u9fa5-]+):"); //u4e00-u9fa5 中文
             int lastIdent = 0;
             String[] last = null;
             int blankLine = 0;
