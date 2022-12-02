@@ -72,7 +72,7 @@ public class GameCore extends PluginBase {
 
         //FloatingTextUtils
         this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.TickTask(this), 1);
-        this.getServer().getScheduler().scheduleAsyncTask(this, new FloatingTextUtils.AsyncTickTask());
+        this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.AsyncTickTask(this), 1, true);
 
         //RankingAPI
         RankingAPI.getInstance().enable();
