@@ -2,8 +2,7 @@ package cn.lanink.gamecore.ranking.task;
 
 import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.ranking.Ranking;
-import cn.lanink.gamecore.ranking.RankingAPI;
-import cn.nukkit.scheduler.AsyncTask;
+import cn.nukkit.scheduler.PluginTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -14,11 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
-public class AsyncUpdateTask extends AsyncTask implements IRankingAPITask {
-
-    private int tick = 0;
+public class AsyncUpdateTask extends PluginTask<GameCore> implements IRankingAPITask {
 
     private final Set<Ranking> updateRankings = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+    public AsyncUpdateTask(GameCore owner) {
+        super(owner);
+    }
 
     @Override
     public Set<Ranking> getRankings() {
@@ -36,36 +37,16 @@ public class AsyncUpdateTask extends AsyncTask implements IRankingAPITask {
     }
 
     @Override
-    public void onRun() {
-        long startTime;
-        while(RankingAPI.getInstance().isEnabled()) {
-            startTime = System.currentTimeMillis();
-
-            try {
-                this.work(this.tick);
-            } catch (Exception e) {
-                GameCore.getInstance().getLogger().error("[RankingAPI] AsyncUpdateTask遍历Ranking时出错：", e);
-            }
-
-            long duration = System.currentTimeMillis() - startTime;
-            try {
-                Thread.sleep(Math.max(50L - duration, 1));
-            } catch (Exception e) {
-                GameCore.getInstance().getLogger().error("[RankingAPI] AsyncUpdateTask尝试休眠时出错：", e);
-            }
-
-            this.tick++;
+    public void onRun(int i) {
+        for (Ranking ranking : this.updateRankings) {
+            ranking.onAsyncTick(i);
         }
+    }
 
+    @Override
+    public void onCancel() {
         for (Ranking ranking : new HashSet<>(this.updateRankings)) {
             ranking.close();
         }
     }
-
-    private void work(int tick) {
-        for (Ranking ranking : this.updateRankings) {
-            ranking.onAsyncTick(tick);
-        }
-    }
-
 }

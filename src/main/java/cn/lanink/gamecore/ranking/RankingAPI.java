@@ -35,10 +35,10 @@ public class RankingAPI {
         if (this.isEnabled) {
             return;
         }
-        this.asyncUpdateTask = new AsyncUpdateTask();
-        GameCore.getInstance().getServer().getScheduler().scheduleAsyncTask(GameCore.getInstance(), this.asyncUpdateTask);
+        this.asyncUpdateTask = new AsyncUpdateTask(GameCore.getInstance());
+        GameCore.getInstance().getServer().getScheduler().scheduleRepeatingTask(GameCore.getInstance(), this.asyncUpdateTask, 1, true);
 
-        this.updateTask = new UpdateTask();
+        this.updateTask = new UpdateTask(GameCore.getInstance());
         GameCore.getInstance().getServer().getScheduler().scheduleRepeatingTask(GameCore.getInstance(), this.updateTask, 1);
         this.isEnabled = true;
     }

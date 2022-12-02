@@ -4,7 +4,6 @@ import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.entity.TextFakeTextFakeEntity;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Position;
-import cn.nukkit.scheduler.AsyncTask;
 import cn.nukkit.scheduler.PluginTask;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,48 +63,32 @@ public class FloatingTextUtils {
         }
     }
 
-    public static class AsyncTickTask extends AsyncTask {
+    public static class AsyncTickTask extends PluginTask<GameCore> {
 
-        private int tick = 0;
-
-        @Override
-        public void onRun() {
-            long startTime;
-            while(GameCore.getInstance().isEnabled()) {
-                startTime = System.currentTimeMillis();
-
-                try {
-                    this.work(this.tick);
-                } catch (Exception e) {
-                    GameCore.getInstance().getLogger().error("FloatingTextUtils-AsyncTickTask", e);
-                }
-
-                long duration = System.currentTimeMillis() - startTime;
-                try {
-                    Thread.sleep(Math.max(50L - duration, 1));
-                } catch (Exception e) {
-                    GameCore.getInstance().getLogger().error("FloatingTextUtils-AsyncTickTask", e);
-                }
-
-                this.tick++;
-            }
-
-            for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
-                textFakeEntity.close();
-            }
+        public AsyncTickTask(GameCore owner) {
+            super(owner);
         }
 
-        private void work(int tick) {
+        @Override
+        public void onRun(int i) {
             for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 try {
                     if (textFakeEntity.needAsyncTick()) {
-                        textFakeEntity.onAsyncTick(tick);
+                        textFakeEntity.onAsyncTick(i);
                     }
                 }catch (Exception e) {
                     GameCore.getInstance().getLogger().error("FloatingTextUtils-AsyncTickTask", e);
                 }
             }
         }
+
+        @Override
+        public void onCancel() {
+            for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
+                textFakeEntity.close();
+            }
+        }
+
     }
 
 }
