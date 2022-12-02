@@ -1,7 +1,8 @@
 package cn.lanink.gamecore.ranking.task;
 
+import cn.lanink.gamecore.GameCore;
 import cn.lanink.gamecore.ranking.Ranking;
-import cn.nukkit.scheduler.Task;
+import cn.nukkit.scheduler.PluginTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -12,10 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lt_name
  */
-public class UpdateTask extends Task implements IRankingAPITask {
+public class UpdateTask extends PluginTask<GameCore> implements IRankingAPITask {
 
     private final Set<Ranking> updateRankings = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
+    public UpdateTask(GameCore owner) {
+        super(owner);
+    }
 
     @Override
     public Set<Ranking> getRankings() {

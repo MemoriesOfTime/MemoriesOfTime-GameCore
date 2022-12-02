@@ -6,10 +6,10 @@
 repo(https://repo.lanink.cn/)
 
 # 类似 Gradle 的格式
-implementation(cn.lanink.module:OkHttp3Lib:1.0.0)
+#implementation(cn.lanink.module:OkHttp3Lib:1.0.0)
 
 # 你也可以使用一个 http 协议的 url 来指定一个模块 jar 包下载并安装
-http_url(SimpleKotlinLib-1.0.0:https://image-1259160349.cos.ap-chengdu.myqcloud.com/img/SimpleKotlinLib_ModuleForGameCore.jar)
+#http_url(SimpleKotlinLib-1.0.0:https://image-1259160349.cos.ap-chengdu.myqcloud.com/img/SimpleKotlinLib_ModuleForGameCore.jar)
 
 # 更多功能待更新
 

@@ -68,7 +68,7 @@ public class GameCore extends PluginBase {
 
         //FloatingTextUtils
         this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.TickTask(this), 1);
-        this.getServer().getScheduler().scheduleAsyncTask(this, new FloatingTextUtils.AsyncTickTask());
+        this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.AsyncTickTask(this), 1, true);
 
         //RankingAPI
         RankingAPI.getInstance().enable();
@@ -98,7 +98,7 @@ public class GameCore extends PluginBase {
     public String getVersion() {
         Config config = new Config(Config.PROPERTIES);
         config.load(this.getResource("git.properties"));
-        return config.get("git.build.version", this.getDescription().getVersion()) + "-" + config.get("git.commit.id.abbrev", "Unknown");
+        return config.get("git.build.version", this.getDescription().getVersion()) + " git-" + config.get("git.commit.id.abbrev", "Unknown");
     }
 
     public void runTest() {
