@@ -6,7 +6,7 @@
 
     <groupId>cn.lanink</groupId>
     <artifactId>MemoriesOfTime-GameCore</artifactId>
-    <version>1.6.6.0-PM1E<!-- -SNAPSHOT--></version>
+    <version>1.6.7.0-PM1E<!-- -SNAPSHOT--></version>
 
     <name>MemoriesOfTime-GameCore</name>
     <description>MemoriesOfTime-GameCore -- A dependency</description>
@@ -251,7 +251,7 @@
         <dependency>
             <groupId>cn.nukkit</groupId>
             <artifactId>Nukkit</artifactId>
-            <version>PM1E_1.19.50.2468</version>
+            <version>PM1E_1.19.50.2491</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

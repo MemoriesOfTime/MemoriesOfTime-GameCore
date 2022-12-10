@@ -15,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class AsyncUpdateTask extends PluginTask<GameCore> implements IRankingAPITask {
 
+    private int tick = 0;
+
     private final Set<Ranking> updateRankings = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public AsyncUpdateTask(GameCore owner) {
@@ -39,8 +41,9 @@ public class AsyncUpdateTask extends PluginTask<GameCore> implements IRankingAPI
     @Override
     public void onRun(int i) {
         for (Ranking ranking : this.updateRankings) {
-            ranking.onAsyncTick(i);
+            ranking.onAsyncTick(tick);
         }
+        tick++;
     }
 
     @Override
