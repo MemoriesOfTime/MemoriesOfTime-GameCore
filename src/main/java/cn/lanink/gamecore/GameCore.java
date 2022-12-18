@@ -63,7 +63,7 @@ public class GameCore extends PluginBase {
     @Override
     public void onEnable() {
         NukkitTypeUtils.NukkitType nukkitType = NukkitTypeUtils.getNukkitType();
-        if (nukkitType != NukkitTypeUtils.NukkitType.NUKKITX && nukkitType != NukkitTypeUtils.NukkitType.POWER_NUKKIT) {
+        if (nukkitType != NukkitTypeUtils.NukkitType.PM1E) {
             this.getLogger().warning("Warning! The current plugin version is not applicable to this server core! Please check the plugin version!");
             this.getLogger().warning("Server Code : " + nukkitType.getShowName() + "  |  Plugin Version : " + this.getVersion());
             try {
