@@ -3,8 +3,10 @@ package cn.lanink.gamecore.hotswap;
 import cn.nukkit.Server;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginDescription;
+import cn.nukkit.utils.Config;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * @author iGxnon
@@ -49,10 +51,31 @@ public interface IModule {
      */
     PluginDescription getDescription();
 
+    InputStream getResource(String filename);
+
+    boolean saveResource(String filename);
+
+    boolean saveResource(String filename, boolean replace);
+
+    boolean saveResource(String filename, String outputName, boolean replace);
+
+    Config getConfig();
+
+    void saveConfig();
+
+    void saveDefaultConfig();
+
+    void reloadConfig();
+
     /**
      * 获取模块文件
      */
     File getFile();
+
+    /**
+     * 获取模块数据文件夹
+     */
+    File getDataFolder();
 
     /**
      * 获取模块的Logger

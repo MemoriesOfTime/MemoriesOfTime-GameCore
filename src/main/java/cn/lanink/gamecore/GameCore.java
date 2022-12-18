@@ -1,11 +1,18 @@
 package cn.lanink.gamecore;
 
+import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
 import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
 import cn.lanink.gamecore.modelmanager.ModelManager;
+import cn.lanink.gamecore.ranking.RankingAPI;
+import cn.lanink.gamecore.utils.ConfigUtils;
 import cn.lanink.gamecore.utils.MetricsLite;
+import cn.lanink.gamecore.utils.NukkitTypeUtils;
+import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
+import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.utils.Config;
 import com.google.gson.Gson;
 
 import java.util.Base64;
@@ -16,7 +23,8 @@ import java.util.Base64;
 public class GameCore extends PluginBase {
 
     public static final Gson GSON = new Gson();
-    public static final String VERSION = "?";
+
+    public static boolean debug = false;
 
     private static GameCore gameCore;
 
@@ -46,29 +54,81 @@ public class GameCore extends PluginBase {
     public void onLoad() {
         gameCore = this;
         this.saveResource("modules.txt");
+
+        //HotSwap
+        this.hotSwapManager.loadModulesFromLocal();
+        this.hotSwapManager.loadModulesFromWeb();
     }
 
     @Override
     public void onEnable() {
+        NukkitTypeUtils.NukkitType nukkitType = NukkitTypeUtils.getNukkitType();
+        if (nukkitType != NukkitTypeUtils.NukkitType.NUKKITX && nukkitType != NukkitTypeUtils.NukkitType.POWER_NUKKIT) {
+            this.getLogger().warning("Warning! The current plugin version is not applicable to this server core! Please check the plugin version!");
+            this.getLogger().warning("Server Code : " + nukkitType.getShowName() + "  |  Plugin Version : " + this.getVersion());
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored) {
+
+            }
+        }
+
+        this.getServer().getNetwork().registerPacket(NPCDialoguePacket.NETWORK_ID, NPCDialoguePacket.class);
+        this.getServer().getNetwork().registerPacket(NPCRequestPacket.NETWORK_ID, NPCRequestPacket.class);
+
+        //HotSwap
+        this.hotSwapManager.enableAllModules();
+
+        //Form
         this.getServer().getPluginManager().registerEvents(new WindowListener(), this);
 
+        //FloatingTextUtils
+        this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.TickTask(this), 1);
+        this.getServer().getScheduler().scheduleRepeatingTask(this, new FloatingTextUtils.AsyncTickTask(this), 1, true);
+
+        //RankingAPI
+        RankingAPI.getInstance().enable();
+
+        //bStats
         try {
             new MetricsLite(this, 12850);
         }catch (Exception ignored) {
 
         }
 
+        //Test
+        this.runTest();
 
-        hotSwapManager.loadModulesFromLocal();
-
-        hotSwapManager.loadModulesFromWeb();
-
-
-        this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + VERSION);
+        this.getLogger().info("§eMemoriesOfTime-GameCore §aEnabled! Version:" + this.getVersion());
     }
 
     @Override
     public void onDisable() {
-        hotSwapManager.disableAllModules();
+        //HotSwap
+        this.hotSwapManager.disableAllModules();
+
+        //RankingAPI
+        RankingAPI.getInstance().disable();
     }
+
+    public String getVersion() {
+        Config config = new Config(Config.PROPERTIES);
+        config.load(this.getResource("git.properties"));
+        return config.get("git.build.version", this.getDescription().getVersion()) + " git-" + config.get("git.commit.id.abbrev", "Unknown");
+    }
+
+    public void runTest() {
+        this.saveResource("Test/config.yml", true);
+        this.saveResource("Test/description.yml", true);
+
+        Config config = new Config(this.getDataFolder() + "/Test/config.yml", Config.YAML);
+        config.set("test", "Change test");
+        config.save();
+
+        ConfigUtils.addDescription(
+                config,
+                new Config(this.getDataFolder() + "/Test/description.yml", Config.YAML)
+        );
+    }
+
 }

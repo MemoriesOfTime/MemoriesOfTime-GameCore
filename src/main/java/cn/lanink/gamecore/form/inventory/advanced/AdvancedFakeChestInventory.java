@@ -38,7 +38,7 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
     private final HashMap<String, List<BlockVector3>> blockPositions = new HashMap<>();
 
     public AdvancedFakeChestInventory(String title) {
-        super(new FakeEntity(), InventoryType.CHEST, new HashMap<>(), null, title);
+        super(new FakeEntity(), InventoryType.CHEST, new HashMap<>(), InventoryType.CHEST.getDefaultSize(), title);
         ((FakeEntity) this.getHolder()).setInventory(this);
     }
 
