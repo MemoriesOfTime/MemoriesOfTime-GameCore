@@ -7,6 +7,7 @@ import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.lanink.gamecore.ranking.RankingAPI;
 import cn.lanink.gamecore.utils.ConfigUtils;
 import cn.lanink.gamecore.utils.MetricsLite;
+import cn.lanink.gamecore.utils.NukkitTypeUtils;
 import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
 import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.entity.data.Skin;
@@ -61,6 +62,17 @@ public class GameCore extends PluginBase {
 
     @Override
     public void onEnable() {
+        NukkitTypeUtils.NukkitType nukkitType = NukkitTypeUtils.getNukkitType();
+        if (nukkitType != NukkitTypeUtils.NukkitType.NUKKITX && nukkitType != NukkitTypeUtils.NukkitType.POWER_NUKKIT) {
+            this.getLogger().warning("Warning! The current plugin version is not applicable to this server core! Please check the plugin version!");
+            this.getLogger().warning("Server Code : " + nukkitType.getShowName() + "  |  Plugin Version : " + this.getVersion());
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored) {
+
+            }
+        }
+
         this.getServer().getNetwork().registerPacket(NPCDialoguePacket.NETWORK_ID, NPCDialoguePacket.class);
         this.getServer().getNetwork().registerPacket(NPCRequestPacket.NETWORK_ID, NPCRequestPacket.class);
 
