@@ -1,6 +1,5 @@
 package cn.lanink.gamecore;
 
-import cn.lanink.gamecore.ranking.RankingAPI;
 import cn.lanink.gamecore.floatingtext.FloatingTextUtils;
 import cn.lanink.gamecore.form.WindowListener;
 import cn.lanink.gamecore.hotswap.manager.HotSwapManager;
@@ -8,6 +7,7 @@ import cn.lanink.gamecore.modelmanager.ModelManager;
 import cn.lanink.gamecore.ranking.RankingAPI;
 import cn.lanink.gamecore.utils.ConfigUtils;
 import cn.lanink.gamecore.utils.MetricsLite;
+import cn.lanink.gamecore.utils.NukkitTypeUtils;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
@@ -60,6 +60,17 @@ public class GameCore extends PluginBase {
 
     @Override
     public void onEnable() {
+        NukkitTypeUtils.NukkitType nukkitType = NukkitTypeUtils.getNukkitType();
+        if (nukkitType != NukkitTypeUtils.NukkitType.POWER_NUKKIT_X) {
+            this.getLogger().warning("Warning! The current plugin version is not applicable to this server core! Please check the plugin version!");
+            this.getLogger().warning("Server Code : " + nukkitType.getShowName() + "  |  Plugin Version : " + this.getVersion());
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored) {
+
+            }
+        }
+
         //HotSwap
         this.hotSwapManager.enableAllModules();
 
