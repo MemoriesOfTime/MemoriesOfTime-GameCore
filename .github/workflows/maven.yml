@@ -5,9 +5,9 @@ name: Java CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, Nukkit-PM1E, PNX ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, Nukkit-PM1E, PNX ]
 
 jobs:
   build:
