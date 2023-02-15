@@ -58,5 +58,6 @@ public interface ProtocolVersion {
     int v1_19_40 = 557;
     int v1_19_50_20 = 558;
     int v1_19_50 = 560;
+    int v1_19_60 = 567;
 
 }
