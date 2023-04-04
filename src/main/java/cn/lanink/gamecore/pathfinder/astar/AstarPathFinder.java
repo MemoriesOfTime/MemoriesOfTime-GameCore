@@ -9,12 +9,12 @@ import cn.nukkit.level.Position;
 import cn.nukkit.level.particle.DustParticle;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.scheduler.AsyncTask;
-import cn.nukkit.scheduler.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author iGxnon
@@ -32,8 +32,15 @@ public class AstarPathFinder implements PathFinder {
     private final Position start;
     private final Position target;
     private final long timeLimit;
+    private double power;
+    private final boolean asyncWork;
+
+    private boolean isFinished = false;
+    private boolean isSearching = false;
     private AstarNode result;
-    private double power = DEFAULT_POWER;
+    private List<Vector3> resultList;
+    private List<AstarNode> resultNodeList;
+    protected AtomicInteger currentNode = new AtomicInteger(0);
 
     public AstarPathFinder(Position start, Position target) {
         this(start, target, DEFAULT_TIME_LIMIT);
@@ -41,16 +48,19 @@ public class AstarPathFinder implements PathFinder {
 
 
     public AstarPathFinder(Position start, Position target, int timeLimit) {
-        this.start = start;
-        this.target = target;
-        this.timeLimit = timeLimit;
+        this(start, target, timeLimit, DEFAULT_POWER);
     }
 
     public AstarPathFinder(Position start, Position target, long timeLimit, double power) {
+        this(start, target, timeLimit, power, true);
+    }
+
+    public AstarPathFinder(Position start, Position target, long timeLimit, double power, boolean asyncWork) {
         this.start = start;
         this.target = target;
         this.timeLimit = timeLimit;
         this.power = power;
+        this.asyncWork = asyncWork;
     }
 
     public void setPower(double power) {
@@ -59,25 +69,46 @@ public class AstarPathFinder implements PathFinder {
 
     @Override
     public Vector3 findNext() {
-        return (find() == null || find().size() == 1) ? null : find().get(1);
+        if (!this.isFinished) {
+            if (!this.isSearching) {
+                this.find();
+            }
+        }
+        if (this.getResult().size() > this.currentNode.get()) {
+            return this.getResult().get(this.currentNode.getAndIncrement());
+
+        }
+        return null;
     }
 
     @Override
+    @Deprecated
     public void find(boolean async) {
-        if(async) {
-            Server.getInstance().getScheduler().scheduleAsyncTask(GameCore.getInstance(), new AsyncTask() {
-                @Override
-                public void onRun() {
-                    find();
-                }
-            });
-        }else {
-            this.find();
-        }
+        this.find();
     }
 
     @Override
     public List<Vector3> find() {
+        if (this.asyncWork) {
+            Server.getInstance().getScheduler().scheduleAsyncTask(GameCore.getInstance(), new AsyncTask() {
+                @Override
+                public void onRun() {
+                    findRoute();
+                }
+            });
+        } else {
+            this.findRoute();
+        }
+
+        return this.getResult();
+    }
+
+    private void findRoute() {
+        this.isFinished = false;
+        this.isSearching = true;
+        this.resultNodeList = null;
+        this.resultList = null;
+
         long timeStart = System.currentTimeMillis();
         AstarNode startNode = new AstarNode(start, 0, BlockUtil.MHDistance(start, target), null);
         open.put(startNode.levelBlock, startNode);
@@ -103,19 +134,16 @@ public class AstarPathFinder implements PathFinder {
                 }
             }
         }
-        return result == null ? null : getResult();
+
+        this.isFinished = true;
+        this.isSearching = false;
     }
 
     @Override
     public void show() {
-        if(result != null) {
-            getResultNode().forEach(astarNode -> {
-                Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
-                    @Override
-                    public void onRun(int i) {
-                        astarNode.position.getLevel().addParticle(new DustParticle(astarNode.levelBlock.add(0.5, 0.2, 0.5), 255, 0, 0));
-                    }
-                }, 10);
+        if (this.isFinished) {
+            this.getResultNode().forEach(astarNode -> {
+                astarNode.position.getLevel().addParticle(new DustParticle(astarNode.levelBlock.add(0.5, 0.2, 0.5), 255, 0, 0));
             });
         }
     }
@@ -124,23 +152,37 @@ public class AstarPathFinder implements PathFinder {
      * @return 获取结果
      */
     public List<AstarNode> getResultNode() {
-        List<AstarNode> ret = new ArrayList<>();
-        AstarNode node = result;
-        while (node != null) {
-            ret.add(0, node);
-            node = node.parent;
+        if (!this.isFinished) {
+            return new ArrayList<>();
         }
-        return ret;
+
+        if (this.resultNodeList == null) {
+            this.resultNodeList = new ArrayList<>();
+            AstarNode node = result;
+            while (node != null) {
+                this.resultNodeList.add(0, node);
+                node = node.parent;
+            }
+        }
+
+        return this.resultNodeList;
     }
 
     public List<Vector3> getResult() {
-        List<Vector3> ret = new ArrayList<>();
-        AstarNode node = result;
-        while (node != null) {
-            ret.add(0, node.position);
-            node = node.parent;
+        if (!this.isFinished) {
+            return new ArrayList<>();
         }
-        return ret;
+
+        if (this.resultList == null) {
+            this.resultList = new ArrayList<>();
+            AstarNode node = result;
+            while (node != null) {
+                this.resultList.add(0, node.position);
+                node = node.parent;
+            }
+        }
+
+        return this.resultList;
     }
 
     /**
