@@ -65,4 +65,8 @@ public class EntityPlayerCorpse extends EntityHuman {
         this.setNameTagAlwaysVisible(false);
     }
 
+    @Override
+    public void saveNBT() {
+        //不保存数据
+    }
 }

@@ -1,5 +1,6 @@
 package cn.lanink.gamecore.pathfinder.api;
 
+import cn.lanink.gamecore.pathfinder.astar.AstarNode;
 import cn.nukkit.math.Vector3;
 
 import java.util.List;
@@ -15,17 +16,23 @@ public interface PathFinder {
     Vector3 findNext();
 
     /**
-     * @return 返回所有路径节点 | 没有路径返回 null
+     * @return 返回所有路径节点
      */
     List<Vector3> find();
 
     /**
      * @param async 是否异步
      */
+    @Deprecated
     void find(boolean async);
 
     /**
-     * @return 返回所有路径节点 | 没有路径返回 null
+     * @return 返回所有路径节点
+     */
+    List<AstarNode> getResultNode();
+
+    /**
+     * @return 返回所有路径节点
      */
     List<Vector3> getResult();
 

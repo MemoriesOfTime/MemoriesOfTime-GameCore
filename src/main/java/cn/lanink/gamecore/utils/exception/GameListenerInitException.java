@@ -13,4 +13,12 @@ public class GameListenerInitException extends Exception {
         super(message);
     }
 
+    public GameListenerInitException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public GameListenerInitException(Throwable cause) {
+        super(cause);
+    }
+
 }
