@@ -39,7 +39,11 @@ public class UpdateTask extends PluginTask<GameCore> implements IRankingAPITask 
     @Override
     public void onRun(int i) {
         for (Ranking ranking : this.updateRankings) {
-            ranking.onTick(i);
+            try {
+                ranking.onTick(i);
+            }catch (Exception e) {
+                GameCore.getInstance().getLogger().error("Ranking " + ranking.getClass().getName() + " onTick error: ", e);
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import java.util.LinkedList;
 /**
  * @author LT_Name
  */
+@SuppressWarnings("unused")
 public class VersionUtils {
 
     /**
@@ -63,7 +64,9 @@ public class VersionUtils {
                 index++;
             }
             if (diff == 0) {
-                //TODO 根据后缀判断
+                if (!version1Suffix.equals(version2Suffix)) {
+                    return -1;
+                }
 
                 for (int i = index; i < version1Array.size(); i++) {
                     if (Long.parseLong(version1Array.get(i)) > 0) {

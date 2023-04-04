@@ -13,4 +13,12 @@ public class RoomLoadException extends Exception {
         super(message);
     }
 
+    public RoomLoadException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public RoomLoadException(Throwable cause) {
+        super(cause);
+    }
+
 }
