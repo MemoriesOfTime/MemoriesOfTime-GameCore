@@ -12,15 +12,22 @@ public class NukkitTypeUtils {
     private static final NukkitType nukkitType;
 
     static {
-        String codename = Server.getInstance().getCodename();
-        if ("PowerNukkitX".equalsIgnoreCase(codename)) {
-            nukkitType = NukkitType.POWER_NUKKIT_X;
-        }else if ("PowerNukkit".equalsIgnoreCase(codename)) {
-            nukkitType = NukkitType.POWER_NUKKIT;
-        }else if ("PM1E".equalsIgnoreCase(codename)) {
-            nukkitType = NukkitType.PM1E;
-        }else {
-            nukkitType = NukkitType.NUKKITX;
+        switch (Server.getInstance().getCodename().toLowerCase()) {
+            case "powernukkitx":
+                nukkitType = NukkitType.POWER_NUKKIT_X;
+                break;
+            case "powernukkit":
+                nukkitType = NukkitType.POWER_NUKKIT;
+                break;
+            case "pm1e":
+                nukkitType = NukkitType.PM1E;
+                break;
+            case "mot":
+                nukkitType = NukkitType.MOT;
+                break;
+            default:
+                nukkitType = NukkitType.NUKKITX;
+                break;
         }
     }
 
@@ -32,7 +39,9 @@ public class NukkitTypeUtils {
 
         POWER_NUKKIT_X("PowerNukkitX"),
 
-        PM1E("Nukkit PetteriM1 Edition");
+        PM1E("Nukkit PetteriM1 Edition"),
+
+        MOT("Nukkit MOT");
 
         @Getter
         private final String showName;
