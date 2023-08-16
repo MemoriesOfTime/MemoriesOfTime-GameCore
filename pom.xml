@@ -6,7 +6,7 @@
 
     <groupId>cn.lanink</groupId>
     <artifactId>MemoriesOfTime-GameCore</artifactId>
-    <version>1.6.11<!-- -SNAPSHOT--></version>
+    <version>1.6.12-SNAPSHOT</version>
 
     <name>MemoriesOfTime-GameCore</name>
     <description>MemoriesOfTime-GameCore -- A dependency</description>
@@ -292,7 +292,7 @@
         <dependency>
             <groupId>com.smallaswater.tips</groupId>
             <artifactId>Tips</artifactId>
-            <version>2.1.2</version>
+            <version>2.1.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
