@@ -3,7 +3,7 @@
 
 # 自定义的远程的仓库，注意没有""，很抱歉，目前不能自定义多个
 # ()中间不能有空格
-repo(https://repo.lanink.cn/)
+repo(https://repo.lanink.cn/repository/maven-public/)
 
 # 类似 Gradle 的格式
 #implementation(cn.lanink.module:OkHttp3Lib:1.0.0)

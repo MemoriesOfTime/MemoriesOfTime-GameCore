@@ -59,7 +59,7 @@ public class Tips {
             );
             Api.setPlayerShowMessage(
                     playerName,
-                    new NameTagMessage(level, true, "")
+                    new NameTagMessage(level, false, "")
             );
             Api.setPlayerShowMessage(
                     playerName,
@@ -77,7 +77,7 @@ public class Tips {
                 );
                 Api.setPlayerShowMessage(
                         playerName,
-                        new tip.messages.NameTagMessage(level, true, "")
+                        new tip.messages.NameTagMessage(level, false, "")
                 );
                 Api.setPlayerShowMessage(
                         playerName,
@@ -109,7 +109,7 @@ public class Tips {
             );
             Api.removePlayerShowMessage(
                     playerName,
-                    new NameTagMessage(level, true, "")
+                    new NameTagMessage(level, false, "")
             );
             Api.removePlayerShowMessage(
                     playerName,
@@ -127,7 +127,7 @@ public class Tips {
                 );
                 Api.removePlayerShowMessage(
                         playerName,
-                        new tip.messages.NameTagMessage(level, true, "")
+                        new tip.messages.NameTagMessage(level, false, "")
                 );
                 Api.removePlayerShowMessage(
                         playerName,
