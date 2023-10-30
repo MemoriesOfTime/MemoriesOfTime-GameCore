@@ -1,22 +1,9 @@
 package cn.lanink.gamecore.utils.packet;
 
-import cn.nukkit.network.protocol.DataPacket;
 import lombok.ToString;
 
 @ToString
-public class NPCRequestPacket extends DataPacket {
-    
-    public static final byte NETWORK_ID = 0x62;
-    
-    public long entityRuntimeId;
-    
-    public RequestType requestType;
-    
-    public String data = "";
-    
-    public int actionType = 0;
-
-    public String sceneName = "";
+public class NPCRequestPacket extends cn.nukkit.network.protocol.NPCRequestPacket {
 
     public long getRequestedEntityRuntimeId() {
         return entityRuntimeId;
@@ -27,19 +14,19 @@ public class NPCRequestPacket extends DataPacket {
     }
 
     public RequestType getRequestType() {
-        return requestType;
+        return RequestType.valueOf(requestType.name());
     }
 
     public void setRequestType(RequestType requestType) {
-        this.requestType = requestType;
+        this.requestType = cn.nukkit.network.protocol.NPCRequestPacket.RequestType.valueOf(requestType.name());
     }
 
     public String getData() {
-        return data;
+        return commandString;
     }
 
     public void setData(String data) {
-        this.data = data;
+        this.commandString = data;
     }
 
     public int getActionType() {
@@ -69,27 +56,4 @@ public class NPCRequestPacket extends DataPacket {
         EXECUTE_OPENING_COMMANDS
     }
 
-    @Override
-    public byte pid() {
-        return NETWORK_ID;
-    }
-
-    @Override
-    public void decode() {
-        this.entityRuntimeId = super.getEntityRuntimeId();
-        this.requestType = RequestType.values()[this.getByte()];
-        this.data = this.getString();
-        this.actionType = this.getByte();
-        this.sceneName = this.getString();
-    }
-
-    @Override
-    public void encode() {
-        this.reset();
-        this.putEntityRuntimeId(this.entityRuntimeId);
-        this.putByte((byte) requestType.ordinal());
-        this.putString(this.data);
-        this.putByte((byte) this.actionType);
-        this.putString(this.sceneName);
-    }
 }
