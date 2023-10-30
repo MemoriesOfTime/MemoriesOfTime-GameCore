@@ -1,7 +1,9 @@
 package cn.lanink.gamecore.utils.packet;
 
+import cn.nukkit.network.protocol.ProtocolInfo;
+
 @SuppressWarnings("unused")
-public interface ProtocolVersion {
+public interface ProtocolVersion extends ProtocolInfo {
 
     int v1_2_0 = 137;
     int v1_2_5_11 = 140;
@@ -69,5 +71,6 @@ public interface ProtocolVersion {
     int v1_20_10 = 594;
     int v1_20_30_24 = 617;
     int v1_20_30 = 618;
+    int v1_20_40 = 622;
 
 }
