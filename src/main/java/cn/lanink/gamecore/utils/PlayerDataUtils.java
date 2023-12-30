@@ -5,6 +5,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Position;
+import cn.nukkit.network.protocol.ProtocolInfo;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
@@ -54,7 +55,7 @@ public class PlayerDataUtils {
             LinkedList<String> list = new LinkedList<>();
             if (entry.getValue() != null) {
                 if (NukkitTypeUtils.getNukkitType() == NukkitTypeUtils.NukkitType.MOT) {
-                    list.add(entry.getValue().getNamespaceId()); //0
+                    list.add(entry.getValue().getNamespaceId(ProtocolInfo.CURRENT_PROTOCOL)); //0
                 } else {
                     list.add(entry.getValue().getId() + ":" + entry.getValue().getDamage()); //0
                 }
