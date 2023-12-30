@@ -53,9 +53,14 @@ public class PlayerDataUtils {
         for (Map.Entry<Integer, Item> entry : inventoryContents.entrySet()) {
             LinkedList<String> list = new LinkedList<>();
             if (entry.getValue() != null) {
-                list.add(entry.getValue().getId() + ":" + entry.getValue().getDamage()); //0
+                if (NukkitTypeUtils.getNukkitType() == NukkitTypeUtils.NukkitType.MOT) {
+                    list.add(entry.getValue().getNamespaceId()); //0
+                } else {
+                    list.add(entry.getValue().getId() + ":" + entry.getValue().getDamage()); //0
+                }
                 list.add(String.valueOf(entry.getValue().getCount())); //1
                 list.add(bytesToBase64(entry.getValue().getCompoundTag())); //2
+                list.add(String.valueOf(entry.getValue().getDamage())); //3 为了兼容之前的版本放在后面
             }
 
             linkedHashMap.put(entry.getKey() + "", list);
@@ -88,6 +93,9 @@ public class PlayerDataUtils {
             item.setCount(Integer.parseInt(list.get(1)));
             if (!"not".equals(String.valueOf(list.get(2)))) {
                 item.setNamedTag(Item.parseCompoundTag(base64ToBytes(list.get(2))));
+            }
+            if (list.size() >= 4) {
+                item.setDamage(Integer.parseInt(list.get(3)));
             }
             map.put(Integer.parseInt(entry.getKey()), item);
         }
