@@ -9,7 +9,7 @@ import cn.nukkit.network.protocol.DataPacket;
  */
 public class SetObjectivePacket extends DataPacket {
 
-    public static final byte NETWORK_ID = 0x6b;
+    public static final int NETWORK_ID = 0x6b;
 
     public String displaySlot;
     public String objectiveName;
@@ -18,7 +18,7 @@ public class SetObjectivePacket extends DataPacket {
     public int sortOrder;
 
     @Override
-    public byte pid() {
+    public int pid() {
         return NETWORK_ID;
     }
 

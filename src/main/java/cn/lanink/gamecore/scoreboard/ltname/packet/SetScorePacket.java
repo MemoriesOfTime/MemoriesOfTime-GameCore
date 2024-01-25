@@ -12,13 +12,13 @@ import java.util.List;
  */
 public class SetScorePacket extends DataPacket {
 
-    public static final byte NETWORK_ID = 0x6c;
+    public static final int NETWORK_ID = 0x6c;
 
     public byte type;
     public List<ScoreData> scoreDataList;
 
     @Override
-    public byte pid() {
+    public int pid() {
         return NETWORK_ID;
     }
 

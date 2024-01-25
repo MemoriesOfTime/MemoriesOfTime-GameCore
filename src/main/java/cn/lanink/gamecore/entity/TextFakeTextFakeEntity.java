@@ -84,7 +84,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         pk.headYaw = 0D;
         pk.pitch = 0D;
         for (Player player : this.hasSpawned) {
-            player.dataPacket(pk.clone());
+            player.dataPacket(pk);
         }
     }
 
@@ -219,7 +219,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
 
         for (Player player : players) {
             if (this.hasSpawned.contains(player)) {
-                player.dataPacket(pk.clone());
+                player.dataPacket(pk);
             }
         }
     }

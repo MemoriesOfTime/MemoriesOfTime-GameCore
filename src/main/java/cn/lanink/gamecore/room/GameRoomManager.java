@@ -19,7 +19,7 @@ public class GameRoomManager<T extends GameRoom> {
     }
 
     public boolean hasGameRoom(Level level) {
-        return hasGameRoom(level.getFolderName());
+        return hasGameRoom(level.getName());
     }
 
     public boolean hasGameRoom(String world) {
@@ -27,7 +27,7 @@ public class GameRoomManager<T extends GameRoom> {
     }
 
     public void addGameRoom(Level level, T gameRoom) {
-        addGameRoom(level.getFolderName(), gameRoom);
+        addGameRoom(level.getName(), gameRoom);
     }
 
     public void addGameRoom(String level, T gameRoom) {
@@ -35,7 +35,7 @@ public class GameRoomManager<T extends GameRoom> {
     }
 
     public void removeGameRoom(Level level) {
-        removeGameRoom(level.getFolderName());
+        removeGameRoom(level.getName());
     }
 
     public void removeGameRoom(String level) {
@@ -43,7 +43,7 @@ public class GameRoomManager<T extends GameRoom> {
     }
 
     public T getGameRoom(Level level) {
-        return getGameRoom(level.getFolderName());
+        return getGameRoom(level.getName());
     }
 
     public T getGameRoom(String level) {
@@ -55,7 +55,7 @@ public class GameRoomManager<T extends GameRoom> {
     }
 
     public boolean loadGameRoom(Level level) {
-        return loadGameRoom(level.getFolderName());
+        return loadGameRoom(level.getName());
     }
 
     public boolean loadGameRoom(String level) {
@@ -63,7 +63,7 @@ public class GameRoomManager<T extends GameRoom> {
     }
 
     public boolean unloadGameRoom(Level level) {
-        return unloadGameRoom(level.getFolderName());
+        return unloadGameRoom(level.getName());
     }
 
     public boolean unloadGameRoom(String world) {

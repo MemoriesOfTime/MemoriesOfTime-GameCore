@@ -2,12 +2,12 @@ package cn.lanink.gamecore.form.inventory.advanced;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
+import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockID;
 import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.inventory.Inventory;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.inventory.InventoryType;
-import cn.nukkit.level.GlobalBlockPalette;
 import cn.nukkit.math.BlockVector3;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.nbt.NBTIO;
@@ -42,9 +42,9 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
         ((FakeEntity) this.getHolder()).setInventory(this);
     }
 
-    protected UpdateBlockPacket getDefaultPack(int id, BlockVector3 pos) {
+    protected UpdateBlockPacket getDefaultPack(String id, BlockVector3 pos) {
         UpdateBlockPacket updateBlock = new UpdateBlockPacket();
-        updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(id, 0);
+        updateBlock.blockRuntimeId = Block.get(id).getRuntimeId();
         updateBlock.flags = UpdateBlockPacket.FLAG_ALL_PRIORITY;
         updateBlock.x = pos.x;
         updateBlock.y = pos.y;
@@ -128,7 +128,7 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
                         public void onRun() {
                             Vector3 blockPosition = blocks.get(index).asVector3();
                             UpdateBlockPacket updateBlock = new UpdateBlockPacket();
-                            updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(who.getLevel().getBlock(blockPosition).getFullId());
+                            updateBlock.blockRuntimeId = who.getLevel().getBlock(blockPosition).getRuntimeId();
                             updateBlock.flags = UpdateBlockPacket.FLAG_ALL_PRIORITY;
                             updateBlock.x = blockPosition.getFloorX();
                             updateBlock.y = blockPosition.getFloorY();

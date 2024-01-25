@@ -39,7 +39,7 @@ public abstract class BaseGameListener<T extends IRoom> implements IGameListener
     }
 
     public T getListenerRoom(Level level) {
-        return this.getListenerRoom(level.getFolderName());
+        return this.getListenerRoom(level.getName());
     }
 
     @Override

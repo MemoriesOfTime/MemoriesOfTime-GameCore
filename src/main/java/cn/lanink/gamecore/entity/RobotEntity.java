@@ -1,7 +1,7 @@
 package cn.lanink.gamecore.entity;
 
 import cn.nukkit.entity.EntityHuman;
-import cn.nukkit.level.format.FullChunk;
+import cn.nukkit.level.format.IChunk;
 import cn.nukkit.nbt.tag.CompoundTag;
 
 /**
@@ -9,7 +9,7 @@ import cn.nukkit.nbt.tag.CompoundTag;
  */
 public class RobotEntity extends EntityHuman {
 
-    public RobotEntity(FullChunk chunk, CompoundTag nbt) {
+    public RobotEntity(IChunk chunk, CompoundTag nbt) {
         super(chunk, nbt);
     }
 

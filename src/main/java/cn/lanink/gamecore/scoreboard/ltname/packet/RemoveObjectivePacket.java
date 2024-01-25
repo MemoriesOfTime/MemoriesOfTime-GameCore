@@ -9,12 +9,12 @@ import cn.nukkit.network.protocol.DataPacket;
  */
 public class RemoveObjectivePacket extends DataPacket {
 
-    public static final byte NETWORK_ID = 0x6a;
+    public static final int NETWORK_ID = 0x6a;
 
     public String objectiveName;
 
     @Override
-    public byte pid() {
+    public int pid() {
         return NETWORK_ID;
     }
 

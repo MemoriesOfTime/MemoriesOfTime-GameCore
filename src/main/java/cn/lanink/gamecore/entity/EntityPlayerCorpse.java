@@ -6,7 +6,7 @@ import cn.nukkit.entity.EntityHuman;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.Position;
-import cn.nukkit.level.format.FullChunk;
+import cn.nukkit.level.format.IChunk;
 import cn.nukkit.nbt.tag.CompoundTag;
 
 import java.util.Base64;
@@ -59,7 +59,7 @@ public class EntityPlayerCorpse extends EntityHuman {
         return entityPlayerCorpse;
     }
 
-    public EntityPlayerCorpse(FullChunk chunk, CompoundTag nbt) {
+    public EntityPlayerCorpse(IChunk chunk, CompoundTag nbt) {
         super(chunk, nbt);
         this.setNameTagVisible(false);
         this.setNameTagAlwaysVisible(false);
