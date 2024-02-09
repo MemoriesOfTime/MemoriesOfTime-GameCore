@@ -12,23 +12,32 @@ public class NukkitTypeUtils {
     private static final NukkitType nukkitType;
 
     static {
+        NukkitType nukkitTypeCache;
         switch (Server.getInstance().getCodename().toLowerCase()) {
             case "powernukkitx":
-                nukkitType = NukkitType.POWER_NUKKIT_X;
+                //PNX2未修改版本号信息，使用类的区别来检查
+                //在PNX2中移除了PowerNukkitXOnly注解
+                try {
+                    Class.forName("cn.nukkit.api.PowerNukkitXOnly");
+                    nukkitTypeCache = NukkitType.POWER_NUKKIT_X;
+                } catch (ClassNotFoundException ignored) {
+                    nukkitTypeCache = NukkitType.POWER_NUKKIT_X_2;
+                }
                 break;
             case "powernukkit":
-                nukkitType = NukkitType.POWER_NUKKIT;
+                nukkitTypeCache = NukkitType.POWER_NUKKIT;
                 break;
             case "pm1e":
-                nukkitType = NukkitType.PM1E;
+                nukkitTypeCache = NukkitType.PM1E;
                 break;
             case "mot":
-                nukkitType = NukkitType.MOT;
+                nukkitTypeCache = NukkitType.MOT;
                 break;
             default:
-                nukkitType = NukkitType.NUKKITX;
+                nukkitTypeCache = NukkitType.NUKKITX;
                 break;
         }
+        nukkitType = nukkitTypeCache;
     }
 
     public enum NukkitType {
@@ -38,6 +47,8 @@ public class NukkitTypeUtils {
         POWER_NUKKIT("PowerNukkit"),
 
         POWER_NUKKIT_X("PowerNukkitX"),
+
+        POWER_NUKKIT_X_2("PowerNukkitX2"),
 
         PM1E("Nukkit PetteriM1 Edition"),
 
