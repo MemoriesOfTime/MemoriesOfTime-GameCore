@@ -73,4 +73,5 @@ public interface ProtocolVersion extends ProtocolInfo {
     int v1_20_30 = 618;
     int v1_20_40 = 622;
     int v1_20_50 = 630;
+    int v1_20_60 = 649;
 }
