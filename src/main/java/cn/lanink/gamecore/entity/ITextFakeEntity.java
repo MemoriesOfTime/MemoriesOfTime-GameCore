@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface ITextFakeEntity {
 
-    void setPosition(Position position);
+    void setPosition(@NotNull Position position);
 
     Position getPosition();
 
@@ -33,10 +33,16 @@ public interface ITextFakeEntity {
 
     void onAsyncTick(int i);
 
-    void spawnTo(Player player);
+    void spawnTo(@NotNull Player player);
 
-    void despawnFrom(Player player);
+    void despawnFrom(@NotNull Player player);
 
     void close();
+
+    boolean canSee(@NotNull Player player);
+
+    void hideToPlayer(@NotNull Player player);
+
+    void showToPlayer(@NotNull Player player);
 
 }

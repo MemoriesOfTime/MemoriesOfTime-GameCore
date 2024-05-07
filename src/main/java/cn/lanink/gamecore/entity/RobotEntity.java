@@ -17,4 +17,9 @@ public class RobotEntity extends EntityHuman {
     public void saveNBT() {
         //不保存数据
     }
+
+    // 不保存实体 （兼容nkx leveldb分支）
+    public boolean canSaveToStorage() {
+        return false;
+    }
 }

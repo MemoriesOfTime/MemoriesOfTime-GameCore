@@ -18,7 +18,23 @@ public class FloatingTextUtils {
     private static final HashMap<Long, TextFakeTextFakeEntity> ENTITY_MAP = new HashMap<>();
 
     /**
-     * 临时显示一个浮空字
+     * 生成一个浮空字实体
+     *
+     * @param position 显示位置
+     * @param showText 显示的文字
+     * @return 浮空字实体
+     */
+    public static TextFakeTextFakeEntity showTextTemporary(@NotNull Position position, @NotNull String showText) {
+        return showTextTemporary(position, showText, -1);
+    }
+
+    /**
+     * 生成一个浮空字实体，并在指定时间后自动关闭
+     *
+     * @param position 显示位置
+     * @param showText 显示的文字
+     * @param showTick 显示时间(tick)
+     * @return 浮空字实体
      */
     public static TextFakeTextFakeEntity showTextTemporary(@NotNull Position position, @NotNull String showText, int showTick) {
         TextFakeTextFakeEntity textFakeEntity = new TextFakeTextFakeEntity(getIdleID());
@@ -45,6 +61,8 @@ public class FloatingTextUtils {
 
     public static class TickTask extends PluginTask<GameCore> {
 
+        private int tick = 0;
+
         public TickTask(GameCore owner) {
             super(owner);
         }
@@ -54,16 +72,19 @@ public class FloatingTextUtils {
             for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 try {
                     if (textFakeEntity.needTick()) {
-                        textFakeEntity.onTick(i);
+                        textFakeEntity.onTick(this.tick);
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     GameCore.getInstance().getLogger().error("FloatingTextUtils-TickTask", e);
                 }
             }
+            this.tick++;
         }
     }
 
     public static class AsyncTickTask extends PluginTask<GameCore> {
+
+        private int tick = 0;
 
         public AsyncTickTask(GameCore owner) {
             super(owner);
@@ -74,12 +95,13 @@ public class FloatingTextUtils {
             for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 try {
                     if (textFakeEntity.needAsyncTick()) {
-                        textFakeEntity.onAsyncTick(i);
+                        textFakeEntity.onAsyncTick(this.tick);
                     }
                 }catch (Exception e) {
                     GameCore.getInstance().getLogger().error("FloatingTextUtils-AsyncTickTask", e);
                 }
             }
+            this.tick++;
         }
 
         @Override

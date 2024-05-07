@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
+ * 排行榜格式配置
+ *
  * @author lt_name
  */
 @Setter
@@ -53,12 +55,25 @@ public class RankingFormat implements Cloneable {
         this.showLine.putAll(showLine);
     }
 
-
+    /**
+     * 排序方式
+     */
     public enum SortOrder {
+        /**
+         * 升序
+         */
         ASCENDING,
+        /**
+         * 降序
+         */
         DESCENDING
     }
 
+    /**
+     * 获取默认格式
+     *
+     * @return 默认格式
+     */
     public static RankingFormat getDefaultFormat() {
         return defaultFormat.clone();
     }

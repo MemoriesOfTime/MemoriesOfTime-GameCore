@@ -61,6 +61,8 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
     @Getter
     private int maxCanSeeDistance = 16 * Server.getInstance().getViewDistance();
 
+    protected final Set<Player> hiddenPlayers = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
     public TextFakeTextFakeEntity() {
         this.id = Entity.entityCount++;
     }
@@ -69,6 +71,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         this.id = id;
     }
 
+    @Override
     public void setPosition(@NotNull Position position) {
         this.x = position.getX();
         this.y = position.getY();
@@ -88,6 +91,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         }
     }
 
+    @Override
     public Position getPosition() {
         return this;
     }
@@ -96,10 +100,12 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         this.defaultShowText = showText;
     }
 
+    @Override
     public void setShowText(@NotNull Player player, @NotNull String showText) {
         this.showTextMap.put(player, showText);
     }
 
+    @Override
     public void setMaxCanSeeDistance(int maxCanSeeDistance) {
         if (maxCanSeeDistance < 1) {
             maxCanSeeDistance = 1;
@@ -107,10 +113,12 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         this.maxCanSeeDistance = maxCanSeeDistance;
     }
 
+    @Override
     public boolean needTick() {
         return false;
     }
 
+    @Override
     public void onTick(int i) {
         try {
             throw new RuntimeException();
@@ -119,10 +127,12 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         }
     }
 
+    @Override
     public boolean needAsyncTick() {
         return true;
     }
 
+    @Override
     public void onAsyncTick(int i) {
         if (this.isClosed() || i%20 != 0) {
             return;
@@ -148,7 +158,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         for (Map.Entry<Player, String> entry : this.getShowTextMap().entrySet()) {
             if (entry.getKey().getLevel() == this.getLevel() &&
                     this.distance(entry.getKey()) <= this.getMaxCanSeeDistance()) {
-                if (!this.hasSpawned.contains(entry.getKey()) || i%2400 == 0) {
+                if (!this.hasSpawned.contains(entry.getKey()) || i % 2400 == 0) {
                     this.spawnTo(entry.getKey());
                 }
                 this.sendText(entry.getKey(), entry.getValue());
@@ -168,7 +178,11 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         return this.defaultShowText != null && !this.defaultShowText.isEmpty();
     }
 
+    @Override
     public void spawnTo(@NotNull Player player) {
+        if (!this.canSee(player)) {
+            return;
+        }
         if (this.hasSpawned.contains(player)) {
             this.despawnFrom(player);
         }
@@ -190,6 +204,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         player.dataPacket(pk);
     }
 
+    @Override
     public void despawnFrom(@NotNull Player player) {
         if (this.hasSpawned.contains(player)) {
             RemoveEntityPacket pk = new RemoveEntityPacket();
@@ -199,6 +214,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         }
     }
 
+    @Override
     public void close() {
         this.closed = true;
         this.getShowTextMap().clear();
@@ -224,4 +240,19 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         }
     }
 
+    public boolean canSee(@NotNull Player player) {
+        return !this.hiddenPlayers.contains(player);
+    }
+
+    public void hideToPlayer(@NotNull Player player) {
+        this.hiddenPlayers.add( player);
+        this.despawnFrom(player);
+    }
+
+    public void showToPlayer(@NotNull Player player) {
+        this.hiddenPlayers.remove(player);
+        if (player.isOnline()) {
+            this.spawnTo(player);
+        }
+    }
 }
