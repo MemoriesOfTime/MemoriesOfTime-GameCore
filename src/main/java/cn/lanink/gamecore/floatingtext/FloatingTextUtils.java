@@ -61,6 +61,8 @@ public class FloatingTextUtils {
 
     public static class TickTask extends PluginTask<GameCore> {
 
+        private int tick = 0;
+
         public TickTask(GameCore owner) {
             super(owner);
         }
@@ -70,16 +72,19 @@ public class FloatingTextUtils {
             for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 try {
                     if (textFakeEntity.needTick()) {
-                        textFakeEntity.onTick(i);
+                        textFakeEntity.onTick(this.tick);
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     GameCore.getInstance().getLogger().error("FloatingTextUtils-TickTask", e);
                 }
             }
+            this.tick++;
         }
     }
 
     public static class AsyncTickTask extends PluginTask<GameCore> {
+
+        private int tick = 0;
 
         public AsyncTickTask(GameCore owner) {
             super(owner);
@@ -90,12 +95,13 @@ public class FloatingTextUtils {
             for (TextFakeTextFakeEntity textFakeEntity : ENTITY_MAP.values()) {
                 try {
                     if (textFakeEntity.needAsyncTick()) {
-                        textFakeEntity.onAsyncTick(i);
+                        textFakeEntity.onAsyncTick(this.tick);
                     }
                 }catch (Exception e) {
                     GameCore.getInstance().getLogger().error("FloatingTextUtils-AsyncTickTask", e);
                 }
             }
+            this.tick++;
         }
 
         @Override

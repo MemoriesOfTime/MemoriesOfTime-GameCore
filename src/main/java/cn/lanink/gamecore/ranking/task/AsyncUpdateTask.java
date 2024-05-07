@@ -42,12 +42,12 @@ public class AsyncUpdateTask extends PluginTask<GameCore> implements IRankingAPI
     public void onRun(int i) {
         for (Ranking ranking : this.updateRankings) {
             try {
-                ranking.onAsyncTick(tick);
+                ranking.onAsyncTick(this.tick);
             }catch (Exception e) {
                 GameCore.getInstance().getLogger().error("Ranking " + ranking.getClass().getName() + " onAsyncTick error: ", e);
             }
         }
-        tick++;
+        this.tick++;
     }
 
     @Override

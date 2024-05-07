@@ -15,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class UpdateTask extends PluginTask<GameCore> implements IRankingAPITask {
 
+    private int tick = 0;
+
     private final Set<Ranking> updateRankings = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public UpdateTask(GameCore owner) {
@@ -40,11 +42,12 @@ public class UpdateTask extends PluginTask<GameCore> implements IRankingAPITask 
     public void onRun(int i) {
         for (Ranking ranking : this.updateRankings) {
             try {
-                ranking.onTick(i);
+                ranking.onTick(this.tick);
             }catch (Exception e) {
                 GameCore.getInstance().getLogger().error("Ranking " + ranking.getClass().getName() + " onTick error: ", e);
             }
         }
+        this.tick++;
     }
 
     @Override

@@ -158,7 +158,7 @@ public class TextFakeTextFakeEntity extends Position implements ITextFakeEntity 
         for (Map.Entry<Player, String> entry : this.getShowTextMap().entrySet()) {
             if (entry.getKey().getLevel() == this.getLevel() &&
                     this.distance(entry.getKey()) <= this.getMaxCanSeeDistance()) {
-                if (!this.hasSpawned.contains(entry.getKey()) || i%2400 == 0) {
+                if (!this.hasSpawned.contains(entry.getKey()) || i % 2400 == 0) {
                     this.spawnTo(entry.getKey());
                 }
                 this.sendText(entry.getKey(), entry.getValue());
