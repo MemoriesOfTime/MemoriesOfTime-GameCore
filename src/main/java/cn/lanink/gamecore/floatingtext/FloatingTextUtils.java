@@ -7,15 +7,15 @@ import cn.nukkit.level.Position;
 import cn.nukkit.scheduler.PluginTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author LT_Name
  */
 public class FloatingTextUtils {
 
-    private static final HashMap<Long, TextFakeTextFakeEntity> ENTITY_MAP = new HashMap<>();
+    private static final ConcurrentHashMap<Long, TextFakeTextFakeEntity> ENTITY_MAP = new ConcurrentHashMap<>();
 
     /**
      * 生成一个浮空字实体
