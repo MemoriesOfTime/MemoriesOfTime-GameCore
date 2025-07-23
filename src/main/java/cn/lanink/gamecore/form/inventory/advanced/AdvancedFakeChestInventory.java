@@ -42,9 +42,13 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
         ((FakeEntity) this.getHolder()).setInventory(this);
     }
 
-    protected UpdateBlockPacket getDefaultPack(int protocolId, int id, BlockVector3 pos) {
+    protected UpdateBlockPacket getDefaultPack(Player player, int id, BlockVector3 pos) {
         UpdateBlockPacket updateBlock = new UpdateBlockPacket();
-        updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(protocolId, id, 0);
+        if (USE_GAME_VERSION) {
+            updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(player.getGameVersion(), id, 0);
+        } else {
+            updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(player.protocol, id, 0);
+        }
         updateBlock.flags = UpdateBlockPacket.FLAG_ALL_PRIORITY;
         updateBlock.x = pos.x;
         updateBlock.y = pos.y;
@@ -89,7 +93,7 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
     }
 
     protected void placeFakeChest(Player who, BlockVector3 pos) {
-        who.dataPacket(this.getDefaultPack(who.protocol, BlockID.CHEST, pos));
+        who.dataPacket(this.getDefaultPack(who, BlockID.CHEST, pos));
         BlockEntityDataPacket blockEntityData = new BlockEntityDataPacket();
         blockEntityData.x = pos.x;
         blockEntityData.y = pos.y;
@@ -128,7 +132,11 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
                         public void onRun() {
                             Vector3 blockPosition = blocks.get(index).asVector3();
                             UpdateBlockPacket updateBlock = new UpdateBlockPacket();
-                            updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(who.protocol, who.getLevel().getBlock(blockPosition).getFullId());
+                            if (USE_GAME_VERSION) {
+                                updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(who.getGameVersion(), who.getLevel().getBlock(blockPosition).getFullId());
+                            } else {
+                                updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(who.protocol, who.getLevel().getBlock(blockPosition).getFullId());
+                            }
                             updateBlock.flags = UpdateBlockPacket.FLAG_ALL_PRIORITY;
                             updateBlock.x = blockPosition.getFloorX();
                             updateBlock.y = blockPosition.getFloorY();

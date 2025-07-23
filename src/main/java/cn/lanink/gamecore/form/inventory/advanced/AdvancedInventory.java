@@ -35,6 +35,16 @@ import java.util.function.Consumer;
 public abstract class AdvancedInventory extends ContainerInventory {
 
     protected static final GameCore GAME_CORE = GameCore.getInstance();
+    protected static boolean USE_GAME_VERSION = false;
+
+    static {
+        try {
+            Class.forName("cn.nukkit.GameVersion");
+            USE_GAME_VERSION = true;
+        } catch (ClassNotFoundException ignored) {
+
+        }
+    }
 
     protected ConcurrentMap<Integer, ResponseItem> containedResponseItem = new ConcurrentHashMap<>();
 
