@@ -4,11 +4,11 @@ import cn.lanink.gamecore.form.element.ResponseElementDialogButton;
 import cn.lanink.gamecore.form.response.FormResponseDialog;
 import cn.lanink.gamecore.utils.EntityUtils;
 import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.Player;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.data.ByteEntityData;
 import cn.nukkit.entity.data.StringEntityData;
+import cn.nukkit.network.protocol.NPCRequestPacket;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gson.Gson;
@@ -171,24 +171,24 @@ public class AdvancedFormWindowDialog {
     }
 
     public static boolean onEvent(@NotNull NPCRequestPacket packet, @NotNull Player player) {
-        AdvancedFormWindowDialog dialog = WINDOW_DIALOG_CACHE.getIfPresent(packet.getSceneName());
+        AdvancedFormWindowDialog dialog = WINDOW_DIALOG_CACHE.getIfPresent(packet.sceneName);
         if (dialog == null) {
             return false;
         }
 
-        if (packet.getRequestType() == NPCRequestPacket.RequestType.EXECUTE_CLOSING_COMMANDS) {
-            WINDOW_DIALOG_CACHE.invalidate(packet.getSceneName());
+        if (packet.requestType == NPCRequestPacket.RequestType.EXECUTE_CLOSING_COMMANDS) {
+            WINDOW_DIALOG_CACHE.invalidate(packet.sceneName);
         }
 
         FormResponseDialog response = new FormResponseDialog(packet, dialog);
 
         ResponseElementDialogButton clickedButton = response.getClickedButton();
-        if (packet.getRequestType() == NPCRequestPacket.RequestType.EXECUTE_ACTION && clickedButton != null) {
+        if (packet.requestType == NPCRequestPacket.RequestType.EXECUTE_ACTION && clickedButton != null) {
             clickedButton.callClicked(player, response);
             dialog.isClosed = true;
         }
 
-        if (packet.getRequestType() == NPCRequestPacket.RequestType.EXECUTE_CLOSING_COMMANDS) {
+        if (packet.requestType == NPCRequestPacket.RequestType.EXECUTE_CLOSING_COMMANDS) {
             dialog.callClosed(player, response);
         }
         return true;

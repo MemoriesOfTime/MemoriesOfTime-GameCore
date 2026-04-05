@@ -2,7 +2,7 @@ package cn.lanink.gamecore.form.response;
 
 import cn.lanink.gamecore.form.element.ResponseElementDialogButton;
 import cn.lanink.gamecore.form.windows.AdvancedFormWindowDialog;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
+import cn.nukkit.network.protocol.NPCRequestPacket;
 import lombok.Getter;
 
 @Getter
@@ -16,15 +16,15 @@ public class FormResponseDialog {
     private final int actionType;
 
     public FormResponseDialog(NPCRequestPacket packet, AdvancedFormWindowDialog dialog) {
-        this.entityRuntimeId = packet.getRequestedEntityRuntimeId();
-        this.data = packet.getData();
+        this.entityRuntimeId = packet.entityRuntimeId;
+        this.data = packet.commandString;
         try {
-            this.clickedButton = dialog.getButtons().get(packet.getActionType());
+            this.clickedButton = dialog.getButtons().get(packet.actionType);
         }catch (IndexOutOfBoundsException e){
             this.clickedButton = null;
         }
-        this.sceneName = packet.getSceneName();
-        this.requestType = packet.getRequestType();
-        this.actionType = packet.getActionType();
+        this.sceneName = packet.sceneName;
+        this.requestType = packet.requestType;
+        this.actionType = packet.actionType;
     }
 }

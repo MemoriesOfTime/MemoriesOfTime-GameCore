@@ -9,7 +9,6 @@ import cn.lanink.gamecore.utils.ConfigUtils;
 import cn.lanink.gamecore.utils.MetricsLite;
 import cn.lanink.gamecore.utils.NukkitTypeUtils;
 import cn.lanink.gamecore.utils.packet.NPCDialoguePacket;
-import cn.lanink.gamecore.utils.packet.NPCRequestPacket;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
@@ -65,7 +64,10 @@ public class GameCore extends PluginBase {
     @Override
     public void onEnable() {
         NukkitTypeUtils.NukkitType nukkitType = NukkitTypeUtils.getNukkitType();
-        if (nukkitType != NukkitTypeUtils.NukkitType.NUKKITX && nukkitType != NukkitTypeUtils.NukkitType.POWER_NUKKIT) {
+        if (nukkitType != NukkitTypeUtils.NukkitType.NUKKITX
+                && nukkitType != NukkitTypeUtils.NukkitType.POWER_NUKKIT
+                && nukkitType != NukkitTypeUtils.NukkitType.MOT
+                && nukkitType != NukkitTypeUtils.NukkitType.PM1E) {
             this.getLogger().warning("Warning! The current plugin version is not applicable to this server core! Please check the plugin version!");
             this.getLogger().warning("Server Code : " + nukkitType.getShowName() + "  |  Plugin Version : " + this.getVersion());
             try {
@@ -76,7 +78,6 @@ public class GameCore extends PluginBase {
         }
 
         this.getServer().getNetwork().registerPacket(NPCDialoguePacket.NETWORK_ID, NPCDialoguePacket.class);
-        this.getServer().getNetwork().registerPacket(NPCRequestPacket.NETWORK_ID, NPCRequestPacket.class);
 
         //HotSwap
         this.hotSwapManager.enableAllModules();

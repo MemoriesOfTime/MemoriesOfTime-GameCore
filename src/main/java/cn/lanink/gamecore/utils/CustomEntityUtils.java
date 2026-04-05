@@ -38,6 +38,7 @@ public class CustomEntityUtils {
      * @return 是否已注册
      */
     public static boolean hasCustomEntity(String name) {
+        ensureSupported();
         return IDENTIFIER_MAP.containsKey(name);
     }
 
@@ -48,6 +49,7 @@ public class CustomEntityUtils {
      * @return RuntimeId
      */
     public static int getRuntimeId(String identifier) {
+        ensureSupported();
         if (identifier == null) {
             return -1;
         }
@@ -60,6 +62,7 @@ public class CustomEntityUtils {
      * @param identifier 实体标识符
      */
     public static void registerCustomEntity(String identifier) {
+        ensureSupported();
         IDENTIFIER_MAP.put(identifier, RUNTIME_ID.getAndIncrement());
         //反射修改参数
         try {
@@ -95,6 +98,13 @@ public class CustomEntityUtils {
         }catch (Exception e) {
             IDENTIFIER_MAP.remove(identifier);
             GameCore.getInstance().getLogger().error("注册自定义实体失败！", e);
+        }
+    }
+
+    private static void ensureSupported() {
+        NukkitTypeUtils.NukkitType nukkitType = NukkitTypeUtils.getNukkitType();
+        if (nukkitType == NukkitTypeUtils.NukkitType.MOT || nukkitType == NukkitTypeUtils.NukkitType.PM1E) {
+            throw new UnsupportedOperationException("CustomEntityUtils is not supported on " + nukkitType.getShowName());
         }
     }
 
