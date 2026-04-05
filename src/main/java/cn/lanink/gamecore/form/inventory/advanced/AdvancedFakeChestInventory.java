@@ -94,7 +94,7 @@ public class AdvancedFakeChestInventory extends AdvancedChestInventory {
         blockEntityData.x = pos.x;
         blockEntityData.y = pos.y;
         blockEntityData.z = pos.z;
-        blockEntityData.namedTag = getNbt(pos, this.getName());
+        blockEntityData.namedTag = getNbt(pos, this.getTitle());
 
         who.dataPacket(blockEntityData);
     }
