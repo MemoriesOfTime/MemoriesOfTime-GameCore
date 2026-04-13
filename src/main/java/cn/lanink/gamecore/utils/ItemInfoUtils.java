@@ -20,7 +20,7 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class ItemInfoUtils {
 
-    private static final ItemInfo UNKNOWN = new ItemInfo(-1, 0, "unknown", "未知", "unknown");
+    private static final ItemInfo UNKNOWN = new ItemInfo(-1, 0, "unknown", "unknown", "未知", "unknown");
     private static final ArrayList<ItemInfo> ITEM_INFOS = new ArrayList<>();
 
     static {
@@ -37,6 +37,7 @@ public class ItemInfoUtils {
             ITEM_INFOS.add(new ItemInfo(
                     entry.get("id").getAsInt(),
                     entry.get("damage").getAsInt(),
+                    entry.has("stringId") && !entry.get("stringId").isJsonNull() ? entry.get("stringId").getAsString() : null,
                     entry.get("imagePath").getAsString(),
                     entry.get("nameChinese").getAsString(),
                     entry.get("nameEnglish").getAsString()
@@ -61,9 +62,17 @@ public class ItemInfoUtils {
      * 注册 CustomItem
      */
     public static void registerCustomItem(int id, int damage, String imagePath, String nameChinese, String nameEnglish) {
+        registerCustomItem(id, damage, null, imagePath, nameChinese, nameEnglish);
+    }
+
+    /**
+     * 注册带字符串ID的 CustomItem
+     */
+    public static void registerCustomItem(int id, int damage, String stringId, String imagePath, String nameChinese, String nameEnglish) {
         ITEM_INFOS.add(new ItemInfo(
                 id,
                 damage,
+                stringId,
                 imagePath,
                 nameChinese,
                 nameEnglish
@@ -93,6 +102,19 @@ public class ItemInfoUtils {
         return UNKNOWN;
     }
 
+    public static ItemInfo getItemInfoByStringId(String stringId) {
+        String normalizedStringId = normalizeStringId(stringId);
+        if (normalizedStringId == null) {
+            return UNKNOWN;
+        }
+        for (ItemInfo itemInfo : ITEM_INFOS) {
+            if (normalizedStringId.equals(itemInfo.getStringId())) {
+                return itemInfo;
+            }
+        }
+        return UNKNOWN;
+    }
+
     public static String getNameChineseById(int id) {
         return getNameChineseById(id, 0);
     }
@@ -109,18 +131,63 @@ public class ItemInfoUtils {
         return getItemInfoById(id, damage).getNameEnglish();
     }
 
+    public static String getNameChineseByStringId(String stringId) {
+        return getItemInfoByStringId(stringId).getNameChinese();
+    }
+
+    public static String getNameEnglishByStringId(String stringId) {
+        return getItemInfoByStringId(stringId).getNameEnglish();
+    }
+
     public static String getImgPathById(int id, int damage) {
         return getItemInfoById(id, damage).getImagePath();
+    }
+
+    public static String getImgPathByStringId(String stringId) {
+        return getItemInfoByStringId(stringId).getImagePath();
     }
 
     public static List<Integer> getAllMetaDamagesFromAnId(int id) {
         List<Integer> ret = new LinkedList<>();
         for (ItemInfo itemInfo : ITEM_INFOS) {
-            if (itemInfo.id == id) {
-                ret.add(itemInfo.damage);
+            if (itemInfo.getId() == id) {
+                ret.add(itemInfo.getDamage());
             }
         }
         return ret;
+    }
+
+    private static String normalizeStringId(String stringId) {
+        if (stringId == null) {
+            return null;
+        }
+        String normalizedStringId = stringId.trim();
+        if (normalizedStringId.isEmpty()) {
+            return null;
+        }
+        return normalizedStringId.toLowerCase(Locale.ROOT);
+    }
+
+    private static int getIntValue(@NonNull Map<String, Object> map, String key) {
+        Object value = map.get(key);
+        if (!(value instanceof Number)) {
+            throw new RuntimeException("unexpected arguments in fromMap(), \"" + key + "\" should be a number");
+        }
+        return ((Number) value).intValue();
+    }
+
+    private static String getStringValue(@NonNull Map<String, Object> map, String key, boolean required) {
+        Object value = map.get(key);
+        if (value == null) {
+            if (required) {
+                throw new RuntimeException("unexpected arguments in fromMap(), missing \"" + key + "\" in map");
+            }
+            return null;
+        }
+        if (!(value instanceof String)) {
+            throw new RuntimeException("unexpected arguments in fromMap(), \"" + key + "\" should be a string");
+        }
+        return (String) value;
     }
 
 
@@ -129,12 +196,13 @@ public class ItemInfoUtils {
 
         private final int id; //物品id
         private final int damage; //物品特殊值
+        private final String stringId; //物品字符串id
 
         private final String imagePath; //贴图路径
         private final String nameChinese; //物品名称（中文）
         private final String nameEnglish; //物品名称（英文）
 
-        private static final ImmutableList<String> availableKeys = new ImmutableList.Builder<String>()
+        private static final ImmutableList<String> requiredKeys = new ImmutableList.Builder<String>()
                 .add("id")
                 .add("damage")
                 .add("imagePath")
@@ -142,17 +210,38 @@ public class ItemInfoUtils {
                 .add("nameEnglish")
                 .build();
 
+        private static final ImmutableList<String> availableKeys = new ImmutableList.Builder<String>()
+                .addAll(requiredKeys)
+                .add("stringId")
+                .build();
+
+        public ItemInfo(int id, int damage, String imagePath, String nameChinese, String nameEnglish) {
+            this(id, damage, null, imagePath, nameChinese, nameEnglish);
+        }
+
+        public ItemInfo(int id, int damage, String stringId, String imagePath, String nameChinese, String nameEnglish) {
+            this.id = id;
+            this.damage = damage;
+            this.stringId = normalizeStringId(stringId);
+            this.imagePath = imagePath;
+            this.nameChinese = nameChinese;
+            this.nameEnglish = nameEnglish;
+        }
+
         public static ItemInfo fromMap(@NonNull Map<String, Object> map) {
-            if (map.size() != availableKeys.size()) throw new RuntimeException("unexpected arguments in formMap(), expect 5 elements in map");
             map.keySet().forEach(key -> {
-                if (!availableKeys.contains(key)) throw new RuntimeException("unexpected arguments in formMap(), expect " + availableKeys + " in map");
+                if (!availableKeys.contains(key)) throw new RuntimeException("unexpected arguments in fromMap(), expect " + availableKeys + " in map");
+            });
+            requiredKeys.forEach(key -> {
+                if (!map.containsKey(key)) throw new RuntimeException("unexpected arguments in fromMap(), missing \"" + key + "\" in map");
             });
             return new ItemInfo(
-                    (Integer) map.get("id"),
-                    (Integer) map.get("damage"),
-                    (String) map.get("imagePath"),
-                    (String) map.get("nameChinese"),
-                    (String) map.get("nameEnglish")
+                    getIntValue(map, "id"),
+                    getIntValue(map, "damage"),
+                    getStringValue(map, "stringId", false),
+                    getStringValue(map, "imagePath", true),
+                    getStringValue(map, "nameChinese", true),
+                    getStringValue(map, "nameEnglish", true)
             );
         }
 
@@ -161,6 +250,9 @@ public class ItemInfoUtils {
 
             map.put("id", this.id);
             map.put("damage", this.damage);
+            if (this.stringId != null) {
+                map.put("stringId", this.stringId);
+            }
             map.put("imagePath", this.imagePath);
             map.put("nameChinese", this.nameChinese);
             map.put("nameEnglish", this.nameEnglish);
