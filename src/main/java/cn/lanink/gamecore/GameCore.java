@@ -21,7 +21,7 @@ import java.util.Base64;
  */
 public class GameCore extends PluginBase {
 
-    public static final String VERSION = "?";
+    public static final String VERSION = "1.6.14-SNAPSHOT git-babdfa5";
 
     public static final Gson GSON = new Gson();
 
